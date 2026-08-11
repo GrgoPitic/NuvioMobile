@@ -9,7 +9,7 @@ permissions:
 jobs:
   build:
     runs-on: macos-26
-    timeout-minutes: 60
+    timeout-minutes: 120
 
     env:
       NUVIO_IOS_DISTRIBUTION: full
