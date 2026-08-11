@@ -1,0 +1,104 @@
+name: Build Nuvio iOS SideStore
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 60
+
+    env:
+      NUVIO_IOS_DISTRIBUTION: full
+
+      # GitHub standard macOS runner ma obmedzenu RAM.
+      # Tymto prepiseme 12 GB / 8 GB defaulty z Xcode build scriptu Nuvio.
+      GRADLE_OPTS: -Xmx1536m -Dfile.encoding=UTF-8 -XX:MaxMetaspaceSize=512m
+      KOTLIN_DAEMON_JVMARGS: -Xmx3072m
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Initialize MPVKit submodule
+        run: git submodule update --init MPVKit
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Show build environment
+        run: |
+          java -version
+          ./gradlew --version
+          xcodebuild -version
+
+      - name: Build unsigned Nuvio Release
+        run: |
+          xcodebuild \
+            -project iosApp/iosApp.xcodeproj \
+            -scheme iosApp \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$RUNNER_TEMP/NuvioDerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            build
+
+      - name: Package IPA
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION="$(sed -n 's/^MARKETING_VERSION=//p' iosApp/Configuration/Version.xcconfig | tr -d '[:space:]')"
+
+          APP_PATH="$RUNNER_TEMP/NuvioDerivedData/Build/Products/Release-iphoneos/Nuvio.app"
+
+          if [[ -z "$VERSION" ]]; then
+            echo "MARKETING_VERSION was not found." >&2
+            exit 1
+          fi
+
+          if [[ ! -d "$APP_PATH" ]]; then
+            echo "Nuvio.app was not found at: $APP_PATH" >&2
+            exit 1
+          fi
+
+          IPA_NAME="Nuvio-${VERSION}.ipa"
+          PACKAGE_DIR="$RUNNER_TEMP/nuvio-ipa"
+
+          rm -rf "$PACKAGE_DIR"
+          mkdir -p "$PACKAGE_DIR/Payload"
+
+          cp -R "$APP_PATH" "$PACKAGE_DIR/Payload/Nuvio.app"
+
+          (
+            cd "$PACKAGE_DIR"
+            /usr/bin/zip -qry "$GITHUB_WORKSPACE/$IPA_NAME" Payload
+          )
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "ipa_name=$IPA_NAME" >> "$GITHUB_OUTPUT"
+
+          echo "Created $IPA_NAME"
+          ls -lh "$GITHUB_WORKSPACE/$IPA_NAME"
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v6
+        with:
+          name: Nuvio-${{ steps.package.outputs.version }}-SideStore
+          path: ${{ steps.package.outputs.ipa_name }}
+          if-no-files-found: error
+          retention-days: 7
