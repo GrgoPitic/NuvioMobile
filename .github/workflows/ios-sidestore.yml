@@ -40,7 +40,20 @@ jobs:
           java -version
           ./gradlew --version
           xcodebuild -version
+      - name: Build Nuvio Engine Apple XCFramework
+        shell: bash
+        run: |
+          set -euo pipefail
 
+          ENGINE_DIR="$GITHUB_WORKSPACE/../nuvio-engine"
+
+          git clone --depth 1 \
+            https://github.com/NuvioMedia/nuvio-engine.git \
+            "$ENGINE_DIR"
+
+          cd "$ENGINE_DIR"
+
+          NUVIO_BUILD_JOBS=2 ./scripts/build-apple-xcframework.sh
       - name: Build unsigned Nuvio Release
         run: |
           xcodebuild \
