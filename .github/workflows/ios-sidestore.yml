@@ -29,9 +29,25 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="$(gh api repos/NuvioMedia/NuvioMobile/releases/latest --jq '.tag_name')"
+          RELEASE_JSON="$(gh api repos/NuvioMedia/NuvioMobile/releases/latest)"
+
+          TAG="$(echo "$RELEASE_JSON" | jq -r '.tag_name')"
+          NAME="$(echo "$RELEASE_JSON" | jq -r '.name // .tag_name')"
+          PUBLISHED_AT="$(echo "$RELEASE_JSON" | jq -r '.published_at')"
+          NOTES="$(echo "$RELEASE_JSON" | jq -r '.body // ""')"
+
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "published_at=$PUBLISHED_AT" >> "$GITHUB_OUTPUT"
+
+          DELIMITER="NUVIO_NOTES_$(uuidgen)"
+          echo "notes<<$DELIMITER" >> "$GITHUB_OUTPUT"
+          echo "$NOTES" >> "$GITHUB_OUTPUT"
+          echo "$DELIMITER" >> "$GITHUB_OUTPUT"
+
           echo "Latest official Nuvio release: $TAG"
+          echo "Release name: $NAME"
+          echo "Published: $PUBLISHED_AT"
 
       - name: Checkout official Nuvio release
         uses: actions/checkout@v6
