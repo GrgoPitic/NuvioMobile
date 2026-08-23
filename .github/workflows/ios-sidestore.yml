@@ -23,8 +23,21 @@ jobs:
       KOTLIN_DAEMON_JVMARGS: -Xmx3072m
 
     steps:
-      - name: Checkout repository
+      - name: Find latest official Nuvio release
+        id: upstream
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="$(gh api repos/NuvioMedia/NuvioMobile/releases/latest --jq '.tag_name')"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Latest official Nuvio release: $TAG"
+
+      - name: Checkout official Nuvio release
         uses: actions/checkout@v6
+        with:
+          repository: NuvioMedia/NuvioMobile
+          ref: ${{ steps.upstream.outputs.tag }}
 
       - name: Initialize MPVKit submodule
         run: git submodule update --init MPVKit
