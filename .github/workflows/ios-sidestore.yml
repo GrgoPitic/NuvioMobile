@@ -13,6 +13,9 @@ jobs:
 
     env:
       NUVIO_IOS_DISTRIBUTION: full
+      NUVIO_SUPABASE_URL: ${{ secrets.NUVIO_SUPABASE_URL }}
+      NUVIO_SUPABASE_ANON_KEY: ${{ secrets.NUVIO_SUPABASE_ANON_KEY }}
+      NUVIO_SUPABASE_FALLBACK_URL: ${{ secrets.NUVIO_SUPABASE_FALLBACK_URL }}
 
       # GitHub standard macOS runner ma obmedzenu RAM.
       # Tymto prepiseme 12 GB / 8 GB defaulty z Xcode build scriptu Nuvio.
