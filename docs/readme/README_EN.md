@@ -1,51 +1,53 @@
 <p align="center">
-  <img
-    src="https://nuvio.tv/assets/nuvio-app-logo-wordmark.webp"
-    alt="Nuvio"
-    width="500"
-  />
+<img src="https://nuvio.tv/assets/nuvio-app-logo-wordmark.webp" alt="Nuvio" width="460">
 </p>
 
+<h1 align="center">
+🇬🇧 Nuvio iOS / iPadOS — English Guide
+</h1>
 
-# 🇬🇧 Nuvio iOS / iPadOS — English Guide
+<p align="center">
+<a href="../../README.md">← Back to main page</a>
+</p>
 
-[← Back to main page](../../README.md)
+<p align="center">
+<img src="https://img.shields.io/badge/VERSION-0.4.11-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
+<img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Automatic updates">
+</p>
 
 > [!IMPORTANT]
-> This is an **unofficial** community-built Nuvio IPA.
+> This is an **unofficial community-built Nuvio IPA**.
 > It is not an official NuvioMedia distribution.
 
-## Current version
+<h2 align="center">📱 Current Version</h2>
 
-| Information | Value |
-| --- | --- |
-| Version | **0.4.11** |
-| Build | **115** |
-| Minimum OS | **iOS / iPadOS 16.1+** |
-| Supported devices | **iPhone & iPad** |
-| Distribution | **FULL** |
-| Signing | **Unsigned IPA** |
+<p align="center">
+<strong>Nuvio 0.4.11</strong><br>
+Build 115<br>
+iOS / iPadOS 16.1+<br>
+iPhone & iPad<br>
+FULL · Unsigned IPA
+</p>
 
-## SideStore automatic updates
+<p align="center">
+<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.11"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.11/Nuvio-0.4.11.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
+</p>
 
-Open:
-
-**SideStore → Sources → Add Source**
-
-and add:
+<h2 align="center">🔗 SideStore Automatic Updates</h2>
 
 ```text
 https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json
 ```
 
-After adding the source, future versions can appear
-automatically when a new official Nuvio release is built.
+<p align="center">
+<a href="https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json"><img src="https://img.shields.io/badge/SideStore-source.json-6f42c1?style=for-the-badge&logo=apple" alt="SideStore source.json"></a>
+</p>
 
-## Download latest IPA
+<p align="center">
+SideStore → Sources → Add Source
+</p>
 
-**[Download Nuvio 0.4.11 IPA](https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.11/Nuvio-0.4.11.ipa)**
-
-## What's new in 0.4.11
+<h2 align="center">✨ What's New in 0.4.11</h2>
 
 ## What's Changed
 
@@ -63,7 +65,7 @@ automatically when a new official Nuvio release is built.
 - [fix: per-episode rating from addon metadata is never parsed (#1776)](https://github.com/NuvioMedia/NuvioMobile/pull/1776) @6ip
 - [feat(player): port sidecar addon subtitles, fix selection state, and parallelize fetching (#1705)](https://github.com/NuvioMedia/NuvioMobile/pull/1705) @halibiram
 
-## About this build
+<h2 align="center">ℹ️ About This Build</h2>
 
 - Application source code is not modified.
 - Built from official Nuvio release **0.4.11**.
@@ -72,12 +74,6 @@ automatically when a new official Nuvio release is built.
 - Community maintained.
 - Not affiliated with NuvioMedia.
 
-## Verification
-
-```text
-Official tag:      0.4.11
-Official commit:   1c92795c2c54631a32ed973cf989bdcedfd52271
-IPA SHA256:        c3934bfcc1e4914a847d64b5e1cfc7a4c8c8db51d4986ef11cf5dff6651f2aed
-```
-
-[← Back to main page](../../README.md)
+<p align="center">
+<a href="../../README.md">← Back to main page</a>
+</p>
