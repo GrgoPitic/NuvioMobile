@@ -1,105 +1,111 @@
-<div align="center">
+<!--
+AUTO-GENERATED FILE.
+Managed by .github/workflows/refresh-readme.yml
+-->
 
-  <img src="https://nuvio.tv/assets/nuvio-app-logo-wordmark.webp" alt="Nuvio" width="320" />
-
-  <p>
-    A free, open-source media app for your phone, your desktop, and the TV you already own.
-    <br />
-    Bring your own sources. Nuvio turns them into a library with artwork, ratings, subtitles, and your place saved on every screen.
-  </p>
-
-  [Website](https://nuvio.tv) · [GitHub releases](https://github.com/NuvioMedia/NuvioMobile/releases/latest) · [Support Nuvio](https://nuvio.tv/support)
-
-</div>
-
-## Get Nuvio Mobile
-
-- [Android on Google Play](https://play.google.com/store/apps/details?id=com.nuvio.app)
-- [Android APK](https://github.com/NuvioMedia/NuvioMobile/releases/latest)
-- iOS must be built from source.
-
-## Build from source
-
-```bash
-git clone https://github.com/NuvioMedia/NuvioMobile.git
-cd NuvioMobile
-```
-
-### Android
-
-Android development requires Android Studio and the Android SDK.
-
-```bash
-./gradlew :androidApp:assembleFullDebug
-```
-
-### iOS
-
-iOS development requires macOS and Xcode.
-
-```bash
-env NUVIO_IOS_DISTRIBUTION=full xcodebuild \
-  -project iosApp/iosApp.xcodeproj \
-  -scheme iosApp \
-  -configuration Debug \
-  -sdk iphonesimulator \
-  -derivedDataPath build/ios-derived-full-simulator \
-  CODE_SIGNING_ALLOWED=NO \
-  build
-```
-
-The shared app is built with Kotlin Multiplatform and Compose Multiplatform.
-
-## License
-
-[GNU General Public License v3.0](./LICENSE)
 
 <p align="center">
-  <strong>🎬 Unofficial clean IPA build · Community-maintained iOS package</strong>
+  <img
+    src="https://nuvio.tv/assets/nuvio-app-logo-wordmark.webp"
+    alt="Nuvio"
+    width="500"
+  />
 </p>
 
-> [!NOTE]
-> This repository provides **unofficial unsigned iOS / iPadOS builds**
-> and SideStore distribution for Nuvio.
-> The application source code is built from the corresponding
-> official `NuvioMedia/NuvioMobile` release.
 
-### Current SideStore build
+<h2 align="center">
+  Unofficial iOS / iPadOS SideStore Builds
+</h2>
 
-| | |
+<p align="center">
+  Community-maintained clean unsigned IPA builds
+  created automatically from official Nuvio releases.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Version-0.4.11-2188ff?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Minimum%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Devices-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Distribution-FULL-6f42c1?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Signing-Unsigned%20IPA-e67e22?style=for-the-badge" />
+</p>
+
+> [!IMPORTANT]
+> **This is an unofficial distribution of Nuvio.**
+>
+> This repository is not affiliated with or endorsed by NuvioMedia.
+> The application source code is **not modified**.
+> Builds are generated from matching official
+> `NuvioMedia/NuvioMobile` releases.
+
+## 🚀 Latest Build
+
+| Information | Value |
 | --- | --- |
-| **Latest version** | **0.4.11** |
+| **Version** | **0.4.11** |
+| **Build** | **115** |
 | **Minimum OS** | **iOS / iPadOS 16.1+** |
 | **Supported devices** | **iPhone & iPad** |
 | **Distribution** | **FULL** |
 | **Signing** | **Unsigned IPA** |
-| **Official source** | [`0.4.11`](https://github.com/NuvioMedia/NuvioMobile/tree/0.4.11) |
-| **IPA SHA256** | `c3934bfcc1e4914a847d64b5e1cfc7a4c8c8db51d4986ef11cf5dff6651f2aed` |
-| **Release** | [Nuvio iOS 0.4.11](https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.11) |
+
+<p align="center">
+  <a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.11">
+    <img
+      src="https://img.shields.io/badge/GitHub_Release-View_latest-2ea44f?style=for-the-badge&logo=github"
+      alt="GitHub Release"
+    />
+  </a>
+  <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.11/Nuvio-0.4.11.ipa">
+    <img
+      src="https://img.shields.io/badge/IPA-Download_latest-2188ff?style=for-the-badge&logo=apple"
+      alt="Download IPA"
+    />
+  </a>
+</p>
+
+## 🌍 Choose your language
 
 <table>
   <tr>
-    <td width="33%">
-      🇬🇧 <strong>English</strong><br><br>
-      Instructions and information for English-speaking users.<br><br>
-      <a href="#english">Go to English section →</a>
+    <td width="33%" align="center" valign="top">
+      <h3>🇬🇧 English</h3>
+      Full installation guide,<br>
+      SideStore setup and information.
+      <br><br>
+      <a href="docs/readme/README_EN.md">
+        <strong>Open English guide →</strong>
+      </a>
     </td>
-    <td width="33%">
-      🇨🇿 <strong>Čeština</strong><br><br>
-      Pokyny a informace pro uživatele z Česka.<br><br>
-      <a href="#čeština">Přejít na českou sekci →</a>
+
+    <td width="33%" align="center" valign="top">
+      <h3>🇸🇰 Slovenčina</h3>
+      Kompletný návod,<br>
+      SideStore a informácie.
+      <br><br>
+      <a href="docs/readme/README_SK.md">
+        <strong>Otvoriť slovenský návod →</strong>
+      </a>
     </td>
-    <td width="33%">
-      🇸🇰 <strong>Slovenčina</strong><br><br>
-      Pokyny a informácie pre používateľov zo Slovenska.<br><br>
-      <a href="#slovenčina">Prejsť na slovenskú sekciu →</a>
+
+    <td width="33%" align="center" valign="top">
+      <h3>🇨🇿 Čeština</h3>
+      Kompletní návod,<br>
+      SideStore a informace.
+      <br><br>
+      <a href="docs/readme/README_CZ.md">
+        <strong>Otevřít český návod →</strong>
+      </a>
     </td>
   </tr>
 </table>
 
-## 🔗 SideStore Update (`source.json`)
+## 🔗 SideStore Automatic Updates
 
-Add the following source to SideStore to receive automatic updates:
+Add this source URL to SideStore:
 
 ```text
 https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json
@@ -107,7 +113,16 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 
 **SideStore → Sources → Add Source → paste the URL above**
 
-## ✨ What's new in 0.4.11
+<p align="center">
+  <a href="https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json">
+    <img
+      src="https://img.shields.io/badge/SideStore-source.json-6f42c1?style=for-the-badge"
+      alt="SideStore source"
+    />
+  </a>
+</p>
+
+## ✨ What's New in 0.4.11
 
 ## What's Changed
 
@@ -125,81 +140,41 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 - [fix: per-episode rating from addon metadata is never parsed (#1776)](https://github.com/NuvioMedia/NuvioMobile/pull/1776) @6ip
 - [feat(player): port sidecar addon subtitles, fix selection state, and parallelize fetching (#1705)](https://github.com/NuvioMedia/NuvioMobile/pull/1705) @halibiram
 
-<details>
-<summary><strong>🇬🇧 English</strong></summary>
-
-### English
-
-This is an **unofficial clean unsigned IPA build** of Nuvio
-for iOS / iPadOS.
-
-- Current version: **0.4.11**
-- Minimum system: **iOS / iPadOS 16.1+**
-- Supported devices: **iPhone & iPad**
-- Distribution: **FULL**
-- Signing: **Unsigned IPA**
-
-Add this URL in **SideStore → Sources → Add Source**:
-
-```text
-https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json
-```
-
-This project is community-maintained and is not an official
-NuvioMedia distribution.
-
-</details>
-
-<details>
-<summary><strong>🇨🇿 Čeština</strong></summary>
-
-### Čeština
-
-Toto je **neoficiální čistý nepodepsaný IPA build** Nuvio
-pro iOS / iPadOS.
-
-- Aktuální verze: **0.4.11**
-- Minimální systém: **iOS / iPadOS 16.1+**
-- Podporovaná zařízení: **iPhone & iPad**
-- Distribuce: **FULL**
-- Podpis: **Unsigned IPA**
-
-V SideStore otevři **Sources → Add Source** a vlož:
-
-```text
-https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json
-```
-
-Tento projekt je komunitní a nejde o oficiální distribuci
-NuvioMedia.
-
-</details>
-
-<details>
-<summary><strong>🇸🇰 Slovenčina</strong></summary>
-
-### Slovenčina
-
-Toto je **neoficiálny čistý nepodpísaný IPA build** Nuvio
-pre iOS / iPadOS.
-
-- Aktuálna verzia: **0.4.11**
-- Minimálny systém: **iOS / iPadOS 16.1+**
-- Podporované zariadenia: **iPhone & iPad**
-- Distribúcia: **FULL**
-- Podpis: **Unsigned IPA**
-
-V SideStore otvor **Sources → Add Source** a vlož:
-
-```text
-https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json
-```
-
-Tento projekt je komunitný a nejde o oficiálnu distribúciu
-NuvioMedia.
-
-</details>
-
-💜 **Thank you for supporting Nuvio and the community.**
-
 ---
+
+## 🔍 Build Verification
+
+<details>
+<summary><strong>Show technical build information</strong></summary>
+
+```text
+Official repository: NuvioMedia/NuvioMobile
+Official tag:        0.4.11
+Official commit:     1c92795c2c54631a32ed973cf989bdcedfd52271
+Version:             0.4.11
+Build:               115
+Minimum OS:          iOS / iPadOS 16.1+
+Supported devices:   iPhone & iPad
+Distribution:        FULL
+Signing:             Unsigned IPA
+IPA SHA256:          c3934bfcc1e4914a847d64b5e1cfc7a4c8c8db51d4986ef11cf5dff6651f2aed
+```
+
+</details>
+
+## ❤️ Official Nuvio Project
+
+This repository only provides unofficial community-built
+iOS / iPadOS packages.
+
+Original project and source code:
+
+**[NuvioMedia/NuvioMobile](https://github.com/NuvioMedia/NuvioMobile)**
+
+Official source used for this build:
+
+**[0.4.11](https://github.com/NuvioMedia/NuvioMobile/tree/0.4.11)**
+
+<p align="center">
+  💜 Thank you for supporting Nuvio and the community.
+</p>
