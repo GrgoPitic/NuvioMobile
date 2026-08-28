@@ -27,12 +27,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ========================================================
+      # Checkout publishing branch
+      # ========================================================
       - name: Checkout publishing branch
         uses: actions/checkout@v6
         with:
           ref: cmp-rewrite
           fetch-depth: 1
 
+      # ========================================================
+      # Read current SideStore metadata
+      # ========================================================
       - name: Read current Nuvio metadata
         id: metadata
         shell: bash
@@ -97,6 +103,14 @@ jobs:
           echo "release_tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
           echo "official_tag=$OFFICIAL_TAG" >> "$GITHUB_OUTPUT"
 
+          echo "Version: $VERSION"
+          echo "Minimum OS: $MIN_OS"
+          echo "Release tag: $RELEASE_TAG"
+          echo "Official tag: $OFFICIAL_TAG"
+
+      # ========================================================
+      # Read current GitHub Release
+      # ========================================================
       - name: Read current iOS release
         shell: bash
         env:
@@ -123,6 +137,9 @@ jobs:
             ' \
             > /tmp/nuvio-ipa-digest.txt
 
+      # ========================================================
+      # Read official Nuvio branding
+      # ========================================================
       - name: Read official Nuvio branding
         shell: bash
         env:
@@ -228,8 +245,15 @@ jobs:
               logo_url,
               encoding="utf-8",
           )
+
+          print(
+              f"Nuvio logo URL: {logo_url or 'not detected'}"
+          )
           PY
 
+      # ========================================================
+      # Generate polished multilingual pages
+      # ========================================================
       - name: Generate polished multilingual pages
         shell: bash
         env:
@@ -914,6 +938,9 @@ jobs:
           print("========================================")
           PY
 
+      # ========================================================
+      # Commit generated pages
+      # ========================================================
       - name: Commit homepage and language guides
         shell: bash
         run: |
@@ -941,3 +968,52 @@ jobs:
           git push origin HEAD:cmp-rewrite
 
           echo "Polished homepage published."
+
+      # ========================================================
+      # Workaround for broken upstream libass-android gitlink
+      # Prevents actions/checkout post-job warning:
+      # "No url found for submodule path 'libass-android'"
+      # ========================================================
+      - name: Prepare clean checkout shutdown
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if ! git rev-parse --git-dir >/dev/null 2>&1; then
+            echo "Not inside a Git repository."
+            exit 0
+          fi
+
+          if ! git ls-files -s libass-android \
+            | grep -q '^160000 '; then
+
+            echo "libass-android is not tracked as a gitlink."
+            exit 0
+          fi
+
+          if git config \
+            -f .gitmodules \
+            --get-regexp '^submodule\..*\.path$' 2>/dev/null \
+            | grep -qE '[[:space:]]libass-android$'; then
+
+            echo "libass-android already exists in .gitmodules."
+          else
+            echo "Adding temporary cleanup metadata for libass-android."
+
+            git config \
+              -f .gitmodules \
+              submodule.libass-android.path \
+              libass-android
+
+            git config \
+              -f .gitmodules \
+              submodule.libass-android.url \
+              https://example.invalid/libass-android.git
+          fi
+
+          echo "Validating Git submodule cleanup..."
+
+          git submodule foreach --recursive 'true'
+
+          echo "Checkout cleanup workaround is ready."
