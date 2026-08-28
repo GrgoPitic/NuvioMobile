@@ -27,17 +27,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # ========================================================
+      # Checkout our publishing branch
+      # ========================================================
       - name: Checkout publishing branch
         uses: actions/checkout@v6
         with:
           ref: cmp-rewrite
           fetch-depth: 1
 
-      - name: Read current Nuvio iOS release
+      # ========================================================
+      # Read current SideStore metadata
+      # ========================================================
+      - name: Read current Nuvio metadata
         id: metadata
         shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
 
@@ -71,14 +75,20 @@ jobs:
             ' "$SOURCE_FILE"
           )"
 
-          if [[ -z "$VERSION" || -z "$DOWNLOAD_URL" ]]; then
-            echo "Could not determine current SideStore version." >&2
+          if [[ -z "$VERSION" ]]; then
+            echo "Could not determine current version." >&2
+            exit 1
+          fi
+
+          if [[ -z "$DOWNLOAD_URL" ]]; then
+            echo "Could not determine current IPA URL." >&2
             exit 1
           fi
 
           RELEASE_TAG="$(
             printf '%s\n' "$DOWNLOAD_URL" \
-              | sed -E 's#.*\/releases\/download\/([^/]+)\/.*#\1#'
+              | sed -E \
+              's#.*\/releases\/download\/([^/]+)\/.*#\1#'
           )"
 
           OFFICIAL_TAG="${RELEASE_TAG#ios-}"
@@ -89,32 +99,19 @@ jobs:
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "min_os=$MIN_OS" >> "$GITHUB_OUTPUT"
+          echo "download_url=$DOWNLOAD_URL" >> "$GITHUB_OUTPUT"
           echo "release_tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
           echo "official_tag=$OFFICIAL_TAG" >> "$GITHUB_OUTPUT"
 
-          echo "Version: $VERSION"
-          echo "Minimum OS: $MIN_OS"
-          echo "Release: $RELEASE_TAG"
+          echo "Version:      $VERSION"
+          echo "Minimum OS:   $MIN_OS"
+          echo "Release tag:  $RELEASE_TAG"
           echo "Official tag: $OFFICIAL_TAG"
 
-      - name: Download matching official README
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          OFFICIAL_TAG: ${{ steps.metadata.outputs.official_tag }}
-        run: |
-          set -euo pipefail
-
-          gh api \
-            "repos/NuvioMedia/NuvioMobile/contents/README.md?ref=$OFFICIAL_TAG" \
-            --jq '.content' \
-            | tr -d '\n' \
-            | base64 --decode \
-            > /tmp/nuvio-official-readme.md
-
-          test -s /tmp/nuvio-official-readme.md
-
-      - name: Read release information
+      # ========================================================
+      # Read our current GitHub Release
+      # ========================================================
+      - name: Read current iOS release
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
@@ -140,98 +137,296 @@ jobs:
             ' \
             > /tmp/nuvio-ipa-digest.txt
 
-      - name: Generate homepage README
+      # ========================================================
+      # Read official README only to locate Nuvio logo
+      # ========================================================
+      - name: Read official Nuvio branding
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OFFICIAL_TAG: ${{ steps.metadata.outputs.official_tag }}
+        run: |
+          set -euo pipefail
+
+          gh api \
+            "repos/NuvioMedia/NuvioMobile/contents/README.md?ref=$OFFICIAL_TAG" \
+            --jq '.content' \
+            | tr -d '\n' \
+            | base64 --decode \
+            > /tmp/nuvio-official-readme.md
+
+          export OFFICIAL_TAG
+
+          python3 <<'PY'
+          import html
+          import os
+          import re
+          from pathlib import Path
+
+          tag = os.environ["OFFICIAL_TAG"]
+
+          text = Path(
+              "/tmp/nuvio-official-readme.md"
+          ).read_text(
+              encoding="utf-8",
+              errors="replace",
+          )
+
+          candidates = []
+
+          candidates.extend(
+              re.findall(
+                  r'<img[^>]+src=["\']([^"\']+)["\']',
+                  text,
+                  flags=re.IGNORECASE,
+              )
+          )
+
+          candidates.extend(
+              re.findall(
+                  r'!\[[^\]]*\]\(([^)\s]+)',
+                  text,
+              )
+          )
+
+          logo = ""
+
+          for candidate in candidates:
+              candidate = html.unescape(
+                  candidate.strip()
+              )
+
+              lowered = candidate.lower()
+
+              if (
+                  "logo" in lowered
+                  or "nuvio" in lowered
+                  or "banner" in lowered
+              ):
+                  logo = candidate
+                  break
+
+          if not logo and candidates:
+              logo = html.unescape(
+                  candidates[0].strip()
+              )
+
+          if logo:
+              if logo.startswith(
+                  ("http://", "https://")
+              ):
+                  logo_url = logo
+
+              elif logo.startswith("/"):
+                  logo_url = (
+                      "https://raw.githubusercontent.com/"
+                      "NuvioMedia/NuvioMobile/"
+                      f"{tag}{logo}"
+                  )
+
+              else:
+                  relative = logo
+
+                  while relative.startswith("./"):
+                      relative = relative[2:]
+
+                  logo_url = (
+                      "https://raw.githubusercontent.com/"
+                      "NuvioMedia/NuvioMobile/"
+                      f"{tag}/{relative}"
+                  )
+
+          else:
+              logo_url = ""
+
+          Path(
+              "/tmp/nuvio-logo-url.txt"
+          ).write_text(
+              logo_url,
+              encoding="utf-8",
+          )
+
+          print(
+              f"Nuvio logo URL: {logo_url or 'not detected'}"
+          )
+          PY
+
+      # ========================================================
+      # Generate MAIN homepage + EN / SK / CZ pages
+      # ========================================================
+      - name: Generate multilingual GitHub pages
         shell: bash
         env:
           VERSION: ${{ steps.metadata.outputs.version }}
           MIN_OS: ${{ steps.metadata.outputs.min_os }}
+          DOWNLOAD_URL: ${{ steps.metadata.outputs.download_url }}
           RELEASE_TAG: ${{ steps.metadata.outputs.release_tag }}
           OFFICIAL_TAG: ${{ steps.metadata.outputs.official_tag }}
         run: |
           set -euo pipefail
 
+          mkdir -p docs/readme
+
           python3 <<'PY'
           import json
           import os
           import re
+          import urllib.parse
           from pathlib import Path
 
           repo = os.environ["GITHUB_REPOSITORY"]
 
           version = os.environ["VERSION"]
           min_os = os.environ["MIN_OS"]
+          download_url = os.environ["DOWNLOAD_URL"]
           release_tag = os.environ["RELEASE_TAG"]
           official_tag = os.environ["OFFICIAL_TAG"]
 
-          source_file = Path("sidestore/source.json")
-
           source = json.loads(
-              source_file.read_text(encoding="utf-8")
+              Path(
+                  "sidestore/source.json"
+              ).read_text(
+                  encoding="utf-8"
+              )
           )
 
           app = source["apps"][0]
 
-          versions = app.get("versions", [])
+          versions = app.get(
+              "versions",
+              []
+          )
 
           if not versions:
               raise SystemExit(
-                  "source.json has no versions."
+                  "source.json contains no versions."
               )
 
           current = versions[0]
 
           changelog = (
-              current.get("localizedDescription")
-              or app.get("versionDescription")
+              current.get(
+                  "localizedDescription"
+              )
+              or app.get(
+                  "versionDescription"
+              )
               or f"Nuvio {version}"
-          ).strip()
-
-          upstream = Path(
-              "/tmp/nuvio-official-readme.md"
-          ).read_text(
-              encoding="utf-8"
           ).strip()
 
           release_body = Path(
               "/tmp/nuvio-ios-release.md"
           ).read_text(
-              encoding="utf-8"
+              encoding="utf-8",
+              errors="replace",
           )
 
           digest = Path(
               "/tmp/nuvio-ipa-digest.txt"
           ).read_text(
-              encoding="utf-8"
+              encoding="utf-8",
+              errors="replace",
           ).strip()
 
-          if digest.startswith("sha256:"):
-              sha256 = digest.split(":", 1)[1]
-          else:
-              match = re.search(
-                  r"IPA SHA256\s*\|\s*`?([a-fA-F0-9]{64})",
-                  release_body,
-              )
-              sha256 = (
-                  match.group(1)
-                  if match
-                  else "See GitHub Release"
+          logo_url = Path(
+              "/tmp/nuvio-logo-url.txt"
+          ).read_text(
+              encoding="utf-8",
+              errors="replace",
+          ).strip()
+
+          # ==================================================
+          # Helpers
+          # ==================================================
+
+          def table_value(label):
+              pattern = (
+                  r"^\|\s*"
+                  + re.escape(label)
+                  + r"\s*\|\s*(.*?)\s*\|$"
               )
 
-          supported_match = re.search(
-              r"Supported devices\s*\|\s*\*{0,2}([^|\n*]+)",
-              release_body,
-              flags=re.IGNORECASE,
+              match = re.search(
+                  pattern,
+                  release_body,
+                  flags=(
+                      re.MULTILINE
+                      | re.IGNORECASE
+                  ),
+              )
+
+              if not match:
+                  return ""
+
+              value = match.group(1)
+
+              value = re.sub(
+                  r"[*`]",
+                  "",
+                  value,
+              )
+
+              return value.strip()
+
+          build_number = (
+              table_value("Build")
+              or "See release"
           )
 
-          if supported_match:
-              supported_devices = (
-                  supported_match.group(1).strip()
+          supported_devices = (
+              table_value(
+                  "Supported devices"
               )
+              or "iPhone & iPad"
+          )
+
+          official_commit = (
+              table_value(
+                  "Official source commit"
+              )
+              or "See release"
+          )
+
+          if digest.startswith("sha256:"):
+              sha256 = digest.split(
+                  ":",
+                  1,
+              )[1]
           else:
-              supported_devices = "iPhone & iPad"
+              sha256 = (
+                  table_value("IPA SHA256")
+                  or "See release"
+              )
+
+          lowered_devices = (
+              supported_devices.lower()
+          )
+
+          if (
+              "iphone" in lowered_devices
+              and "ipad" in lowered_devices
+          ):
+              minimum_os_label = (
+                  f"iOS / iPadOS {min_os}+"
+              )
+
+          elif "ipad" in lowered_devices:
+              minimum_os_label = (
+                  f"iPadOS {min_os}+"
+              )
+
+          elif "iphone" in lowered_devices:
+              minimum_os_label = (
+                  f"iOS {min_os}+"
+              )
+
+          else:
+              minimum_os_label = (
+                  f"{min_os}+"
+              )
 
           source_url = (
-              f"https://raw.githubusercontent.com/"
+              "https://raw.githubusercontent.com/"
               f"{repo}/cmp-rewrite/"
               "sidestore/source.json"
           )
@@ -247,74 +442,186 @@ jobs:
               f"tree/{official_tag}"
           )
 
-          # --------------------------------------------------
-          # Keep the original Nuvio hero/logo/badges on top.
-          # Insert our SideStore section BEFORE official About.
-          # --------------------------------------------------
+          official_repo = (
+              "https://github.com/"
+              "NuvioMedia/NuvioMobile"
+          )
 
-          about_marker = "\n## About"
+          # ==================================================
+          # Badge helper
+          # ==================================================
 
-          if about_marker in upstream:
-              hero, remainder = upstream.split(
-                  about_marker,
-                  1,
+          def badge(label, message, color):
+              label_q = urllib.parse.quote(
+                  label,
+                  safe="",
               )
 
-              remainder = (
-                  "## About"
-                  + remainder
+              message_q = urllib.parse.quote(
+                  message,
+                  safe="",
               )
-          else:
-              hero = upstream
-              remainder = ""
 
-          custom = f"""
+              return (
+                  "https://img.shields.io/badge/"
+                  f"{label_q}-{message_q}-{color}"
+                  "?style=for-the-badge"
+              )
+
+          version_badge = badge(
+              "Version",
+              version,
+              "2188ff",
+          )
+
+          os_badge = badge(
+              "Minimum OS",
+              minimum_os_label,
+              "555555",
+          )
+
+          devices_badge = badge(
+              "Devices",
+              supported_devices,
+              "2ea44f",
+          )
+
+          full_badge = badge(
+              "Distribution",
+              "FULL",
+              "6f42c1",
+          )
+
+          unsigned_badge = badge(
+              "Signing",
+              "Unsigned IPA",
+              "e67e22",
+          )
+
+          # ==================================================
+          # Hero
+          # ==================================================
+
+          if logo_url:
+              hero = f"""
           <p align="center">
-            <strong>🎬 Unofficial clean IPA build · Community-maintained iOS package</strong>
+            <img
+              src="{logo_url}"
+              alt="Nuvio"
+              width="500"
+            />
+          </p>
+          """
+          else:
+              hero = """
+          <h1 align="center">NUVIO</h1>
+          """
+
+          # ==================================================
+          # MAIN README
+          # ==================================================
+
+          main = f"""
+          <!--
+          AUTO-GENERATED FILE.
+          Managed by .github/workflows/refresh-readme.yml
+          -->
+
+          {hero}
+
+          <h2 align="center">
+            Unofficial iOS / iPadOS SideStore Builds
+          </h2>
+
+          <p align="center">
+            Community-maintained clean unsigned IPA builds
+            created automatically from official Nuvio releases.
           </p>
 
-          > [!NOTE]
-          > This repository provides **unofficial unsigned iOS / iPadOS builds**
-          > and SideStore distribution for Nuvio.
-          > The application source code is built from the corresponding
-          > official `NuvioMedia/NuvioMobile` release.
+          <p align="center">
+            <img src="{version_badge}" />
+            <img src="{os_badge}" />
+            <img src="{devices_badge}" />
+          </p>
 
-          ### Current SideStore build
+          <p align="center">
+            <img src="{full_badge}" />
+            <img src="{unsigned_badge}" />
+          </p>
 
-          | | |
+          > [!IMPORTANT]
+          > **This is an unofficial distribution of Nuvio.**
+          >
+          > This repository is not affiliated with or endorsed by NuvioMedia.
+          > The application source code is **not modified**.
+          > Builds are generated from matching official
+          > `NuvioMedia/NuvioMobile` releases.
+
+          ## 🚀 Latest Build
+
+          | Information | Value |
           | --- | --- |
-          | **Latest version** | **{version}** |
-          | **Minimum OS** | **iOS / iPadOS {min_os}+** |
+          | **Version** | **{version}** |
+          | **Build** | **{build_number}** |
+          | **Minimum OS** | **{minimum_os_label}** |
           | **Supported devices** | **{supported_devices}** |
           | **Distribution** | **FULL** |
           | **Signing** | **Unsigned IPA** |
-          | **Official source** | [`{official_tag}`]({official_url}) |
-          | **IPA SHA256** | `{sha256}` |
-          | **Release** | [Nuvio iOS {version}]({release_url}) |
+
+          <p align="center">
+            <a href="{release_url}">
+              <img
+                src="https://img.shields.io/badge/GitHub_Release-View_latest-2ea44f?style=for-the-badge&logo=github"
+                alt="GitHub Release"
+              />
+            </a>
+            <a href="{download_url}">
+              <img
+                src="https://img.shields.io/badge/IPA-Download_latest-2188ff?style=for-the-badge&logo=apple"
+                alt="Download IPA"
+              />
+            </a>
+          </p>
+
+          ## 🌍 Choose your language
 
           <table>
             <tr>
-              <td width="33%">
-                🇬🇧 <strong>English</strong><br><br>
-                Instructions and information for English-speaking users.<br><br>
-                <a href="#english">Go to English section →</a>
+              <td width="33%" align="center" valign="top">
+                <h3>🇬🇧 English</h3>
+                Full installation guide,<br>
+                SideStore setup and information.
+                <br><br>
+                <a href="docs/readme/README_EN.md">
+                  <strong>Open English guide →</strong>
+                </a>
               </td>
-              <td width="33%">
-                🇨🇿 <strong>Čeština</strong><br><br>
-                Pokyny a informace pro uživatele z Česka.<br><br>
-                <a href="#čeština">Přejít na českou sekci →</a>
+
+              <td width="33%" align="center" valign="top">
+                <h3>🇸🇰 Slovenčina</h3>
+                Kompletný návod,<br>
+                SideStore a informácie.
+                <br><br>
+                <a href="docs/readme/README_SK.md">
+                  <strong>Otvoriť slovenský návod →</strong>
+                </a>
               </td>
-              <td width="33%">
-                🇸🇰 <strong>Slovenčina</strong><br><br>
-                Pokyny a informácie pre používateľov zo Slovenska.<br><br>
-                <a href="#slovenčina">Prejsť na slovenskú sekciu →</a>
+
+              <td width="33%" align="center" valign="top">
+                <h3>🇨🇿 Čeština</h3>
+                Kompletní návod,<br>
+                SideStore a informace.
+                <br><br>
+                <a href="docs/readme/README_CZ.md">
+                  <strong>Otevřít český návod →</strong>
+                </a>
               </td>
             </tr>
           </table>
 
-          ## 🔗 SideStore Update (`source.json`)
+          ## 🔗 SideStore Automatic Updates
 
-          Add the following source to SideStore to receive automatic updates:
+          Add this source URL to SideStore:
 
           ```text
           {source_url}
@@ -322,146 +629,356 @@ jobs:
 
           **SideStore → Sources → Add Source → paste the URL above**
 
-          ## ✨ What's new in {version}
+          <p align="center">
+            <a href="{source_url}">
+              <img
+                src="https://img.shields.io/badge/SideStore-source.json-6f42c1?style=for-the-badge"
+                alt="SideStore source"
+              />
+            </a>
+          </p>
+
+          ## ✨ What's New in {version}
 
           {changelog}
 
-          <details>
-          <summary><strong>🇬🇧 English</strong></summary>
-
-          ### English
-
-          This is an **unofficial clean unsigned IPA build** of Nuvio
-          for iOS / iPadOS.
-
-          - Current version: **{version}**
-          - Minimum system: **iOS / iPadOS {min_os}+**
-          - Supported devices: **{supported_devices}**
-          - Distribution: **FULL**
-          - Signing: **Unsigned IPA**
-
-          Add this URL in **SideStore → Sources → Add Source**:
-
-          ```text
-          {source_url}
-          ```
-
-          This project is community-maintained and is not an official
-          NuvioMedia distribution.
-
-          </details>
-
-          <details>
-          <summary><strong>🇨🇿 Čeština</strong></summary>
-
-          ### Čeština
-
-          Toto je **neoficiální čistý nepodepsaný IPA build** Nuvio
-          pro iOS / iPadOS.
-
-          - Aktuální verze: **{version}**
-          - Minimální systém: **iOS / iPadOS {min_os}+**
-          - Podporovaná zařízení: **{supported_devices}**
-          - Distribuce: **FULL**
-          - Podpis: **Unsigned IPA**
-
-          V SideStore otevři **Sources → Add Source** a vlož:
-
-          ```text
-          {source_url}
-          ```
-
-          Tento projekt je komunitní a nejde o oficiální distribuci
-          NuvioMedia.
-
-          </details>
-
-          <details>
-          <summary><strong>🇸🇰 Slovenčina</strong></summary>
-
-          ### Slovenčina
-
-          Toto je **neoficiálny čistý nepodpísaný IPA build** Nuvio
-          pre iOS / iPadOS.
-
-          - Aktuálna verzia: **{version}**
-          - Minimálny systém: **iOS / iPadOS {min_os}+**
-          - Podporované zariadenia: **{supported_devices}**
-          - Distribúcia: **FULL**
-          - Podpis: **Unsigned IPA**
-
-          V SideStore otvor **Sources → Add Source** a vlož:
-
-          ```text
-          {source_url}
-          ```
-
-          Tento projekt je komunitný a nejde o oficiálnu distribúciu
-          NuvioMedia.
-
-          </details>
-
-          💜 **Thank you for supporting Nuvio and the community.**
-
           ---
 
+          ## 🔍 Build Verification
+
+          <details>
+          <summary><strong>Show technical build information</strong></summary>
+
+          ```text
+          Official repository: NuvioMedia/NuvioMobile
+          Official tag:        {official_tag}
+          Official commit:     {official_commit}
+          Version:             {version}
+          Build:               {build_number}
+          Minimum OS:          {minimum_os_label}
+          Supported devices:   {supported_devices}
+          Distribution:        FULL
+          Signing:             Unsigned IPA
+          IPA SHA256:          {sha256}
+          ```
+
+          </details>
+
+          ## ❤️ Official Nuvio Project
+
+          This repository only provides unofficial community-built
+          iOS / iPadOS packages.
+
+          Original project and source code:
+
+          **[NuvioMedia/NuvioMobile]({official_repo})**
+
+          Official source used for this build:
+
+          **[{official_tag}]({official_url})**
+
+          <p align="center">
+            💜 Thank you for supporting Nuvio and the community.
+          </p>
           """
 
-          custom_lines = []
+          # ==================================================
+          # ENGLISH PAGE
+          # ==================================================
 
-          for line in custom.splitlines():
-              if line.startswith("          "):
-                  custom_lines.append(
-                      line[10:]
-                  )
-              else:
-                  custom_lines.append(line)
+          en = f"""
+          {hero}
 
-          custom = "\n".join(
-              custom_lines
-          ).strip()
+          # 🇬🇧 Nuvio iOS / iPadOS — English Guide
 
-          output = (
-              hero.strip()
-              + "\n\n"
-              + custom
-          )
+          [← Back to main page](../../README.md)
 
-          if remainder:
-              output += (
-                  "\n\n---\n\n"
-                  + remainder.strip()
+          > [!IMPORTANT]
+          > This is an **unofficial** community-built Nuvio IPA.
+          > It is not an official NuvioMedia distribution.
+
+          ## Current version
+
+          | Information | Value |
+          | --- | --- |
+          | Version | **{version}** |
+          | Build | **{build_number}** |
+          | Minimum OS | **{minimum_os_label}** |
+          | Supported devices | **{supported_devices}** |
+          | Distribution | **FULL** |
+          | Signing | **Unsigned IPA** |
+
+          ## SideStore automatic updates
+
+          Open:
+
+          **SideStore → Sources → Add Source**
+
+          and add:
+
+          ```text
+          {source_url}
+          ```
+
+          After adding the source, future versions can appear
+          automatically when a new official Nuvio release is built.
+
+          ## Download latest IPA
+
+          **[Download Nuvio {version} IPA]({download_url})**
+
+          ## What's new in {version}
+
+          {changelog}
+
+          ## About this build
+
+          - Application source code is not modified.
+          - Built from official Nuvio release **{official_tag}**.
+          - FULL distribution.
+          - Unsigned IPA intended for SideStore.
+          - Community maintained.
+          - Not affiliated with NuvioMedia.
+
+          ## Verification
+
+          ```text
+          Official tag:      {official_tag}
+          Official commit:   {official_commit}
+          IPA SHA256:        {sha256}
+          ```
+
+          [← Back to main page](../../README.md)
+          """
+
+          # ==================================================
+          # SLOVAK PAGE
+          # ==================================================
+
+          sk = f"""
+          {hero}
+
+          # 🇸🇰 Nuvio pre iOS / iPadOS — Slovenský návod
+
+          [← Späť na hlavnú stránku](../../README.md)
+
+          > [!IMPORTANT]
+          > Toto je **neoficiálny komunitný build Nuvio**.
+          > Nejde o oficiálnu distribúciu spoločnosti NuvioMedia.
+
+          ## Aktuálna verzia
+
+          | Informácia | Hodnota |
+          | --- | --- |
+          | Verzia | **{version}** |
+          | Build | **{build_number}** |
+          | Minimálny systém | **{minimum_os_label}** |
+          | Podporované zariadenia | **{supported_devices}** |
+          | Distribúcia | **FULL** |
+          | Podpis | **Nepodpísaná IPA** |
+
+          ## Automatické aktualizácie cez SideStore
+
+          V SideStore otvor:
+
+          **Sources → Add Source**
+
+          a pridaj:
+
+          ```text
+          {source_url}
+          ```
+
+          Po pridaní zdroja sa nové verzie môžu zobrazovať
+          automaticky po úspešnom zostavení nového
+          oficiálneho vydania Nuvio.
+
+          ## Stiahnuť najnovšiu IPA
+
+          **[Stiahnuť Nuvio {version} IPA]({download_url})**
+
+          ## Čo je nové vo verzii {version}
+
+          {changelog}
+
+          ## O tomto builde
+
+          - Zdrojový kód aplikácie neupravujeme.
+          - Build vzniká z oficiálnej verzie Nuvio **{official_tag}**.
+          - Používa sa distribúcia FULL.
+          - IPA nie je podpísaná a je určená pre SideStore.
+          - Projekt je komunitne udržiavaný.
+          - Nejde o oficiálnu distribúciu NuvioMedia.
+
+          ## Overenie buildu
+
+          ```text
+          Oficiálny tag:     {official_tag}
+          Oficiálny commit:  {official_commit}
+          IPA SHA256:        {sha256}
+          ```
+
+          [← Späť na hlavnú stránku](../../README.md)
+          """
+
+          # ==================================================
+          # CZECH PAGE
+          # ==================================================
+
+          cz = f"""
+          {hero}
+
+          # 🇨🇿 Nuvio pro iOS / iPadOS — Český návod
+
+          [← Zpět na hlavní stránku](../../README.md)
+
+          > [!IMPORTANT]
+          > Toto je **neoficiální komunitní build Nuvio**.
+          > Nejde o oficiální distribuci společnosti NuvioMedia.
+
+          ## Aktuální verze
+
+          | Informace | Hodnota |
+          | --- | --- |
+          | Verze | **{version}** |
+          | Build | **{build_number}** |
+          | Minimální systém | **{minimum_os_label}** |
+          | Podporovaná zařízení | **{supported_devices}** |
+          | Distribuce | **FULL** |
+          | Podpis | **Nepodepsaná IPA** |
+
+          ## Automatické aktualizace přes SideStore
+
+          V SideStore otevři:
+
+          **Sources → Add Source**
+
+          a přidej:
+
+          ```text
+          {source_url}
+          ```
+
+          Po přidání zdroje se nové verze mohou zobrazovat
+          automaticky po úspěšném sestavení nového
+          oficiálního vydání Nuvio.
+
+          ## Stáhnout nejnovější IPA
+
+          **[Stáhnout Nuvio {version} IPA]({download_url})**
+
+          ## Co je nového ve verzi {version}
+
+          {changelog}
+
+          ## O tomto buildu
+
+          - Zdrojový kód aplikace neupravujeme.
+          - Build vzniká z oficiální verze Nuvio **{official_tag}**.
+          - Používá se distribuce FULL.
+          - IPA není podepsaná a je určena pro SideStore.
+          - Projekt je komunitně udržovaný.
+          - Nejde o oficiální distribuci NuvioMedia.
+
+          ## Ověření buildu
+
+          ```text
+          Oficiální tag:     {official_tag}
+          Oficiální commit:  {official_commit}
+          IPA SHA256:        {sha256}
+          ```
+
+          [← Zpět na hlavní stránku](../../README.md)
+          """
+
+          # ==================================================
+          # Remove Python indentation
+          # ==================================================
+
+          def clean(text):
+              lines = []
+
+              for line in text.splitlines():
+                  if line.startswith("          "):
+                      lines.append(
+                          line[10:]
+                      )
+                  else:
+                      lines.append(line)
+
+              return (
+                  "\n".join(lines).strip()
+                  + "\n"
               )
 
-          output += "\n"
-
           Path("README.md").write_text(
-              output,
+              clean(main),
               encoding="utf-8",
           )
 
-          print(
-              f"Homepage generated for Nuvio {version}"
+          Path(
+              "docs/readme/README_EN.md"
+          ).write_text(
+              clean(en),
+              encoding="utf-8",
           )
+
+          Path(
+              "docs/readme/README_SK.md"
+          ).write_text(
+              clean(sk),
+              encoding="utf-8",
+          )
+
+          Path(
+              "docs/readme/README_CZ.md"
+          ).write_text(
+              clean(cz),
+              encoding="utf-8",
+          )
+
+          print()
+          print("========================================")
+          print("Nuvio multilingual pages generated")
+          print("========================================")
+          print(f"Version: {version}")
+          print(f"OS: {minimum_os_label}")
+          print(f"Devices: {supported_devices}")
+          print("Generated:")
+          print("  README.md")
+          print("  docs/readme/README_EN.md")
+          print("  docs/readme/README_SK.md")
+          print("  docs/readme/README_CZ.md")
+          print("========================================")
           PY
 
-      - name: Commit homepage
+      # ========================================================
+      # Commit all generated pages
+      # ========================================================
+      - name: Commit homepage and language guides
         shell: bash
         run: |
           set -euo pipefail
 
-          git config user.name "github-actions[bot]"
+          git config user.name \
+            "github-actions[bot]"
+
           git config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add README.md
+          git add docs/readme/README_EN.md
+          git add docs/readme/README_SK.md
+          git add docs/readme/README_CZ.md
 
           if git diff --cached --quiet; then
-            echo "README is already current."
+            echo "All pages are already current."
             exit 0
           fi
 
           git commit \
-            -m "docs: refresh Nuvio SideStore homepage"
+            -m "docs: refresh multilingual Nuvio SideStore pages"
 
           git push origin HEAD:cmp-rewrite
+
+          echo "Homepage and language guides published."
