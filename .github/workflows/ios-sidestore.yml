@@ -132,13 +132,38 @@ jobs:
     steps:
       # --------------------------------------------------------
       # Exact official Nuvio release
+      #
+      # We intentionally DO NOT use actions/checkout here.
+      # The upstream repository contains orphaned gitlinks such
+      # as libass-android / vendor/TorrServer which can cause
+      # actions/checkout post-job cleanup warnings.
       # --------------------------------------------------------
-      - name: Checkout official Nuvio release
-        uses: actions/checkout@v6
-        with:
-          repository: NuvioMedia/NuvioMobile
-          ref: ${{ needs.check.outputs.tag }}
-          fetch-depth: 1
+      - name: Clone official Nuvio release
+        shell: bash
+        env:
+          UPSTREAM_TAG: ${{ needs.check.outputs.tag }}
+        run: |
+          set -euo pipefail
+
+          git init .
+
+          git remote add upstream \
+            "https://github.com/NuvioMedia/NuvioMobile.git"
+
+          git fetch \
+            --no-tags \
+            --depth=1 \
+            upstream \
+            "refs/tags/$UPSTREAM_TAG"
+
+          git checkout \
+            --detach \
+            FETCH_HEAD
+
+          echo
+          echo "Official Nuvio source ready:"
+          echo "Tag:    $UPSTREAM_TAG"
+          echo "Commit: $(git rev-parse HEAD)"
 
       - name: Record official source provenance
         id: provenance
@@ -155,10 +180,20 @@ jobs:
           echo "Official tag: ${{ needs.check.outputs.tag }}"
           echo "Official commit: $COMMIT_SHA"
 
+      # --------------------------------------------------------
+      # Initialize only the iOS-relevant valid submodule.
+      # Do NOT scan every gitlink in the repository.
+      # --------------------------------------------------------
       - name: Initialize MPVKit submodule
         shell: bash
         run: |
-          git submodule update --init MPVKit
+          set -euo pipefail
+
+          git submodule update \
+            --init \
+            MPVKit
+
+          echo "MPVKit initialized successfully."
 
       # --------------------------------------------------------
       # Java + Gradle
@@ -208,7 +243,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          # Gradle requires the file to exist.
+          # Gradle requires this file to exist.
           # Production values are provided through GitHub Secrets.
           touch local.properties
 
@@ -387,10 +422,16 @@ jobs:
 
           if candidates:
               candidates.sort(reverse=True)
-              shutil.copy2(candidates[0][1], output)
+
+              shutil.copy2(
+                  candidates[0][1],
+                  output,
+              )
+
               print(
                   f"Selected app icon: {candidates[0][1]}"
               )
+
           else:
               print(
                   "No standalone AppIcon PNG found; "
@@ -463,8 +504,8 @@ jobs:
             --jq '.body // ""' \
             > "$NOTES_FILE"
 
-          # If the official release has no release notes,
-          # create a fallback changelog from commits between releases.
+          # If official release notes are empty,
+          # create a fallback changelog from commits.
           if [[ ! -s "$NOTES_FILE" ]]; then
 
             PREVIOUS_TAG="$(
@@ -580,6 +621,7 @@ jobs:
               "$GITHUB_WORKSPACE/$IPA_NAME" \
               --repo "$GITHUB_REPOSITORY" \
               --clobber
+
           else
 
             gh release create "$RELEASE_TAG" \
@@ -592,15 +634,48 @@ jobs:
           echo "GitHub Release published: $RELEASE_TAG"
 
       # --------------------------------------------------------
-      # Checkout our publishing branch
+      # Clone our publishing branch WITHOUT actions/checkout
       # --------------------------------------------------------
-      - name: Checkout SideStore publishing branch
-        uses: actions/checkout@v6
-        with:
-          repository: ${{ github.repository }}
-          ref: cmp-rewrite
-          path: _publish
-          token: ${{ github.token }}
+      - name: Clone SideStore publishing branch
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          PUBLISH_DIR="$GITHUB_WORKSPACE/_publish"
+
+          rm -rf "$PUBLISH_DIR"
+          mkdir -p "$PUBLISH_DIR"
+
+          cd "$PUBLISH_DIR"
+
+          git init .
+
+          git remote add origin \
+            "https://github.com/$GITHUB_REPOSITORY.git"
+
+          AUTH="$(
+            printf 'x-access-token:%s' "$GH_TOKEN" \
+              | base64 \
+              | tr -d '\n'
+          )"
+
+          git \
+            -c "http.extraheader=AUTHORIZATION: basic $AUTH" \
+            fetch \
+            --no-tags \
+            --depth=1 \
+            origin \
+            refs/heads/cmp-rewrite
+
+          git checkout \
+            -B cmp-rewrite \
+            FETCH_HEAD
+
+          echo
+          echo "Publishing branch ready:"
+          git status --short --branch
 
       # --------------------------------------------------------
       # Publish icon extracted from the real app
@@ -610,17 +685,21 @@ jobs:
         run: |
           set -euo pipefail
 
-          mkdir -p "$GITHUB_WORKSPACE/_publish/sidestore"
+          mkdir -p \
+            "$GITHUB_WORKSPACE/_publish/sidestore"
 
           ICON_SOURCE="$RUNNER_TEMP/NuvioSideStoreIcon.png"
 
           if [[ -f "$ICON_SOURCE" ]]; then
+
             cp \
               "$ICON_SOURCE" \
               "$GITHUB_WORKSPACE/_publish/sidestore/icon.png"
 
             echo "Extracted Nuvio app icon prepared for publishing."
+
           else
+
             echo "No standalone app icon was extracted."
             echo "The source will use the NuvioMedia fallback icon."
           fi
@@ -667,8 +746,13 @@ jobs:
           import re
           from pathlib import Path
 
-          source_file = Path(os.environ["SOURCE_FILE"])
-          notes_file = Path(os.environ["NOTES_FILE"])
+          source_file = Path(
+              os.environ["SOURCE_FILE"]
+          )
+
+          notes_file = Path(
+              os.environ["NOTES_FILE"]
+          )
 
           repo = os.environ["GITHUB_REPOSITORY"]
 
@@ -678,11 +762,16 @@ jobs:
 
           release_tag = os.environ["RELEASE_TAG"]
           ipa_name = os.environ["IPA_NAME"]
-          ipa_size = int(os.environ["IPA_SIZE"])
+          ipa_size = int(
+              os.environ["IPA_SIZE"]
+          )
 
           icon_url = os.environ["ICON_URL"]
 
-          published_at = os.environ["PUBLISHED_AT"].strip()
+          published_at = os.environ[
+              "PUBLISHED_AT"
+          ].strip()
+
           published_date = published_at[:10]
 
           notes = notes_file.read_text(
@@ -708,10 +797,7 @@ jobs:
           )
 
           # --------------------------------------------------
-          # Read existing source to preserve:
-          # - stable identifier
-          # - older versions
-          # - older news
+          # Preserve existing identifier, versions and news.
           # --------------------------------------------------
 
           existing = {}
@@ -719,7 +805,9 @@ jobs:
           if source_file.exists():
               try:
                   existing = json.loads(
-                      source_file.read_text(encoding="utf-8")
+                      source_file.read_text(
+                          encoding="utf-8"
+                      )
                   )
               except Exception as exc:
                   print(
@@ -731,7 +819,10 @@ jobs:
           )
 
           if (
-              not isinstance(existing_identifier, str)
+              not isinstance(
+                  existing_identifier,
+                  str,
+              )
               or not existing_identifier.strip()
           ):
               existing_identifier = (
@@ -740,11 +831,15 @@ jobs:
 
           old_versions = []
 
-          for old_app in existing.get("apps", []):
+          for old_app in existing.get(
+              "apps",
+              [],
+          ):
               if (
                   isinstance(old_app, dict)
-                  and old_app.get("bundleIdentifier")
-                  == bundle_id
+                  and old_app.get(
+                      "bundleIdentifier"
+                  ) == bundle_id
               ):
                   old_versions = old_app.get(
                       "versions",
@@ -752,7 +847,6 @@ jobs:
                   )
                   break
 
-          # Current SideStore Version schema.
           allowed_version_keys = {
               "version",
               "date",
@@ -766,6 +860,7 @@ jobs:
           cleaned_versions = []
 
           for item in old_versions:
+
               if not isinstance(item, dict):
                   continue
 
@@ -788,10 +883,14 @@ jobs:
               ):
                   continue
 
-              if str(cleaned["version"]) == version:
+              if str(
+                  cleaned["version"]
+              ) == version:
                   continue
 
-              cleaned_versions.append(cleaned)
+              cleaned_versions.append(
+                  cleaned
+              )
 
           latest_version = {
               "version": version,
@@ -802,8 +901,6 @@ jobs:
               "minOSVersion": min_os,
           }
 
-          # SideStore treats the first compatible version
-          # as the latest release.
           versions = [
               latest_version,
               *cleaned_versions,
@@ -846,7 +943,11 @@ jobs:
 
           old_news = []
 
-          for item in existing.get("news", []):
+          for item in existing.get(
+              "news",
+              [],
+          ):
+
               if not isinstance(item, dict):
                   continue
 
@@ -871,11 +972,17 @@ jobs:
                       "date",
                   )
               ):
-                  old_news.append(cleaned)
+                  old_news.append(
+                      cleaned
+                  )
 
           latest_news = {
-              "title": f"Nuvio {version} is available",
-              "identifier": current_news_identifier,
+              "title": (
+                  f"Nuvio {version} is available"
+              ),
+              "identifier": (
+                  current_news_identifier
+              ),
               "caption": (
                   caption
                   or f"Nuvio {version} is available."
@@ -899,7 +1006,9 @@ jobs:
               "name": "Nuvio",
               "bundleIdentifier": bundle_id,
               "developerName": "NuvioMedia",
-              "subtitle": "Unofficial iOS / SideStore build",
+              "subtitle": (
+                  "Unofficial iOS / SideStore build"
+              ),
 
               "localizedDescription": (
                   "Unofficial clean unsigned iOS build of Nuvio, "
@@ -917,13 +1026,15 @@ jobs:
               "downloadURL": download_url,
               "size": ipa_size,
 
-              # Modern AltSource / SideStore format.
+              # Modern SideStore format.
               "versions": versions,
           }
 
           source = {
               "name": "Nuvio iOS SideStore",
-              "identifier": existing_identifier,
+              "identifier": (
+                  existing_identifier
+              ),
               "sourceURL": source_url,
               "apps": [app],
               "news": news,
@@ -942,352 +1053,59 @@ jobs:
           print("========================================")
           print("SideStore source updated")
           print("========================================")
-          print(f"Source ID: {existing_identifier}")
-          print(f"Version: {version}")
-          print(f"Bundle ID: {bundle_id}")
-          print(f"Minimum iOS: {min_os}")
-          print(f"Download URL: {download_url}")
-          print(f"Versions stored: {len(versions)}")
-          print(f"News stored: {len(news)}")
+          print(
+              f"Source ID: {existing_identifier}"
+          )
+          print(
+              f"Version: {version}"
+          )
+          print(
+              f"Bundle ID: {bundle_id}"
+          )
+          print(
+              f"Minimum iOS: {min_os}"
+          )
+          print(
+              f"Download URL: {download_url}"
+          )
+          print(
+              f"Versions stored: {len(versions)}"
+          )
+          print(
+              f"News stored: {len(news)}"
+          )
           print("========================================")
           PY
 
-          python3 -m json.tool "$SOURCE_FILE" >/dev/null
+          python3 -m json.tool \
+            "$SOURCE_FILE" >/dev/null
 
           echo "source.json is valid JSON."
 
       # --------------------------------------------------------
-      # Generate multilingual README
+      # Commit SideStore metadata WITHOUT actions/checkout
+      #
+      # README is intentionally NOT generated here.
+      # The separate "Refresh Nuvio Homepage" workflow generates
+      # the polished multilingual homepage after this workflow
+      # completes successfully.
       # --------------------------------------------------------
-      - name: Generate GitHub README
+      - name: Commit SideStore metadata
         shell: bash
         env:
-          UPSTREAM_TAG: ${{ needs.check.outputs.tag }}
-          RELEASE_TAG: ${{ needs.check.outputs.release_tag }}
-
-          UPSTREAM_COMMIT: ${{ steps.provenance.outputs.commit_sha }}
-          SHORT_SHA: ${{ steps.provenance.outputs.short_sha }}
-
-          VERSION: ${{ steps.package.outputs.version }}
-          BUILD_VERSION: ${{ steps.package.outputs.build_version }}
-          MINIMUM_OS_LABEL: ${{ steps.package.outputs.minimum_os_label }}
-          SUPPORTED_DEVICES: ${{ steps.package.outputs.supported_devices }}
-          IPA_SHA256: ${{ steps.package.outputs.ipa_sha256 }}
-
-          NOTES_FILE: ${{ steps.notes.outputs.notes_file }}
-        run: |
-          set -euo pipefail
-
-          README_FILE="$GITHUB_WORKSPACE/_publish/README.md"
-          UPSTREAM_README="$GITHUB_WORKSPACE/README.md"
-
-          export README_FILE
-          export UPSTREAM_README
-
-          python3 <<'PY'
-          import os
-          from pathlib import Path
-
-          readme_file = Path(
-              os.environ["README_FILE"]
-          )
-
-          upstream_readme_file = Path(
-              os.environ["UPSTREAM_README"]
-          )
-
-          notes_file = Path(
-              os.environ["NOTES_FILE"]
-          )
-
-          repo = os.environ["GITHUB_REPOSITORY"]
-
-          version = os.environ["VERSION"]
-          build_version = os.environ["BUILD_VERSION"]
-
-          minimum_os = os.environ[
-              "MINIMUM_OS_LABEL"
-          ]
-
-          supported_devices = os.environ[
-              "SUPPORTED_DEVICES"
-          ]
-
-          upstream_tag = os.environ[
-              "UPSTREAM_TAG"
-          ]
-
-          upstream_commit = os.environ[
-              "UPSTREAM_COMMIT"
-          ]
-
-          short_sha = os.environ[
-              "SHORT_SHA"
-          ]
-
-          ipa_sha256 = os.environ[
-              "IPA_SHA256"
-          ]
-
-          release_tag = os.environ[
-              "RELEASE_TAG"
-          ]
-
-          notes = notes_file.read_text(
-              encoding="utf-8"
-          ).strip()
-
-          if upstream_readme_file.exists():
-              upstream_readme = (
-                  upstream_readme_file.read_text(
-                      encoding="utf-8"
-                  ).strip()
-              )
-          else:
-              upstream_readme = (
-                  "Official Nuvio README was not available "
-                  "for this release."
-              )
-
-          source_url = (
-              f"https://raw.githubusercontent.com/{repo}/"
-              "cmp-rewrite/sidestore/source.json"
-          )
-
-          release_url = (
-              f"https://github.com/{repo}/releases/tag/"
-              f"{release_tag}"
-          )
-
-          official_source_url = (
-              "https://github.com/NuvioMedia/NuvioMobile/"
-              f"tree/{upstream_tag}"
-          )
-
-          header = f"""<!--
-          AUTO-GENERATED FILE.
-          Updated automatically by .github/workflows/ios-sidestore.yml
-          NUVIO_IOS_RELEASE: {upstream_tag}
-          -->
-
-          # Nuvio iOS / SideStore — Unofficial Builds
-
-          > [!IMPORTANT]
-          > **This is an unofficial iOS distribution of Nuvio.**
-          >
-          > This repository is not affiliated with or endorsed by NuvioMedia.
-          > The application source code is **not modified**.
-          > The unsigned IPA is built automatically from the exact official
-          > `NuvioMedia/NuvioMobile` release source, using only the build-time
-          > configuration required for the **FULL** iOS distribution.
-
-          ## Current iOS / iPadOS build
-
-          | Information | Value |
-          | --- | --- |
-          | Latest version | **{version}** |
-          | Build | **{build_version}** |
-          | Minimum OS | **{minimum_os}** |
-          | Supported devices | **{supported_devices}** |
-          | Distribution | **FULL** |
-          | Signing | **Unsigned IPA** |
-          | Official source tag | [`{upstream_tag}`]({official_source_url}) |
-          | Official source commit | `{short_sha}` |
-          | IPA SHA256 | `{ipa_sha256}` |
-          | Latest GitHub Release | [Download / details]({release_url}) |
-
-          ## SideStore automatic updates
-
-          Add this source URL to SideStore:
-
-          ```text
-          {source_url}
-          ```
-
-          Once the source is added, new iOS builds can appear in SideStore
-          automatically after a new official Nuvio release is detected and
-          successfully built.
-
-          ---
-
-          <details open>
-          <summary><strong>English</strong></summary>
-
-          ### About this build
-
-          This repository provides an **unofficial clean unsigned IPA build**
-          of Nuvio for iOS / iPadOS.
-
-          - The application source code is not modified.
-          - Builds use the exact official Nuvio release source.
-          - Distribution mode is **FULL**.
-          - The IPA is unsigned and intended for SideStore.
-          - Minimum supported system: **{minimum_os}**.
-          - Supported devices: **{supported_devices}**.
-
-          ### Install automatic updates
-
-          In SideStore open **Sources → Add Source** and add:
-
-          ```text
-          {source_url}
-          ```
-
-          This project is community-maintained and is not an official
-          NuvioMedia distribution.
-
-          </details>
-
-          <details>
-          <summary><strong>Slovenčina</strong></summary>
-
-          ### O tomto builde
-
-          Tento repozitár poskytuje **neoficiálny čistý nepodpísaný IPA build**
-          aplikácie Nuvio pre iOS / iPadOS.
-
-          - Zdrojový kód aplikácie nie je upravovaný.
-          - Build sa vytvára z presného oficiálneho vydania Nuvio.
-          - Používa sa distribúcia **FULL**.
-          - IPA nie je podpísaná a je určená pre SideStore.
-          - Minimálny podporovaný systém: **{minimum_os}**.
-          - Podporované zariadenia: **{supported_devices}**.
-
-          ### Automatické aktualizácie
-
-          V SideStore otvor **Sources → Add Source** a pridaj:
-
-          ```text
-          {source_url}
-          ```
-
-          Po pridaní zdroja sa nové zostavenia môžu v SideStore zobrazovať
-          automaticky po vydaní a úspešnom zostavení novej oficiálnej
-          verzie Nuvio.
-
-          Tento projekt je komunitný a nejde o oficiálnu distribúciu
-          spoločnosti NuvioMedia.
-
-          </details>
-
-          <details>
-          <summary><strong>Čeština</strong></summary>
-
-          ### O tomto buildu
-
-          Tento repozitář poskytuje **neoficiální čistý nepodepsaný IPA build**
-          aplikace Nuvio pro iOS / iPadOS.
-
-          - Zdrojový kód aplikace není upravován.
-          - Build se vytváří z přesného oficiálního vydání Nuvio.
-          - Používá se distribuce **FULL**.
-          - IPA není podepsaná a je určená pro SideStore.
-          - Minimální podporovaný systém: **{minimum_os}**.
-          - Podporovaná zařízení: **{supported_devices}**.
-
-          ### Automatické aktualizace
-
-          V SideStore otevři **Sources → Add Source** a přidej:
-
-          ```text
-          {source_url}
-          ```
-
-          Po přidání zdroje se nové buildy mohou v SideStore zobrazovat
-          automaticky po vydání a úspěšném sestavení nové oficiální
-          verze Nuvio.
-
-          Tento projekt je komunitní a nejde o oficiální distribuci
-          společnosti NuvioMedia.
-
-          </details>
-
-          ---
-
-          ## What's new in Nuvio {version}
-
-          The following changelog is taken from the official Nuvio release.
-          If the official release has no release notes, it is generated from
-          commits between the latest two official releases.
-
-          {notes}
-
-          ---
-
-          ## Build provenance
-
-          ```text
-          Official repository: NuvioMedia/NuvioMobile
-          Official tag:        {upstream_tag}
-          Official commit:     {upstream_commit}
-          Version:             {version}
-          Build:               {build_version}
-          Minimum OS:          {minimum_os}
-          Supported devices:   {supported_devices}
-          Distribution:        FULL
-          Signing:             Unsigned IPA
-          IPA SHA256:          {ipa_sha256}
-          ```
-
-          ---
-
-          # Official Nuvio README
-
-          > The section below is synchronized automatically from the
-          > official `NuvioMedia/NuvioMobile` README for release
-          > `{upstream_tag}`.
-
-          """
-
-          # Remove Python indentation from the generated Markdown.
-          lines = header.splitlines()
-
-          cleaned_lines = []
-
-          for line in lines:
-              if line.startswith("          "):
-                  cleaned_lines.append(line[10:])
-              else:
-                  cleaned_lines.append(line)
-
-          generated = "\n".join(
-              cleaned_lines
-          ).strip()
-
-          final_readme = (
-              generated
-              + "\n\n"
-              + upstream_readme
-              + "\n"
-          )
-
-          readme_file.write_text(
-              final_readme,
-              encoding="utf-8",
-          )
-
-          print(
-              f"README generated for Nuvio {version}"
-          )
-          PY
-
-      # --------------------------------------------------------
-      # Commit README + source.json + icon
-      # --------------------------------------------------------
-      - name: Commit published metadata
-        shell: bash
-        env:
+          GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.package.outputs.version }}
         run: |
           set -euo pipefail
 
           cd "$GITHUB_WORKSPACE/_publish"
 
-          git config user.name "github-actions[bot]"
+          git config user.name \
+            "github-actions[bot]"
+
           git config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add README.md
           git add sidestore/source.json
 
           if [[ -f sidestore/icon.png ]]; then
@@ -1295,17 +1113,27 @@ jobs:
           fi
 
           if git diff --cached --quiet; then
-            echo "README and SideStore metadata are already current."
+            echo "SideStore metadata is already current."
             exit 0
           fi
 
           git commit \
             -m "chore: publish Nuvio iOS $VERSION"
 
-          git push origin HEAD:cmp-rewrite
+          AUTH="$(
+            printf 'x-access-token:%s' "$GH_TOKEN" \
+              | base64 \
+              | tr -d '\n'
+          )"
+
+          git \
+            -c "http.extraheader=AUTHORIZATION: basic $AUTH" \
+            push \
+            origin \
+            HEAD:cmp-rewrite
 
           echo
-          echo "README and SideStore metadata published."
+          echo "SideStore metadata published."
 
       # --------------------------------------------------------
       # Final GitHub Actions summary
@@ -1337,7 +1165,7 @@ jobs:
             echo
             echo "\`https://raw.githubusercontent.com/$GITHUB_REPOSITORY/cmp-rewrite/sidestore/source.json\`"
             echo
-            echo "## Repository README"
+            echo "## Homepage"
             echo
-            echo "README was synchronized with the official Nuvio release and updated with EN / SK / CZ SideStore instructions."
+            echo "The polished EN / SK / CZ homepage will be refreshed automatically by the separate Refresh Nuvio Homepage workflow."
           } >> "$GITHUB_STEP_SUMMARY"
