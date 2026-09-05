@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       force_build:
-        description: "Build again even if this iOS release already exists"
+        description: "Sync again even if this iOS release already exists"
         required: false
         type: boolean
         default: false
@@ -31,10 +31,13 @@ jobs:
     outputs:
       tag: ${{ steps.detect.outputs.tag }}
       release_tag: ${{ steps.detect.outputs.release_tag }}
-      should_build: ${{ steps.detect.outputs.should_build }}
+      should_sync: ${{ steps.detect.outputs.should_sync }}
+      official_ipa_name: ${{ steps.detect.outputs.official_ipa_name }}
+      official_ipa_size: ${{ steps.detect.outputs.official_ipa_size }}
+      published_at: ${{ steps.detect.outputs.published_at }}
 
     steps:
-      - name: Check latest official Nuvio release
+      - name: Detect latest release and official FULL IPA
         id: detect
         shell: bash
         env:
@@ -43,22 +46,67 @@ jobs:
         run: |
           set -euo pipefail
 
+          RELEASE_JSON="$(
+            gh api repos/NuvioMedia/NuvioMobile/releases/latest
+          )"
+
           TAG="$(
-            gh api repos/NuvioMedia/NuvioMobile/releases/latest \
-              --jq '.tag_name'
+            printf '%s' "$RELEASE_JSON" \
+              | jq -r '.tag_name'
+          )"
+
+          PUBLISHED_AT="$(
+            printf '%s' "$RELEASE_JSON" \
+              | jq -r '.published_at // ""'
           )"
 
           RELEASE_TAG="ios-$TAG"
 
+          OFFICIAL_IPA_NAME="$(
+            printf '%s' "$RELEASE_JSON" \
+              | jq -r '
+                  [
+                    .assets[]
+                    | select(
+                        (.name | ascii_downcase | endswith(".ipa"))
+                        and
+                        (.name | ascii_downcase | contains("full"))
+                      )
+                  ][0].name // ""
+                '
+          )"
+
+          OFFICIAL_IPA_SIZE="$(
+            printf '%s' "$RELEASE_JSON" \
+              | jq -r --arg name "$OFFICIAL_IPA_NAME" '
+                  [
+                    .assets[]
+                    | select(.name == $name)
+                  ][0].size // 0
+                '
+          )"
+
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "release_tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
+          echo "official_ipa_name=$OFFICIAL_IPA_NAME" >> "$GITHUB_OUTPUT"
+          echo "official_ipa_size=$OFFICIAL_IPA_SIZE" >> "$GITHUB_OUTPUT"
+          echo "published_at=$PUBLISHED_AT" >> "$GITHUB_OUTPUT"
 
-          echo "Latest official Nuvio release: $TAG"
-          echo "Our iOS release tag: $RELEASE_TAG"
+          echo
+          echo "Latest official release: $TAG"
+          echo "Our release tag:         $RELEASE_TAG"
+
+          if [[ -n "$OFFICIAL_IPA_NAME" ]]; then
+            echo "Official FULL IPA:       $OFFICIAL_IPA_NAME"
+            echo "Official IPA size:       $OFFICIAL_IPA_SIZE bytes"
+          else
+            echo "Official FULL IPA:       not available"
+            echo "Fallback build will be used if synchronization is needed."
+          fi
 
           if [[ "${FORCE_BUILD:-false}" == "true" ]]; then
-            echo "should_build=true" >> "$GITHUB_OUTPUT"
-            echo "Force build requested."
+            echo "should_sync=true" >> "$GITHUB_OUTPUT"
+            echo "Forced synchronization requested."
             exit 0
           fi
 
@@ -79,9 +127,17 @@ jobs:
               || true
           )"
 
+          SOURCE_VERSION=""
           SOURCE_DOWNLOAD_URL=""
 
           if [[ -n "$SOURCE_JSON" ]]; then
+            SOURCE_VERSION="$(
+              printf '%s' "$SOURCE_JSON" \
+                | jq -r '.apps[0].versions[0].version // ""' \
+                2>/dev/null \
+                || true
+            )"
+
             SOURCE_DOWNLOAD_URL="$(
               printf '%s' "$SOURCE_JSON" \
                 | jq -r '.apps[0].versions[0].downloadURL // ""' \
@@ -91,33 +147,358 @@ jobs:
           fi
 
           if [[ "$RELEASE_EXISTS" == "true" ]] \
+            && [[ "$SOURCE_VERSION" == "$TAG" ]] \
             && [[ "$SOURCE_DOWNLOAD_URL" == *"/releases/download/$RELEASE_TAG/"* ]]; then
 
-            echo "should_build=false" >> "$GITHUB_OUTPUT"
+            echo "should_sync=false" >> "$GITHUB_OUTPUT"
+
+            echo
             echo "Release and SideStore source are already current."
-            echo "Nothing to build."
+            echo "Nothing to synchronize."
+
           else
-            echo "should_build=true" >> "$GITHUB_OUTPUT"
+
+            echo "should_sync=true" >> "$GITHUB_OUTPUT"
+
+            echo
 
             if [[ "$RELEASE_EXISTS" == "true" ]]; then
-              echo "Release exists, but SideStore metadata is missing or outdated."
-              echo "Running a self-healing rebuild."
+              echo "Existing release or SideStore metadata is incomplete/outdated."
+              echo "Running self-healing synchronization."
             else
-              echo "New official Nuvio release detected: $TAG"
+              echo "New Nuvio release detected: $TAG"
             fi
           fi
 
 
   # ============================================================
-  # 2. iOS BUILD
+  # 2. PREFER OFFICIAL IPA
   # ============================================================
-  build:
-    name: Build Nuvio iOS
+  prepare_official:
+    name: Prepare official Nuvio IPA
     needs: check
-    if: needs.check.outputs.should_build == 'true'
+    if: needs.check.outputs.should_sync == 'true'
+
+    runs-on: ubuntu-latest
+
+    outputs:
+      use_official: ${{ steps.inspect.outputs.use_official }}
+      version: ${{ steps.inspect.outputs.version }}
+      build_version: ${{ steps.inspect.outputs.build_version }}
+      bundle_id: ${{ steps.inspect.outputs.bundle_id }}
+      min_os: ${{ steps.inspect.outputs.min_os }}
+      minimum_os_label: ${{ steps.inspect.outputs.minimum_os_label }}
+      supported_devices: ${{ steps.inspect.outputs.supported_devices }}
+      ipa_name: ${{ steps.inspect.outputs.ipa_name }}
+      ipa_size: ${{ steps.inspect.outputs.ipa_size }}
+      ipa_sha256: ${{ steps.inspect.outputs.ipa_sha256 }}
+      ipa_origin: ${{ steps.inspect.outputs.ipa_origin }}
+
+    steps:
+      - name: Download and inspect official FULL IPA
+        id: inspect
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UPSTREAM_TAG: ${{ needs.check.outputs.tag }}
+          OFFICIAL_IPA_NAME: ${{ needs.check.outputs.official_ipa_name }}
+          EXPECTED_ASSET_SIZE: ${{ needs.check.outputs.official_ipa_size }}
+        run: |
+          set -euo pipefail
+
+          echo "use_official=false" >> "$GITHUB_OUTPUT"
+
+          if [[ -z "${OFFICIAL_IPA_NAME:-}" ]]; then
+            echo "No official FULL IPA asset is available."
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          DOWNLOAD_DIR="$RUNNER_TEMP/official-ipa"
+          EXTRACT_DIR="$RUNNER_TEMP/official-ipa-extracted"
+
+          rm -rf "$DOWNLOAD_DIR" "$EXTRACT_DIR"
+          mkdir -p "$DOWNLOAD_DIR" "$EXTRACT_DIR"
+
+          echo "Downloading official asset: $OFFICIAL_IPA_NAME"
+
+          if ! gh release download "$UPSTREAM_TAG" \
+            --repo NuvioMedia/NuvioMobile \
+            --pattern "$OFFICIAL_IPA_NAME" \
+            --dir "$DOWNLOAD_DIR"; then
+
+            echo "Official IPA download failed."
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          IPA_PATH="$DOWNLOAD_DIR/$OFFICIAL_IPA_NAME"
+
+          if [[ ! -f "$IPA_PATH" ]]; then
+            echo "Downloaded IPA was not found."
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          IPA_SIZE="$(
+            stat -c '%s' "$IPA_PATH"
+          )"
+
+          if [[ "${EXPECTED_ASSET_SIZE:-0}" != "0" ]] \
+            && [[ "$IPA_SIZE" != "$EXPECTED_ASSET_SIZE" ]]; then
+
+            echo "Official IPA size does not match GitHub metadata."
+            echo "Expected: $EXPECTED_ASSET_SIZE"
+            echo "Actual:   $IPA_SIZE"
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          IPA_SHA256="$(
+            sha256sum "$IPA_PATH" \
+              | awk '{print $1}'
+          )"
+
+          if ! unzip -q "$IPA_PATH" -d "$EXTRACT_DIR"; then
+            echo "Official IPA could not be extracted."
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          INFO_PLIST="$(
+            find "$EXTRACT_DIR/Payload" \
+              -maxdepth 2 \
+              -type f \
+              -name Info.plist \
+              | head -n 1
+          )"
+
+          if [[ -z "$INFO_PLIST" || ! -f "$INFO_PLIST" ]]; then
+            echo "Info.plist was not found inside the official IPA."
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          METADATA_FILE="$RUNNER_TEMP/official-ipa-metadata.tsv"
+
+          if ! python3 - "$INFO_PLIST" > "$METADATA_FILE" <<'PY'
+          import plistlib
+          import sys
+
+          plist_path = sys.argv[1]
+
+          with open(plist_path, "rb") as handle:
+              info = plistlib.load(handle)
+
+          version = str(
+              info.get("CFBundleShortVersionString", "")
+          ).strip()
+
+          build = str(
+              info.get("CFBundleVersion", "")
+          ).strip()
+
+          bundle_id = str(
+              info.get("CFBundleIdentifier", "")
+          ).strip()
+
+          min_os = str(
+              info.get("MinimumOSVersion", "")
+          ).strip()
+
+          raw_families = info.get("UIDeviceFamily", [])
+
+          families = set()
+
+          for value in raw_families:
+              try:
+                  families.add(int(value))
+              except Exception:
+                  pass
+
+          has_iphone = 1 in families
+          has_ipad = 2 in families
+
+          if has_iphone and has_ipad:
+              devices = "iPhone & iPad"
+              os_label = f"iOS / iPadOS {min_os}+"
+          elif has_ipad:
+              devices = "iPad"
+              os_label = f"iPadOS {min_os}+"
+          elif has_iphone:
+              devices = "iPhone"
+              os_label = f"iOS {min_os}+"
+          else:
+              devices = "Not declared"
+              os_label = f"Minimum OS {min_os}+"
+
+          required = {
+              "version": version,
+              "build": build,
+              "bundle_id": bundle_id,
+              "min_os": min_os,
+          }
+
+          missing = [
+              key
+              for key, value in required.items()
+              if not value
+          ]
+
+          if missing:
+              raise SystemExit(
+                  "Missing IPA metadata: "
+                  + ", ".join(missing)
+              )
+
+          print(
+              "\t".join(
+                  [
+                      version,
+                      build,
+                      bundle_id,
+                      min_os,
+                      devices,
+                      os_label,
+                  ]
+              )
+          )
+          PY
+          then
+            echo "Official IPA metadata could not be read."
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          IFS=$'\t' read -r \
+            VERSION \
+            BUILD_VERSION \
+            BUNDLE_ID \
+            MIN_OS \
+            SUPPORTED_DEVICES \
+            MINIMUM_OS_LABEL \
+            < "$METADATA_FILE"
+
+          NORMALIZED_TAG="${UPSTREAM_TAG#v}"
+
+          if [[ "$VERSION" != "$NORMALIZED_TAG" ]]; then
+            echo "Official IPA version does not match the release tag."
+            echo "Release tag: $UPSTREAM_TAG"
+            echo "IPA version: $VERSION"
+            echo "The macOS fallback build will be used."
+            exit 0
+          fi
+
+          # Optional SHA256 cross-check against Nuvio's own
+          # published store metadata when available.
+          STORE_JSON="$(
+            curl -fsSL \
+              https://raw.githubusercontent.com/NuvioMedia/NuvioDesktop/Dev/store.json \
+              2>/dev/null \
+              || true
+          )"
+
+          if [[ -n "$STORE_JSON" ]]; then
+
+            EXPECTED_SHA="$(
+              printf '%s' "$STORE_JSON" \
+                | jq -r \
+                  --arg version "$VERSION" '
+                    [
+                      .apps[].versions[]
+                      | select(.version == $version)
+                    ][0].sha256 // ""
+                  ' \
+                2>/dev/null \
+                || true
+            )"
+
+            if [[ -n "$EXPECTED_SHA" ]] \
+              && [[ "$EXPECTED_SHA" != "$IPA_SHA256" ]]; then
+
+              echo "Official IPA SHA256 does not match Nuvio store metadata."
+              echo "Expected: $EXPECTED_SHA"
+              echo "Actual:   $IPA_SHA256"
+              echo "The macOS fallback build will be used."
+              exit 0
+            fi
+          fi
+
+          OUTPUT_DIR="$RUNNER_TEMP/validated-official-ipa"
+          IPA_NAME="Nuvio-${VERSION}.ipa"
+
+          mkdir -p "$OUTPUT_DIR"
+
+          # Copy only: the official IPA bytes remain unchanged.
+          cp \
+            "$IPA_PATH" \
+            "$OUTPUT_DIR/$IPA_NAME"
+
+          echo "use_official=true" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "build_version=$BUILD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "bundle_id=$BUNDLE_ID" >> "$GITHUB_OUTPUT"
+          echo "min_os=$MIN_OS" >> "$GITHUB_OUTPUT"
+          echo "minimum_os_label=$MINIMUM_OS_LABEL" >> "$GITHUB_OUTPUT"
+          echo "supported_devices=$SUPPORTED_DEVICES" >> "$GITHUB_OUTPUT"
+          echo "ipa_name=$IPA_NAME" >> "$GITHUB_OUTPUT"
+          echo "ipa_size=$IPA_SIZE" >> "$GITHUB_OUTPUT"
+          echo "ipa_sha256=$IPA_SHA256" >> "$GITHUB_OUTPUT"
+          echo "ipa_origin=Official Nuvio IPA" >> "$GITHUB_OUTPUT"
+
+          echo
+          echo "========================================"
+          echo "Official Nuvio IPA validated"
+          echo "========================================"
+          echo "Version:           $VERSION"
+          echo "Build:             $BUILD_VERSION"
+          echo "Bundle ID:         $BUNDLE_ID"
+          echo "Minimum OS:        $MINIMUM_OS_LABEL"
+          echo "Supported devices: $SUPPORTED_DEVICES"
+          echo "Size:              $IPA_SIZE bytes"
+          echo "SHA256:            $IPA_SHA256"
+          echo "Source:            Official Nuvio release asset"
+          echo "========================================"
+
+      - name: Upload validated official IPA
+        if: steps.inspect.outputs.use_official == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: nuvio-ipa
+          path: ${{ runner.temp }}/validated-official-ipa/${{ steps.inspect.outputs.ipa_name }}
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
+
+
+  # ============================================================
+  # 3. FALLBACK macOS BUILD
+  # ============================================================
+  fallback_build:
+    name: Build fallback Nuvio IPA
+    needs:
+      - check
+      - prepare_official
+
+    if: >
+      needs.check.outputs.should_sync == 'true' &&
+      needs.prepare_official.outputs.use_official != 'true'
 
     runs-on: macos-26
     timeout-minutes: 120
+
+    outputs:
+      version: ${{ steps.package.outputs.version }}
+      build_version: ${{ steps.package.outputs.build_version }}
+      bundle_id: ${{ steps.package.outputs.bundle_id }}
+      min_os: ${{ steps.package.outputs.min_os }}
+      minimum_os_label: ${{ steps.package.outputs.minimum_os_label }}
+      supported_devices: ${{ steps.package.outputs.supported_devices }}
+      ipa_name: ${{ steps.package.outputs.ipa_name }}
+      ipa_size: ${{ steps.package.outputs.ipa_size }}
+      ipa_sha256: ${{ steps.package.outputs.ipa_sha256 }}
+      ipa_origin: ${{ steps.package.outputs.ipa_origin }}
+      commit_sha: ${{ steps.provenance.outputs.commit_sha }}
 
     env:
       NUVIO_IOS_DISTRIBUTION: full
@@ -130,14 +511,6 @@ jobs:
       KOTLIN_DAEMON_JVMARGS: -Xmx3072m
 
     steps:
-      # --------------------------------------------------------
-      # Exact official Nuvio release
-      #
-      # We intentionally DO NOT use actions/checkout here.
-      # The upstream repository contains orphaned gitlinks such
-      # as libass-android / vendor/TorrServer which can cause
-      # actions/checkout post-job cleanup warnings.
-      # --------------------------------------------------------
       - name: Clone official Nuvio release
         shell: bash
         env:
@@ -148,7 +521,7 @@ jobs:
           git init .
 
           git remote add upstream \
-            "https://github.com/NuvioMedia/NuvioMobile.git"
+            https://github.com/NuvioMedia/NuvioMobile.git
 
           git fetch \
             --no-tags \
@@ -161,7 +534,7 @@ jobs:
             FETCH_HEAD
 
           echo
-          echo "Official Nuvio source ready:"
+          echo "Official Nuvio source ready."
           echo "Tag:    $UPSTREAM_TAG"
           echo "Commit: $(git rev-parse HEAD)"
 
@@ -172,18 +545,11 @@ jobs:
           set -euo pipefail
 
           COMMIT_SHA="$(git rev-parse HEAD)"
-          SHORT_SHA="$(git rev-parse --short=12 HEAD)"
 
           echo "commit_sha=$COMMIT_SHA" >> "$GITHUB_OUTPUT"
-          echo "short_sha=$SHORT_SHA" >> "$GITHUB_OUTPUT"
 
-          echo "Official tag: ${{ needs.check.outputs.tag }}"
-          echo "Official commit: $COMMIT_SHA"
+          echo "Official source commit: $COMMIT_SHA"
 
-      # --------------------------------------------------------
-      # Initialize only the iOS-relevant valid submodule.
-      # Do NOT scan every gitlink in the repository.
-      # --------------------------------------------------------
       - name: Initialize MPVKit submodule
         shell: bash
         run: |
@@ -193,11 +559,6 @@ jobs:
             --init \
             MPVKit
 
-          echo "MPVKit initialized successfully."
-
-      # --------------------------------------------------------
-      # Java + Gradle
-      # --------------------------------------------------------
       - name: Set up Java 17
         uses: actions/setup-java@v5
         with:
@@ -215,9 +576,6 @@ jobs:
           xcodebuild -version
           echo "Official release: ${{ needs.check.outputs.tag }}"
 
-      # --------------------------------------------------------
-      # Nuvio Engine
-      # --------------------------------------------------------
       - name: Build Nuvio Engine Apple XCFramework
         shell: bash
         run: |
@@ -227,24 +585,21 @@ jobs:
 
           rm -rf "$ENGINE_DIR"
 
-          git clone --depth 1 \
+          git clone \
+            --depth 1 \
             https://github.com/NuvioMedia/nuvio-engine.git \
             "$ENGINE_DIR"
 
           cd "$ENGINE_DIR"
 
-          NUVIO_BUILD_JOBS=2 ./scripts/build-apple-xcframework.sh
+          NUVIO_BUILD_JOBS=2 \
+            ./scripts/build-apple-xcframework.sh
 
-      # --------------------------------------------------------
-      # iOS Release
-      # --------------------------------------------------------
       - name: Build unsigned Nuvio Release
         shell: bash
         run: |
           set -euo pipefail
 
-          # Gradle requires this file to exist.
-          # Production values are provided through GitHub Secrets.
           touch local.properties
 
           xcodebuild \
@@ -260,10 +615,7 @@ jobs:
             DEVELOPMENT_TEAM="" \
             build
 
-      # --------------------------------------------------------
-      # IPA + real metadata from the built application
-      # --------------------------------------------------------
-      - name: Package IPA and read metadata
+      - name: Package fallback IPA and read metadata
         id: package
         shell: bash
         run: |
@@ -314,7 +666,6 @@ jobs:
               info = plistlib.load(handle)
 
           raw_families = info.get("UIDeviceFamily", [])
-
           families = set()
 
           for value in raw_families:
@@ -328,18 +679,18 @@ jobs:
 
           if has_iphone and has_ipad:
               devices = "iPhone & iPad"
-              minimum_label = f"iOS / iPadOS {min_os}+"
+              os_label = f"iOS / iPadOS {min_os}+"
           elif has_ipad:
               devices = "iPad"
-              minimum_label = f"iPadOS {min_os}+"
+              os_label = f"iPadOS {min_os}+"
           elif has_iphone:
               devices = "iPhone"
-              minimum_label = f"iOS {min_os}+"
+              os_label = f"iOS {min_os}+"
           else:
               devices = "Not declared"
-              minimum_label = f"Minimum OS {min_os}+"
+              os_label = f"Minimum OS {min_os}+"
 
-          print(f"{devices}\t{minimum_label}")
+          print(f"{devices}\t{os_label}")
           PY
           )"
 
@@ -347,102 +698,155 @@ jobs:
           MINIMUM_OS_LABEL="${DEVICE_INFO#*$'\t'}"
 
           IPA_NAME="Nuvio-${VERSION}.ipa"
-          PACKAGE_DIR="$RUNNER_TEMP/nuvio-ipa"
 
-          rm -rf "$PACKAGE_DIR"
-          mkdir -p "$PACKAGE_DIR/Payload"
+          PACKAGE_DIR="$RUNNER_TEMP/nuvio-fallback-ipa"
+          OUTPUT_DIR="$RUNNER_TEMP/fallback-output"
 
-          cp -R "$APP_PATH" "$PACKAGE_DIR/Payload/Nuvio.app"
+          rm -rf \
+            "$PACKAGE_DIR" \
+            "$OUTPUT_DIR"
+
+          mkdir -p \
+            "$PACKAGE_DIR/Payload" \
+            "$OUTPUT_DIR"
+
+          cp -R \
+            "$APP_PATH" \
+            "$PACKAGE_DIR/Payload/Nuvio.app"
 
           (
             cd "$PACKAGE_DIR"
 
             /usr/bin/zip -qry \
-              "$GITHUB_WORKSPACE/$IPA_NAME" \
+              "$OUTPUT_DIR/$IPA_NAME" \
               Payload
           )
 
           IPA_SIZE="$(
-            stat -f '%z' "$GITHUB_WORKSPACE/$IPA_NAME"
+            stat -f '%z' "$OUTPUT_DIR/$IPA_NAME"
           )"
 
           IPA_SHA256="$(
-            shasum -a 256 "$GITHUB_WORKSPACE/$IPA_NAME" \
+            shasum -a 256 "$OUTPUT_DIR/$IPA_NAME" \
               | awk '{print $1}'
           )"
 
-          # Try to extract the largest app icon from the built bundle.
-          export APP_PATH
-          export ICON_OUTPUT="$RUNNER_TEMP/NuvioSideStoreIcon.png"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "build_version=$BUILD_VERSION" >> "$GITHUB_OUTPUT"
+          echo "bundle_id=$BUNDLE_ID" >> "$GITHUB_OUTPUT"
+          echo "min_os=$MIN_OS" >> "$GITHUB_OUTPUT"
+          echo "minimum_os_label=$MINIMUM_OS_LABEL" >> "$GITHUB_OUTPUT"
+          echo "supported_devices=$SUPPORTED_DEVICES" >> "$GITHUB_OUTPUT"
+          echo "ipa_name=$IPA_NAME" >> "$GITHUB_OUTPUT"
+          echo "ipa_size=$IPA_SIZE" >> "$GITHUB_OUTPUT"
+          echo "ipa_sha256=$IPA_SHA256" >> "$GITHUB_OUTPUT"
+          echo "ipa_origin=Community fallback build from official source" >> "$GITHUB_OUTPUT"
 
-          python3 <<'PY'
-          import glob
-          import os
-          import shutil
-          import struct
+          echo
+          echo "========================================"
+          echo "Fallback Nuvio IPA built"
+          echo "========================================"
+          echo "Version:           $VERSION"
+          echo "Build:             $BUILD_VERSION"
+          echo "Bundle ID:         $BUNDLE_ID"
+          echo "Minimum OS:        $MINIMUM_OS_LABEL"
+          echo "Supported devices: $SUPPORTED_DEVICES"
+          echo "Size:              $IPA_SIZE bytes"
+          echo "SHA256:            $IPA_SHA256"
+          echo "Source:            Community fallback build"
+          echo "========================================"
 
-          app_path = os.environ["APP_PATH"]
-          output = os.environ["ICON_OUTPUT"]
+      - name: Upload fallback IPA
+        uses: actions/upload-artifact@v6
+        with:
+          name: nuvio-ipa
+          path: ${{ runner.temp }}/fallback-output/${{ steps.package.outputs.ipa_name }}
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 0
 
-          candidates = []
 
-          patterns = [
-              os.path.join(app_path, "*AppIcon*.png"),
-              os.path.join(app_path, "*Icon*.png"),
-          ]
+  # ============================================================
+  # 4. NORMALIZED PUBLISH
+  # ============================================================
+  publish:
+    name: Publish SideStore update
 
-          seen = set()
+    needs:
+      - check
+      - prepare_official
+      - fallback_build
 
-          for pattern in patterns:
-              for path in glob.glob(pattern):
-                  if path in seen:
-                      continue
+    if: >
+      always() &&
+      needs.check.outputs.should_sync == 'true' &&
+      needs.prepare_official.result == 'success' &&
+      (
+        needs.prepare_official.outputs.use_official == 'true' ||
+        needs.fallback_build.result == 'success'
+      )
 
-                  seen.add(path)
+    runs-on: ubuntu-latest
 
-                  try:
-                      with open(path, "rb") as handle:
-                          header = handle.read(24)
+    steps:
+      - name: Resolve IPA metadata
+        id: resolved
+        shell: bash
+        env:
+          USE_OFFICIAL: ${{ needs.prepare_official.outputs.use_official }}
 
-                      if header[:8] != b"\x89PNG\r\n\x1a\n":
-                          continue
+          OFFICIAL_VERSION: ${{ needs.prepare_official.outputs.version }}
+          OFFICIAL_BUILD: ${{ needs.prepare_official.outputs.build_version }}
+          OFFICIAL_BUNDLE_ID: ${{ needs.prepare_official.outputs.bundle_id }}
+          OFFICIAL_MIN_OS: ${{ needs.prepare_official.outputs.min_os }}
+          OFFICIAL_MINIMUM_LABEL: ${{ needs.prepare_official.outputs.minimum_os_label }}
+          OFFICIAL_DEVICES: ${{ needs.prepare_official.outputs.supported_devices }}
+          OFFICIAL_IPA_NAME: ${{ needs.prepare_official.outputs.ipa_name }}
+          OFFICIAL_IPA_SIZE: ${{ needs.prepare_official.outputs.ipa_size }}
+          OFFICIAL_SHA256: ${{ needs.prepare_official.outputs.ipa_sha256 }}
+          OFFICIAL_ORIGIN: ${{ needs.prepare_official.outputs.ipa_origin }}
 
-                      width, height = struct.unpack(
-                          ">II",
-                          header[16:24],
-                      )
+          FALLBACK_VERSION: ${{ needs.fallback_build.outputs.version }}
+          FALLBACK_BUILD: ${{ needs.fallback_build.outputs.build_version }}
+          FALLBACK_BUNDLE_ID: ${{ needs.fallback_build.outputs.bundle_id }}
+          FALLBACK_MIN_OS: ${{ needs.fallback_build.outputs.min_os }}
+          FALLBACK_MINIMUM_LABEL: ${{ needs.fallback_build.outputs.minimum_os_label }}
+          FALLBACK_DEVICES: ${{ needs.fallback_build.outputs.supported_devices }}
+          FALLBACK_IPA_NAME: ${{ needs.fallback_build.outputs.ipa_name }}
+          FALLBACK_IPA_SIZE: ${{ needs.fallback_build.outputs.ipa_size }}
+          FALLBACK_SHA256: ${{ needs.fallback_build.outputs.ipa_sha256 }}
+          FALLBACK_ORIGIN: ${{ needs.fallback_build.outputs.ipa_origin }}
+          FALLBACK_COMMIT: ${{ needs.fallback_build.outputs.commit_sha }}
+        run: |
+          set -euo pipefail
 
-                      if width == height:
-                          candidates.append(
-                              (width * height, path)
-                          )
+          if [[ "$USE_OFFICIAL" == "true" ]]; then
 
-                  except Exception:
-                      pass
+            VERSION="$OFFICIAL_VERSION"
+            BUILD_VERSION="$OFFICIAL_BUILD"
+            BUNDLE_ID="$OFFICIAL_BUNDLE_ID"
+            MIN_OS="$OFFICIAL_MIN_OS"
+            MINIMUM_OS_LABEL="$OFFICIAL_MINIMUM_LABEL"
+            SUPPORTED_DEVICES="$OFFICIAL_DEVICES"
+            IPA_NAME="$OFFICIAL_IPA_NAME"
+            IPA_SIZE="$OFFICIAL_IPA_SIZE"
+            IPA_SHA256="$OFFICIAL_SHA256"
+            IPA_ORIGIN="$OFFICIAL_ORIGIN"
+            SOURCE_REFERENCE="Official release asset"
 
-          if candidates:
-              candidates.sort(reverse=True)
-
-              shutil.copy2(
-                  candidates[0][1],
-                  output,
-              )
-
-              print(
-                  f"Selected app icon: {candidates[0][1]}"
-              )
-
-          else:
-              print(
-                  "No standalone AppIcon PNG found; "
-                  "the SideStore feed will use the fallback icon."
-              )
-          PY
-
-          if [[ -f "$ICON_OUTPUT" ]]; then
-            ICON_FOUND="true"
           else
-            ICON_FOUND="false"
+
+            VERSION="$FALLBACK_VERSION"
+            BUILD_VERSION="$FALLBACK_BUILD"
+            BUNDLE_ID="$FALLBACK_BUNDLE_ID"
+            MIN_OS="$FALLBACK_MIN_OS"
+            MINIMUM_OS_LABEL="$FALLBACK_MINIMUM_LABEL"
+            SUPPORTED_DEVICES="$FALLBACK_DEVICES"
+            IPA_NAME="$FALLBACK_IPA_NAME"
+            IPA_SIZE="$FALLBACK_IPA_SIZE"
+            IPA_SHA256="$FALLBACK_SHA256"
+            IPA_ORIGIN="$FALLBACK_ORIGIN"
+            SOURCE_REFERENCE="$FALLBACK_COMMIT"
           fi
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
@@ -454,40 +858,58 @@ jobs:
           echo "ipa_name=$IPA_NAME" >> "$GITHUB_OUTPUT"
           echo "ipa_size=$IPA_SIZE" >> "$GITHUB_OUTPUT"
           echo "ipa_sha256=$IPA_SHA256" >> "$GITHUB_OUTPUT"
-          echo "icon_found=$ICON_FOUND" >> "$GITHUB_OUTPUT"
+          echo "ipa_origin=$IPA_ORIGIN" >> "$GITHUB_OUTPUT"
+          echo "source_reference=$SOURCE_REFERENCE" >> "$GITHUB_OUTPUT"
 
           echo
-          echo "========================================"
-          echo "Nuvio IPA metadata"
-          echo "========================================"
-          echo "Version:           $VERSION"
-          echo "Build:             $BUILD_VERSION"
-          echo "Bundle ID:         $BUNDLE_ID"
-          echo "Minimum OS:        $MINIMUM_OS_LABEL"
-          echo "Supported devices: $SUPPORTED_DEVICES"
-          echo "Distribution:      FULL"
-          echo "Signing:           Unsigned IPA"
-          echo "IPA:               $IPA_NAME"
-          echo "Size:              $IPA_SIZE bytes"
-          echo "SHA256:            $IPA_SHA256"
-          echo "========================================"
+          echo "Publishing:"
+          echo "Version: $VERSION"
+          echo "Build:   $BUILD_VERSION"
+          echo "Origin:  $IPA_ORIGIN"
 
-          ls -lh "$GITHUB_WORKSPACE/$IPA_NAME"
-
-      # --------------------------------------------------------
-      # Short-term Actions artifact
-      # --------------------------------------------------------
-      - name: Upload IPA artifact
-        uses: actions/upload-artifact@v6
+      - name: Download normalized IPA artifact
+        uses: actions/download-artifact@v7
         with:
-          name: Nuvio-${{ steps.package.outputs.version }}-SideStore
-          path: ${{ steps.package.outputs.ipa_name }}
-          if-no-files-found: error
-          retention-days: 7
+          name: nuvio-ipa
+          path: _incoming
 
-      # --------------------------------------------------------
-      # Official Nuvio changelog
-      # --------------------------------------------------------
+      - name: Verify downloaded IPA artifact
+        shell: bash
+        env:
+          IPA_NAME: ${{ steps.resolved.outputs.ipa_name }}
+          EXPECTED_SHA256: ${{ steps.resolved.outputs.ipa_sha256 }}
+          EXPECTED_SIZE: ${{ steps.resolved.outputs.ipa_size }}
+        run: |
+          set -euo pipefail
+
+          IPA_PATH="$GITHUB_WORKSPACE/_incoming/$IPA_NAME"
+
+          if [[ ! -f "$IPA_PATH" ]]; then
+            echo "IPA artifact was not found: $IPA_PATH" >&2
+            exit 1
+          fi
+
+          ACTUAL_SIZE="$(
+            stat -c '%s' "$IPA_PATH"
+          )"
+
+          ACTUAL_SHA256="$(
+            sha256sum "$IPA_PATH" \
+              | awk '{print $1}'
+          )"
+
+          if [[ "$ACTUAL_SIZE" != "$EXPECTED_SIZE" ]]; then
+            echo "IPA size verification failed." >&2
+            exit 1
+          fi
+
+          if [[ "$ACTUAL_SHA256" != "$EXPECTED_SHA256" ]]; then
+            echo "IPA SHA256 verification failed." >&2
+            exit 1
+          fi
+
+          echo "IPA artifact verified."
+
       - name: Prepare official release notes
         id: notes
         shell: bash
@@ -504,8 +926,6 @@ jobs:
             --jq '.body // ""' \
             > "$NOTES_FILE"
 
-          # If official release notes are empty,
-          # create a fallback changelog from commits.
           if [[ ! -s "$NOTES_FILE" ]]; then
 
             PREVIOUS_TAG="$(
@@ -534,19 +954,12 @@ jobs:
           PUBLISHED_AT="$(
             gh api \
               "repos/NuvioMedia/NuvioMobile/releases/tags/$UPSTREAM_TAG" \
-              --jq '.published_at'
+              --jq '.published_at // ""'
           )"
 
           echo "notes_file=$NOTES_FILE" >> "$GITHUB_OUTPUT"
           echo "published_at=$PUBLISHED_AT" >> "$GITHUB_OUTPUT"
 
-          echo
-          echo "Official changelog:"
-          cat "$NOTES_FILE"
-
-      # --------------------------------------------------------
-      # Permanent GitHub Release
-      # --------------------------------------------------------
       - name: Publish GitHub Release
         shell: bash
         env:
@@ -555,32 +968,41 @@ jobs:
           UPSTREAM_TAG: ${{ needs.check.outputs.tag }}
           RELEASE_TAG: ${{ needs.check.outputs.release_tag }}
 
-          UPSTREAM_COMMIT: ${{ steps.provenance.outputs.commit_sha }}
+          VERSION: ${{ steps.resolved.outputs.version }}
+          BUILD_VERSION: ${{ steps.resolved.outputs.build_version }}
+          MINIMUM_OS_LABEL: ${{ steps.resolved.outputs.minimum_os_label }}
+          SUPPORTED_DEVICES: ${{ steps.resolved.outputs.supported_devices }}
 
-          VERSION: ${{ steps.package.outputs.version }}
-          BUILD_VERSION: ${{ steps.package.outputs.build_version }}
-          MINIMUM_OS_LABEL: ${{ steps.package.outputs.minimum_os_label }}
-          SUPPORTED_DEVICES: ${{ steps.package.outputs.supported_devices }}
-
-          IPA_NAME: ${{ steps.package.outputs.ipa_name }}
-          IPA_SHA256: ${{ steps.package.outputs.ipa_sha256 }}
+          IPA_NAME: ${{ steps.resolved.outputs.ipa_name }}
+          IPA_SHA256: ${{ steps.resolved.outputs.ipa_sha256 }}
+          IPA_ORIGIN: ${{ steps.resolved.outputs.ipa_origin }}
+          SOURCE_REFERENCE: ${{ steps.resolved.outputs.source_reference }}
 
           NOTES_FILE: ${{ steps.notes.outputs.notes_file }}
         run: |
           set -euo pipefail
 
+          IPA_PATH="$GITHUB_WORKSPACE/_incoming/$IPA_NAME"
           RELEASE_NOTES="$RUNNER_TEMP/ios-release-notes.md"
 
           {
-            echo "# Nuvio iOS $VERSION — Unofficial SideStore Build"
+            echo "# Nuvio iOS $VERSION — SideStore Distribution"
             echo
             echo "> [!IMPORTANT]"
-            echo "> This is an **unofficial** unsigned iOS build."
-            echo "> It is not published or endorsed by NuvioMedia."
-            echo "> The application source code is not modified."
-            echo "> The IPA is built automatically from the exact official"
-            echo "> Nuvio release source, using only build-time configuration"
-            echo "> required for the FULL iOS distribution."
+
+            if [[ "$IPA_ORIGIN" == "Official Nuvio IPA" ]]; then
+
+              echo "> The IPA attached to this release is the **official Nuvio FULL IPA**."
+              echo "> It was downloaded from the matching NuvioMedia release,"
+              echo "> verified, and mirrored here unchanged for the SideStore feed."
+
+            else
+
+              echo "> No usable official FULL IPA was available for this release."
+              echo "> This IPA is an **unofficial fallback build** compiled automatically"
+              echo "> from the exact matching official Nuvio source release."
+            fi
+
             echo
             echo "## Build information"
             echo
@@ -592,8 +1014,9 @@ jobs:
             echo "| Supported devices | **$SUPPORTED_DEVICES** |"
             echo "| Distribution | **FULL** |"
             echo "| Signing | **Unsigned IPA** |"
+            echo "| IPA source | **$IPA_ORIGIN** |"
             echo "| Official source tag | \`$UPSTREAM_TAG\` |"
-            echo "| Official source commit | \`$UPSTREAM_COMMIT\` |"
+            echo "| Source reference | \`$SOURCE_REFERENCE\` |"
             echo "| IPA SHA256 | \`$IPA_SHA256\` |"
             echo
             echo "## What's new"
@@ -614,28 +1037,25 @@ jobs:
 
             gh release edit "$RELEASE_TAG" \
               --repo "$GITHUB_REPOSITORY" \
-              --title "Nuvio iOS $VERSION — Unofficial SideStore Build" \
+              --title "Nuvio iOS $VERSION — SideStore Distribution" \
               --notes-file "$RELEASE_NOTES"
 
             gh release upload "$RELEASE_TAG" \
-              "$GITHUB_WORKSPACE/$IPA_NAME" \
+              "$IPA_PATH" \
               --repo "$GITHUB_REPOSITORY" \
               --clobber
 
           else
 
             gh release create "$RELEASE_TAG" \
-              "$GITHUB_WORKSPACE/$IPA_NAME" \
+              "$IPA_PATH" \
               --repo "$GITHUB_REPOSITORY" \
-              --title "Nuvio iOS $VERSION — Unofficial SideStore Build" \
+              --title "Nuvio iOS $VERSION — SideStore Distribution" \
               --notes-file "$RELEASE_NOTES"
           fi
 
-          echo "GitHub Release published: $RELEASE_TAG"
+          echo "Release published: $RELEASE_TAG"
 
-      # --------------------------------------------------------
-      # Clone our publishing branch WITHOUT actions/checkout
-      # --------------------------------------------------------
       - name: Clone SideStore publishing branch
         shell: bash
         env:
@@ -673,53 +1093,19 @@ jobs:
             -B cmp-rewrite \
             FETCH_HEAD
 
-          echo
-          echo "Publishing branch ready:"
-          git status --short --branch
-
-      # --------------------------------------------------------
-      # Publish icon extracted from the real app
-      # --------------------------------------------------------
-      - name: Publish SideStore app icon
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          mkdir -p \
-            "$GITHUB_WORKSPACE/_publish/sidestore"
-
-          ICON_SOURCE="$RUNNER_TEMP/NuvioSideStoreIcon.png"
-
-          if [[ -f "$ICON_SOURCE" ]]; then
-
-            cp \
-              "$ICON_SOURCE" \
-              "$GITHUB_WORKSPACE/_publish/sidestore/icon.png"
-
-            echo "Extracted Nuvio app icon prepared for publishing."
-
-          else
-
-            echo "No standalone app icon was extracted."
-            echo "The source will use the NuvioMedia fallback icon."
-          fi
-
-      # --------------------------------------------------------
-      # Generate SideStore source.json
-      # --------------------------------------------------------
       - name: Update SideStore source.json
         shell: bash
         env:
-          UPSTREAM_TAG: ${{ needs.check.outputs.tag }}
           RELEASE_TAG: ${{ needs.check.outputs.release_tag }}
 
-          VERSION: ${{ steps.package.outputs.version }}
-          BUILD_VERSION: ${{ steps.package.outputs.build_version }}
-          BUNDLE_ID: ${{ steps.package.outputs.bundle_id }}
-          MIN_OS: ${{ steps.package.outputs.min_os }}
+          VERSION: ${{ steps.resolved.outputs.version }}
+          BUILD_VERSION: ${{ steps.resolved.outputs.build_version }}
+          BUNDLE_ID: ${{ steps.resolved.outputs.bundle_id }}
+          MIN_OS: ${{ steps.resolved.outputs.min_os }}
 
-          IPA_NAME: ${{ steps.package.outputs.ipa_name }}
-          IPA_SIZE: ${{ steps.package.outputs.ipa_size }}
+          IPA_NAME: ${{ steps.resolved.outputs.ipa_name }}
+          IPA_SIZE: ${{ steps.resolved.outputs.ipa_size }}
+          IPA_ORIGIN: ${{ steps.resolved.outputs.ipa_origin }}
 
           NOTES_FILE: ${{ steps.notes.outputs.notes_file }}
           PUBLISHED_AT: ${{ steps.notes.outputs.published_at }}
@@ -731,14 +1117,7 @@ jobs:
 
           mkdir -p "$SOURCE_DIR"
 
-          if [[ -f "$SOURCE_DIR/icon.png" ]]; then
-            ICON_URL="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/cmp-rewrite/sidestore/icon.png"
-          else
-            ICON_URL="https://github.com/NuvioMedia.png?size=512"
-          fi
-
           export SOURCE_FILE
-          export ICON_URL
 
           python3 <<'PY'
           import json
@@ -757,6 +1136,7 @@ jobs:
           repo = os.environ["GITHUB_REPOSITORY"]
 
           version = os.environ["VERSION"]
+          build_version = os.environ["BUILD_VERSION"]
           bundle_id = os.environ["BUNDLE_ID"]
           min_os = os.environ["MIN_OS"]
 
@@ -766,13 +1146,17 @@ jobs:
               os.environ["IPA_SIZE"]
           )
 
-          icon_url = os.environ["ICON_URL"]
+          ipa_origin = os.environ["IPA_ORIGIN"]
 
           published_at = os.environ[
               "PUBLISHED_AT"
           ].strip()
 
-          published_date = published_at[:10]
+          published_date = (
+              published_at[:10]
+              if published_at
+              else ""
+          )
 
           notes = notes_file.read_text(
               encoding="utf-8"
@@ -795,10 +1179,6 @@ jobs:
               f"https://raw.githubusercontent.com/{repo}/"
               "cmp-rewrite/sidestore/source.json"
           )
-
-          # --------------------------------------------------
-          # Preserve existing identifier, versions and news.
-          # --------------------------------------------------
 
           existing = {}
 
@@ -829,23 +1209,39 @@ jobs:
                   "com.grgopitic.nuvio.sidestore"
               )
 
-          old_versions = []
+          existing_app = {}
 
-          for old_app in existing.get(
+          for item in existing.get(
               "apps",
               [],
           ):
               if (
-                  isinstance(old_app, dict)
-                  and old_app.get(
+                  isinstance(item, dict)
+                  and item.get(
                       "bundleIdentifier"
                   ) == bundle_id
               ):
-                  old_versions = old_app.get(
-                      "versions",
-                      [],
-                  )
+                  existing_app = item
                   break
+
+          icon_url = existing_app.get(
+              "iconURL",
+              ""
+          )
+
+          if not icon_url:
+              icon_url = (
+                  "https://raw.githubusercontent.com/"
+                  "NuvioMedia/NuvioMobile/"
+                  f"{version}/iosApp/iosApp/"
+                  "Assets.xcassets/AppIcon.appiconset/"
+                  "app-icon-1024.png"
+              )
+
+          old_versions = existing_app.get(
+              "versions",
+              []
+          )
 
           allowed_version_keys = {
               "version",
@@ -905,10 +1301,6 @@ jobs:
               latest_version,
               *cleaned_versions,
           ]
-
-          # --------------------------------------------------
-          # News
-          # --------------------------------------------------
 
           plain = re.sub(
               r"[#*_`>\[\]\(\)]",
@@ -993,40 +1385,46 @@ jobs:
               "notify": True,
           }
 
-          news = [
-              latest_news,
-              *old_news,
-          ]
+          if ipa_origin == "Official Nuvio IPA":
 
-          # --------------------------------------------------
-          # App
-          # --------------------------------------------------
+              subtitle = (
+                  "Official Nuvio IPA via community SideStore source"
+              )
+
+              description = (
+                  "Community-maintained SideStore distribution "
+                  "of the official Nuvio FULL IPA. "
+                  "The IPA is mirrored unchanged from the matching "
+                  "NuvioMedia release."
+              )
+
+          else:
+
+              subtitle = (
+                  "Community fallback iOS build"
+              )
+
+              description = (
+                  "Community-maintained fallback FULL IPA compiled "
+                  "automatically from the exact matching official "
+                  "Nuvio source because no usable official FULL IPA "
+                  "asset was available."
+              )
 
           app = {
               "name": "Nuvio",
               "bundleIdentifier": bundle_id,
               "developerName": "NuvioMedia",
-              "subtitle": (
-                  "Unofficial iOS / SideStore build"
-              ),
-
-              "localizedDescription": (
-                  "Unofficial clean unsigned iOS build of Nuvio, "
-                  "automatically compiled from the exact official "
-                  "NuvioMedia/NuvioMobile release source. "
-                  "The application source code is not modified."
-              ),
-
+              "subtitle": subtitle,
+              "localizedDescription": description,
               "iconURL": icon_url,
 
-              # Backward-compatible metadata.
               "version": version,
               "versionDate": published_date,
               "versionDescription": notes,
               "downloadURL": download_url,
               "size": ipa_size,
 
-              # Modern SideStore format.
               "versions": versions,
           }
 
@@ -1036,8 +1434,13 @@ jobs:
                   existing_identifier
               ),
               "sourceURL": source_url,
-              "apps": [app],
-              "news": news,
+              "apps": [
+                  app
+              ],
+              "news": [
+                  latest_news,
+                  *old_news,
+              ],
           }
 
           source_file.write_text(
@@ -1053,27 +1456,13 @@ jobs:
           print("========================================")
           print("SideStore source updated")
           print("========================================")
-          print(
-              f"Source ID: {existing_identifier}"
-          )
-          print(
-              f"Version: {version}"
-          )
-          print(
-              f"Bundle ID: {bundle_id}"
-          )
-          print(
-              f"Minimum iOS: {min_os}"
-          )
-          print(
-              f"Download URL: {download_url}"
-          )
-          print(
-              f"Versions stored: {len(versions)}"
-          )
-          print(
-              f"News stored: {len(news)}"
-          )
+          print(f"Version: {version}")
+          print(f"Build: {build_version}")
+          print(f"Origin: {ipa_origin}")
+          print(f"Bundle ID: {bundle_id}")
+          print(f"Minimum OS: {min_os}")
+          print(f"Download URL: {download_url}")
+          print(f"Versions stored: {len(versions)}")
           print("========================================")
           PY
 
@@ -1082,19 +1471,11 @@ jobs:
 
           echo "source.json is valid JSON."
 
-      # --------------------------------------------------------
-      # Commit SideStore metadata WITHOUT actions/checkout
-      #
-      # README is intentionally NOT generated here.
-      # The separate "Refresh Nuvio Homepage" workflow generates
-      # the polished multilingual homepage after this workflow
-      # completes successfully.
-      # --------------------------------------------------------
       - name: Commit SideStore metadata
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          VERSION: ${{ steps.package.outputs.version }}
+          VERSION: ${{ steps.resolved.outputs.version }}
         run: |
           set -euo pipefail
 
@@ -1106,11 +1487,8 @@ jobs:
           git config user.email \
             "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add sidestore/source.json
-
-          if [[ -f sidestore/icon.png ]]; then
-            git add sidestore/icon.png
-          fi
+          git add \
+            sidestore/source.json
 
           if git diff --cached --quiet; then
             echo "SideStore metadata is already current."
@@ -1132,29 +1510,26 @@ jobs:
             origin \
             HEAD:cmp-rewrite
 
-          echo
           echo "SideStore metadata published."
 
-      # --------------------------------------------------------
-      # Final GitHub Actions summary
-      # --------------------------------------------------------
       - name: Build summary
         shell: bash
         env:
-          VERSION: ${{ steps.package.outputs.version }}
-          BUILD_VERSION: ${{ steps.package.outputs.build_version }}
+          VERSION: ${{ steps.resolved.outputs.version }}
+          BUILD_VERSION: ${{ steps.resolved.outputs.build_version }}
           RELEASE_TAG: ${{ needs.check.outputs.release_tag }}
-
-          MINIMUM_OS_LABEL: ${{ steps.package.outputs.minimum_os_label }}
-          SUPPORTED_DEVICES: ${{ steps.package.outputs.supported_devices }}
-          IPA_SHA256: ${{ steps.package.outputs.ipa_sha256 }}
+          IPA_ORIGIN: ${{ steps.resolved.outputs.ipa_origin }}
+          MINIMUM_OS_LABEL: ${{ steps.resolved.outputs.minimum_os_label }}
+          SUPPORTED_DEVICES: ${{ steps.resolved.outputs.supported_devices }}
+          IPA_SHA256: ${{ steps.resolved.outputs.ipa_sha256 }}
         run: |
           {
-            echo "# Nuvio iOS build completed"
+            echo "# Nuvio SideStore synchronization completed"
             echo
             echo "- Version: **$VERSION**"
             echo "- Build: **$BUILD_VERSION**"
             echo "- Release: **$RELEASE_TAG**"
+            echo "- IPA source: **$IPA_ORIGIN**"
             echo "- Minimum OS: **$MINIMUM_OS_LABEL**"
             echo "- Supported devices: **$SUPPORTED_DEVICES**"
             echo "- Distribution: **FULL**"
@@ -1165,7 +1540,5 @@ jobs:
             echo
             echo "\`https://raw.githubusercontent.com/$GITHUB_REPOSITORY/cmp-rewrite/sidestore/source.json\`"
             echo
-            echo "## Homepage"
-            echo
-            echo "The polished EN / SK / CZ homepage will be refreshed automatically by the separate Refresh Nuvio Homepage workflow."
+            echo "The separate Refresh Nuvio Homepage workflow will update the polished EN / SK / CZ pages."
           } >> "$GITHUB_STEP_SUMMARY"
