@@ -7,15 +7,23 @@
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
-      "subtitle": "Unofficial iOS / SideStore build",
-      "localizedDescription": "Unofficial clean unsigned iOS build of Nuvio, automatically compiled from the exact official NuvioMedia/NuvioMobile release source. The application source code is not modified.",
+      "subtitle": "Official Nuvio IPA via community SideStore source",
+      "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.4.13",
-      "versionDate": "2026-08-30",
-      "versionDescription": "- 0504af98 feat(details): parse addon certifications @tapframe  \n- f5726012 fix(details): parse addon season posters @tapframe   \n- 085e8dc6 fix(ui): handle delayed addon content states @tapframe  \n- e68cbb08 fix(android): adjust launcher icon scale @tapframe  \n- b86932b9 feat(player): apply member gradients to player accents @tapframe  \n- [fix(player): reset subtitle selection on source change (#1812)](https://github.com/NuvioMedia/NuvioMobile/pull/1812) @guuilp",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.13/Nuvio-0.4.13.ipa",
-      "size": 51726904,
+      "version": "0.4.14",
+      "versionDate": "2026-09-05",
+      "versionDescription": "- 4f79bfe0 fix(player): original audio language preference @tapframe  \n- 9b09045f fix(player): allow minimum device brightness @tapframe  \n- [use Android User-Agent so IPTV DASH streams do not 403 (#1863)](https://github.com/NuvioMedia/NuvioMobile/pull/1863) @halibiram  \n- [feat: updated Spanish string resource file for application localization (#1861)](https://github.com/NuvioMedia/NuvioMobile/pull/1861) @IberianSoldierPC  \n- 92466c4e fix(player): align mobile control icons with tv @tapframe  \n- [i18n(el): translate delayed addon content state strings (#1851)](https://github.com/NuvioMedia/NuvioMobile/pull/1851) @nosvasedis  \n- 58864ec1 fix(streams): honor autoplay source loading scope @tapframe  \n- [Updated BG translation and fixes with later versiond (#1838)](https://github.com/NuvioMedia/NuvioMobile/pull/1838) @viiktr  \n- 4026ec92 fix(player): persist next episode dismissal @tapframe  \n- [Use Simkl for anime ID resolution in skip-intro (replaces ARM) (#1836)](https://github.com/NuvioMedia/NuvioMobile/pull/1836) @skoruppa  \n- 22096a1e fix(details): map addon specials season posters @tapframe  \n- [fix(details): optimize large vertical episode lists (#1835)](https://github.com/NuvioMedia/NuvioMobile/pull/1835) @ThePunpun  \n- 802db48d fix(updater): apply theme gradient to download progress @tapframe  \n- [fix(player): keep subtitle picker stable for duplicate tracks (#1800)](https://github.com/NuvioMedia/NuvioMobile/pull/1800) @halibiram",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.14/Nuvio-0.4.14.ipa",
+      "size": 51787331,
       "versions": [
+        {
+          "version": "0.4.14",
+          "date": "2026-09-05",
+          "localizedDescription": "- 4f79bfe0 fix(player): original audio language preference @tapframe  \n- 9b09045f fix(player): allow minimum device brightness @tapframe  \n- [use Android User-Agent so IPTV DASH streams do not 403 (#1863)](https://github.com/NuvioMedia/NuvioMobile/pull/1863) @halibiram  \n- [feat: updated Spanish string resource file for application localization (#1861)](https://github.com/NuvioMedia/NuvioMobile/pull/1861) @IberianSoldierPC  \n- 92466c4e fix(player): align mobile control icons with tv @tapframe  \n- [i18n(el): translate delayed addon content state strings (#1851)](https://github.com/NuvioMedia/NuvioMobile/pull/1851) @nosvasedis  \n- 58864ec1 fix(streams): honor autoplay source loading scope @tapframe  \n- [Updated BG translation and fixes with later versiond (#1838)](https://github.com/NuvioMedia/NuvioMobile/pull/1838) @viiktr  \n- 4026ec92 fix(player): persist next episode dismissal @tapframe  \n- [Use Simkl for anime ID resolution in skip-intro (replaces ARM) (#1836)](https://github.com/NuvioMedia/NuvioMobile/pull/1836) @skoruppa  \n- 22096a1e fix(details): map addon specials season posters @tapframe  \n- [fix(details): optimize large vertical episode lists (#1835)](https://github.com/NuvioMedia/NuvioMobile/pull/1835) @ThePunpun  \n- 802db48d fix(updater): apply theme gradient to download progress @tapframe  \n- [fix(player): keep subtitle picker stable for duplicate tracks (#1800)](https://github.com/NuvioMedia/NuvioMobile/pull/1800) @halibiram",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.14/Nuvio-0.4.14.ipa",
+          "size": 51787331,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.4.13",
           "date": "2026-08-30",
@@ -44,6 +52,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.4.14 is available",
+      "identifier": "nuvio-ios-0.4.14",
+      "caption": "- 4f79bfe0 fixplayer: original audio language preference @tapframe - 9b09045f fixplayer: allow minimum device brightness @tapframe - use Android User-Agent so IPTV DASH streams do not 403 1863https://github.com/NuvioMedia/NuvioMobile/pull/1863 @halibiram - feat: updated Spanish s…",
+      "date": "2026-09-05",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.14",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.4.13 is available",
       "identifier": "nuvio-ios-0.4.13",
