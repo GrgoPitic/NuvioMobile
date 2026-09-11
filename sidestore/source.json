@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.4.15",
-      "versionDate": "2026-09-09",
-      "versionDescription": "- cf6cf2d6 fix(auth): synchronize shared client initialization @tapframe  \n- 28df1e7d fix(home): restore hero position when switching profiles @tapframe  \n- 972109f9 fix(playback): disable play when no source is available @tapframe  \n- 872a5937 fix(home): reduce hero height without continue watching @tapframe  \n- [Fix NetworkOnMainThreadException when starting a download (#1893)](https://github.com/NuvioMedia/NuvioMobile/pull/1893) @Axl-Lvy  \n- 526a5b97 feat: custom static colours @tapframe  \n- 68337ffa feat(members): custom gradient @tapframe  \n- [Added Russian translation (#1886)](https://github.com/NuvioMedia/NuvioMobile/pull/1886) @zamalatb  \n- 378f120e fix(downloads): exclude foreground service from playstore builds @tapframe  \n- 6d4ad8bb fix(player): preserve each foreground service start notification @tapframe  \n- 40af63ad fix(player): synchronize native subtitle rendering @tapframe  \n- 3554904b fix(player): resolve subtitle formats off the main thread @tapframe  \n- 42667b9f feat(ui): unify skeleton loading states @tapframe  \n- 5fa890ee perf(home): improve lazy list item reuse @tapframe  \n- 8b43fd89 perf(startup): avoid redundant collection and catalog processing @tapframe  \n- e306a0a0 perf(ios): release temporary GIF decoding resources @tapframe  \n- 59a13cbf perf(loading): cache bundled animation resource reads @tapframe  \n- 6fb5d44f perf(ui): defer loading and parallax state reads @tapframe  \n- d7159342 fix(streams): refresh resume position Fixes #1866 @tapframe  \n- 3c239664 fix(android): background downloads @tapframe",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.15/Nuvio-0.4.15.ipa",
-      "size": 52822264,
+      "version": "0.4.16",
+      "versionDate": "2026-09-11",
+      "versionDescription": "- 8f0bfc8e fix(home): settle hero carousel when returning @tapframe  \n- db3da891 fix(settings): require Trakt progress for continue watching window @tapframe  \n- 4b0ebd92 perf(ui): replace compottie spinner with native drawing @tapframe  \n- ab32ed3d feat(navigation): refine tablet bar and transition defaults @tapframe  \n- 4aa62916 feat(navigation): add reactive bottom bar glow @tapframe  \n- b1f22de3 feat(navigation): add shared blur transition @tapframe  \n- 24920167 feat(posters): lift original cards in zoom overlay @tapframe  \n- 8c71a6c9 feat(navigation): update bottom tab animation @tapframe  \n- bb1a5ffa perf(android): add root navigation baseline profile @tapframe  \n- 4f814036 fix(settings): defer search indexing until needed @tapframe  \n- [Merged English and Dutch strings.xml and translated all remaining English text into Dutch. (#1911)](https://github.com/NuvioMedia/NuvioMobile/pull/1911) @scheperr  \n- [i18n(el): complete and tidy up Greek translations (#1910)](https://github.com/NuvioMedia/NuvioMobile/pull/1910) @nosvasedis  \n- 83c409c4 fix(ci): increase iOS release timeout @tapframe  \n- [i18n(vi): full Vietnamese localization refresh for Mobile (#1883)](https://github.com/NuvioMedia/NuvioMobile/pull/1883) @blueocean2308",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.16/Nuvio-0.4.16.ipa",
+      "size": 51012561,
       "versions": [
+        {
+          "version": "0.4.16",
+          "date": "2026-09-11",
+          "localizedDescription": "- 8f0bfc8e fix(home): settle hero carousel when returning @tapframe  \n- db3da891 fix(settings): require Trakt progress for continue watching window @tapframe  \n- 4b0ebd92 perf(ui): replace compottie spinner with native drawing @tapframe  \n- ab32ed3d feat(navigation): refine tablet bar and transition defaults @tapframe  \n- 4aa62916 feat(navigation): add reactive bottom bar glow @tapframe  \n- b1f22de3 feat(navigation): add shared blur transition @tapframe  \n- 24920167 feat(posters): lift original cards in zoom overlay @tapframe  \n- 8c71a6c9 feat(navigation): update bottom tab animation @tapframe  \n- bb1a5ffa perf(android): add root navigation baseline profile @tapframe  \n- 4f814036 fix(settings): defer search indexing until needed @tapframe  \n- [Merged English and Dutch strings.xml and translated all remaining English text into Dutch. (#1911)](https://github.com/NuvioMedia/NuvioMobile/pull/1911) @scheperr  \n- [i18n(el): complete and tidy up Greek translations (#1910)](https://github.com/NuvioMedia/NuvioMobile/pull/1910) @nosvasedis  \n- 83c409c4 fix(ci): increase iOS release timeout @tapframe  \n- [i18n(vi): full Vietnamese localization refresh for Mobile (#1883)](https://github.com/NuvioMedia/NuvioMobile/pull/1883) @blueocean2308",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.16/Nuvio-0.4.16.ipa",
+          "size": 51012561,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.4.15",
           "date": "2026-09-09",
@@ -60,6 +68,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.4.16 is available",
+      "identifier": "nuvio-ios-0.4.16",
+      "caption": "- 8f0bfc8e fixhome: settle hero carousel when returning @tapframe - db3da891 fixsettings: require Trakt progress for continue watching window @tapframe - 4b0ebd92 perfui: replace compottie spinner with native drawing @tapframe - ab32ed3d featnavigation: refine tablet bar and tran…",
+      "date": "2026-09-11",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.16",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.4.15 is available",
       "identifier": "nuvio-ios-0.4.15",
