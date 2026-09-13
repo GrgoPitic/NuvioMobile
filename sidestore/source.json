@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.4.18",
+      "version": "0.4.19",
       "versionDate": "2026-09-13",
-      "versionDescription": "- b04a1607 fix(profiles): stabilize popup size transitions @tapframe  \n- fbf59953 fix(details): apply poster radius to episode list cards @tapframe  \n- cf4674a8 fix(home): apply poster settings to continue watching cards @tapframe  \n- 33c0fe78 fix(streams): position sources panel below ios toolbar @tapframe  \n- 356d0162 fix(navigation): preserve tab animation on tap release @tapframe  \n- 1dd6de9b fix(profiles): correct avatar grid spacing and selection border @tapframe  \n- e75fa3b3 feat(player): match tv autoplay loading screen @tapframe  \n- 90e192ff fix(settings): match custom theme sheet background @tapframe  \n- bb2d16cc fix(catalog): update items after library removal @tapframe  \n- f815fc25 fix(navigation): correct poster zoom positioning in rtl @tapframe  \n- abe18e03 fix(settings): update selection indicators @tapframe  \n- 19aad9b2 feat(profiles): redesign compact profile picker @tapframe  \n- 4d876b41 feat(navigation): add glow controls and live preview @tapframe  \n- c35a82d9 fix(navigation): keep tablet floating bar compact @tapframe  \n- cb94f29b fix(navigation): restore floating bar backdrop tint @tapframe  \n- 76d51fa9 fix(navigation): restore tab indicator after profile long press @tapframe  \n- edc557fe update readme @tapframe  \n- ecb69a88 feat(player): add pause overlay toggle @tapframe  \n- 60e6a1b5 fix(details): handle null specials poster placeholders @tapframe  \n- a80302a7 fix(player): disable playback gestures during initial loading @tapframe  \n- [fix(android): correct bottom navigation behavior in RTL (#1926)](https://github.com/NuvioMedia/NuvioMobile/pull/1926) @i7xre  \n- [i18n(vi): update latest Vietnamese strings (#1923)](https://github.com/NuvioMedia/NuvioMobile/pull/1923) @blueocean2308  \n- [Update Czech translation (#1919)](https://github.com/NuvioMedia/NuvioMobile/pull/1919) @scarzxx",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.18/Nuvio-0.4.18.ipa",
-      "size": 51099484,
+      "versionDescription": "- 579edb31 feat(downloads): add support for bundling addon subs while downloading @tapframe  \n- 00161e1d fix(streams): prevent rotation when opening manual selection @tapframe  \n- 7c1c6578 feat(search): add recent searches toggle @tapframe  \n- 60ee0160 fix(tmdb): use bundled API key @tapframe",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.19/Nuvio-0.4.19.ipa",
+      "size": 51091230,
       "versions": [
+        {
+          "version": "0.4.19",
+          "date": "2026-09-13",
+          "localizedDescription": "- 579edb31 feat(downloads): add support for bundling addon subs while downloading @tapframe  \n- 00161e1d fix(streams): prevent rotation when opening manual selection @tapframe  \n- 7c1c6578 feat(search): add recent searches toggle @tapframe  \n- 60ee0160 fix(tmdb): use bundled API key @tapframe",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.19/Nuvio-0.4.19.ipa",
+          "size": 51091230,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.4.18",
           "date": "2026-09-13",
@@ -84,6 +92,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.4.19 is available",
+      "identifier": "nuvio-ios-0.4.19",
+      "caption": "- 579edb31 featdownloads: add support for bundling addon subs while downloading @tapframe - 00161e1d fixstreams: prevent rotation when opening manual selection @tapframe - 7c1c6578 featsearch: add recent searches toggle @tapframe - 60ee0160 fixtmdb: use bundled API key @tapframe",
+      "date": "2026-09-13",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.19",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.4.18 is available",
       "identifier": "nuvio-ios-0.4.18",
