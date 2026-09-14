@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.4.19",
-      "versionDate": "2026-09-13",
-      "versionDescription": "- 579edb31 feat(downloads): add support for bundling addon subs while downloading @tapframe  \n- 00161e1d fix(streams): prevent rotation when opening manual selection @tapframe  \n- 7c1c6578 feat(search): add recent searches toggle @tapframe  \n- 60ee0160 fix(tmdb): use bundled API key @tapframe",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.19/Nuvio-0.4.19.ipa",
-      "size": 51091230,
+      "version": "0.4.20",
+      "versionDate": "2026-09-14",
+      "versionDescription": "- 50d39823 feat(streams): add mobile background selection @tapframe  \n- 36d36dba fix(player): center loading title and logo @tapframe  \n- 728349b1 feat(player): dismiss next episode prompt with a right swipe @tapframe  \n- c9f12a70 fix(details): match toggle styles and remove duplicate season headings @tapframe  \n- 08d76308 fix(library): sync title logo @tapframe  \n- 96786c18 fix(details): use localized landscape backdrops @tapframe  \n- 902e0917 feat(trailer): add fullscreen playback @tapframe  \n- a3f87b24 perf(navigation): reduce tab switch animation stalls @tapframe",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.20/Nuvio-0.4.20.ipa",
+      "size": 51167786,
       "versions": [
+        {
+          "version": "0.4.20",
+          "date": "2026-09-14",
+          "localizedDescription": "- 50d39823 feat(streams): add mobile background selection @tapframe  \n- 36d36dba fix(player): center loading title and logo @tapframe  \n- 728349b1 feat(player): dismiss next episode prompt with a right swipe @tapframe  \n- c9f12a70 fix(details): match toggle styles and remove duplicate season headings @tapframe  \n- 08d76308 fix(library): sync title logo @tapframe  \n- 96786c18 fix(details): use localized landscape backdrops @tapframe  \n- 902e0917 feat(trailer): add fullscreen playback @tapframe  \n- a3f87b24 perf(navigation): reduce tab switch animation stalls @tapframe",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.20/Nuvio-0.4.20.ipa",
+          "size": 51167786,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.4.19",
           "date": "2026-09-13",
@@ -92,6 +100,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.4.20 is available",
+      "identifier": "nuvio-ios-0.4.20",
+      "caption": "- 50d39823 featstreams: add mobile background selection @tapframe - 36d36dba fixplayer: center loading title and logo @tapframe - 728349b1 featplayer: dismiss next episode prompt with a right swipe @tapframe - c9f12a70 fixdetails: match toggle styles and remove duplicate season h…",
+      "date": "2026-09-14",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.20",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.4.19 is available",
       "identifier": "nuvio-ios-0.4.19",
