@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.4.20",
-      "versionDate": "2026-09-14",
-      "versionDescription": "- 50d39823 feat(streams): add mobile background selection @tapframe  \n- 36d36dba fix(player): center loading title and logo @tapframe  \n- 728349b1 feat(player): dismiss next episode prompt with a right swipe @tapframe  \n- c9f12a70 fix(details): match toggle styles and remove duplicate season headings @tapframe  \n- 08d76308 fix(library): sync title logo @tapframe  \n- 96786c18 fix(details): use localized landscape backdrops @tapframe  \n- 902e0917 feat(trailer): add fullscreen playback @tapframe  \n- a3f87b24 perf(navigation): reduce tab switch animation stalls @tapframe",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.20/Nuvio-0.4.20.ipa",
-      "size": 51167786,
+      "version": "0.4.21",
+      "versionDate": "2026-09-15",
+      "versionDescription": "- 24c08216 fix(home): match continue watching badge colors to tv @tapframe  \n- 73005d99 perf(navigation): reduce root tab switch stalls @tapframe  \n- [Add TVDB anime ID preference to avoid per-season IMDB splits (#1952)](https://github.com/NuvioMedia/NuvioMobile/pull/1952) @skoruppa  \n- f6d172ae Revert \"perf(navigation): reduce tab switch animation stalls\" @tapframe  \n- 33edb559 fix(player): keep android landscape lock during exit @tapframe  \n- 6761ebab fix(profiles): add active profile toast and back button @tapframe  \n- 51951059 fix(profiles): prevent selecting the active profile @tapframe  \n- 998a9bfb fix(player): hide addons with no streams @tapframe  \n- [fix(player): start playback without waiting for addon subtitles (#1949)](https://github.com/NuvioMedia/NuvioMobile/pull/1949) @halibiram  \n- 7a0e80b0 fix(trailer): open ios playback in fullscreen @tapframe  \n- [Fix anime skip mapping, subtitle language detection, watched badges and Polish translations (#1943)](https://github.com/NuvioMedia/NuvioMobile/pull/1943) @skoruppa",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.21/Nuvio-0.4.21.ipa",
+      "size": 51231186,
       "versions": [
+        {
+          "version": "0.4.21",
+          "date": "2026-09-15",
+          "localizedDescription": "- 24c08216 fix(home): match continue watching badge colors to tv @tapframe  \n- 73005d99 perf(navigation): reduce root tab switch stalls @tapframe  \n- [Add TVDB anime ID preference to avoid per-season IMDB splits (#1952)](https://github.com/NuvioMedia/NuvioMobile/pull/1952) @skoruppa  \n- f6d172ae Revert \"perf(navigation): reduce tab switch animation stalls\" @tapframe  \n- 33edb559 fix(player): keep android landscape lock during exit @tapframe  \n- 6761ebab fix(profiles): add active profile toast and back button @tapframe  \n- 51951059 fix(profiles): prevent selecting the active profile @tapframe  \n- 998a9bfb fix(player): hide addons with no streams @tapframe  \n- [fix(player): start playback without waiting for addon subtitles (#1949)](https://github.com/NuvioMedia/NuvioMobile/pull/1949) @halibiram  \n- 7a0e80b0 fix(trailer): open ios playback in fullscreen @tapframe  \n- [Fix anime skip mapping, subtitle language detection, watched badges and Polish translations (#1943)](https://github.com/NuvioMedia/NuvioMobile/pull/1943) @skoruppa",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.21/Nuvio-0.4.21.ipa",
+          "size": 51231186,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.4.20",
           "date": "2026-09-14",
@@ -100,6 +108,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.4.21 is available",
+      "identifier": "nuvio-ios-0.4.21",
+      "caption": "- 24c08216 fixhome: match continue watching badge colors to tv @tapframe - 73005d99 perfnavigation: reduce root tab switch stalls @tapframe - Add TVDB anime ID preference to avoid per-season IMDB splits 1952https://github.com/NuvioMedia/NuvioMobile/pull/1952 @skoruppa - f6d172ae…",
+      "date": "2026-09-15",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.21",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.4.20 is available",
       "identifier": "nuvio-ios-0.4.20",
