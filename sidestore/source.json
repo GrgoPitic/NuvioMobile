@@ -7,15 +7,23 @@
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
-      "subtitle": "Official Nuvio IPA via community SideStore source",
-      "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
+      "subtitle": "Community fallback iOS build",
+      "localizedDescription": "Community-maintained fallback FULL IPA compiled automatically from the exact matching official Nuvio source because no usable official FULL IPA asset was available.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.4.21",
-      "versionDate": "2026-09-15",
-      "versionDescription": "- 24c08216 fix(home): match continue watching badge colors to tv @tapframe  \n- 73005d99 perf(navigation): reduce root tab switch stalls @tapframe  \n- [Add TVDB anime ID preference to avoid per-season IMDB splits (#1952)](https://github.com/NuvioMedia/NuvioMobile/pull/1952) @skoruppa  \n- f6d172ae Revert \"perf(navigation): reduce tab switch animation stalls\" @tapframe  \n- 33edb559 fix(player): keep android landscape lock during exit @tapframe  \n- 6761ebab fix(profiles): add active profile toast and back button @tapframe  \n- 51951059 fix(profiles): prevent selecting the active profile @tapframe  \n- 998a9bfb fix(player): hide addons with no streams @tapframe  \n- [fix(player): start playback without waiting for addon subtitles (#1949)](https://github.com/NuvioMedia/NuvioMobile/pull/1949) @halibiram  \n- 7a0e80b0 fix(trailer): open ios playback in fullscreen @tapframe  \n- [Fix anime skip mapping, subtitle language detection, watched badges and Polish translations (#1943)](https://github.com/NuvioMedia/NuvioMobile/pull/1943) @skoruppa",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.21/Nuvio-0.4.21.ipa",
-      "size": 51231186,
+      "version": "0.4.22",
+      "versionDate": "2026-09-16",
+      "versionDescription": "- 12111fd8 feat(updater): add stable and beta update channels @tapframe  \n- df589078 feat(tmdb): add personal API key override with credential sync @tapframe  \n- 48bf5ed3 feat(details): parse addon episode runtimes @tapframe  \n- [Use addon imdb_id as fallback for non-IMDB content enrichment (#1966)](https://github.com/NuvioMedia/NuvioMobile/pull/1966) @skoruppa  \n- 3312374e fix(settings): keep page content visible during navigation @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#1959)](https://github.com/NuvioMedia/NuvioMobile/pull/1959) @blueocean2308  \n- [fix: limit anime ID preference to entries with anime-specific IDs (#1955)](https://github.com/NuvioMedia/NuvioMobile/pull/1955) @skoruppa  \n- 177f4b5c feat(ratings): add rotten tomatoes status icons @tapframe",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.22-beta/Nuvio-0.4.22.ipa",
+      "size": 51382054,
       "versions": [
+        {
+          "version": "0.4.22",
+          "date": "2026-09-16",
+          "localizedDescription": "- 12111fd8 feat(updater): add stable and beta update channels @tapframe  \n- df589078 feat(tmdb): add personal API key override with credential sync @tapframe  \n- 48bf5ed3 feat(details): parse addon episode runtimes @tapframe  \n- [Use addon imdb_id as fallback for non-IMDB content enrichment (#1966)](https://github.com/NuvioMedia/NuvioMobile/pull/1966) @skoruppa  \n- 3312374e fix(settings): keep page content visible during navigation @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#1959)](https://github.com/NuvioMedia/NuvioMobile/pull/1959) @blueocean2308  \n- [fix: limit anime ID preference to entries with anime-specific IDs (#1955)](https://github.com/NuvioMedia/NuvioMobile/pull/1955) @skoruppa  \n- 177f4b5c feat(ratings): add rotten tomatoes status icons @tapframe",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.22-beta/Nuvio-0.4.22.ipa",
+          "size": 51382054,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.4.21",
           "date": "2026-09-15",
@@ -108,6 +116,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.4.22 is available",
+      "identifier": "nuvio-ios-0.4.22",
+      "caption": "- 12111fd8 featupdater: add stable and beta update channels @tapframe - df589078 feattmdb: add personal API key override with credential sync @tapframe - 48bf5ed3 featdetails: parse addon episode runtimes @tapframe - Use addon imdbid as fallback for non-IMDB content enrichment 19…",
+      "date": "2026-09-16",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.22-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.4.21 is available",
       "identifier": "nuvio-ios-0.4.21",
