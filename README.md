@@ -18,9 +18,9 @@ fallback as a safety net.
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/VERSION-0.4.21-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
+<img src="https://img.shields.io/badge/VERSION-0.4.22-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
-<img src="https://img.shields.io/badge/IPA%20SOURCE-OFFICIAL%20NUVIO-2ea44f?style=for-the-badge" alt="IPA source">
+<img src="https://img.shields.io/badge/IPA%20SOURCE-FALLBACK%20BUILD-e67e22?style=for-the-badge" alt="IPA source">
 </p>
 
 > [!IMPORTANT]
@@ -33,23 +33,23 @@ fallback as a safety net.
 <h2 align="center">📦 IPA Source</h2>
 
 <p align="center">
-<strong>OFFICIAL NUVIO</strong>
+<strong>FALLBACK BUILD</strong>
 </p>
 
 <p align="center">
-This version uses the official Nuvio FULL IPA. The original IPA is downloaded from the matching NuvioMedia release, verified, and mirrored unchanged for SideStore distribution.
+No usable official FULL IPA was available for this version. This IPA was automatically compiled from the exact matching official Nuvio source release using our fallback build.
 </p>
 
 <h2 align="center">🚀 Latest Release</h2>
 
 <p align="center">
-<strong>Nuvio 0.4.21</strong><br>
-Build 126 · iOS / iPadOS 16.1+ · iPhone & iPad<br>
+<strong>Nuvio 0.4.22</strong><br>
+Build 127 · iOS / iPadOS 16.1+ · iPhone & iPad<br>
 FULL distribution · Unsigned IPA
 </p>
 
 <p align="center">
-<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.21"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.21/Nuvio-0.4.21.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
+<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.22-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.22-beta/Nuvio-0.4.22.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
 </p>
 
 <h2 align="center">🌍 Choose your language</h2>
@@ -87,19 +87,16 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 <strong>SideStore → Sources → Add Source</strong>
 </p>
 
-<h2 align="center">✨ What's New in 0.4.21</h2>
+<h2 align="center">✨ What's New in 0.4.22</h2>
 
-- 24c08216 fix(home): match continue watching badge colors to tv @tapframe  
-- 73005d99 perf(navigation): reduce root tab switch stalls @tapframe  
-- [Add TVDB anime ID preference to avoid per-season IMDB splits (#1952)](https://github.com/NuvioMedia/NuvioMobile/pull/1952) @skoruppa  
-- f6d172ae Revert "perf(navigation): reduce tab switch animation stalls" @tapframe  
-- 33edb559 fix(player): keep android landscape lock during exit @tapframe  
-- 6761ebab fix(profiles): add active profile toast and back button @tapframe  
-- 51951059 fix(profiles): prevent selecting the active profile @tapframe  
-- 998a9bfb fix(player): hide addons with no streams @tapframe  
-- [fix(player): start playback without waiting for addon subtitles (#1949)](https://github.com/NuvioMedia/NuvioMobile/pull/1949) @halibiram  
-- 7a0e80b0 fix(trailer): open ios playback in fullscreen @tapframe  
-- [Fix anime skip mapping, subtitle language detection, watched badges and Polish translations (#1943)](https://github.com/NuvioMedia/NuvioMobile/pull/1943) @skoruppa
+- 12111fd8 feat(updater): add stable and beta update channels @tapframe  
+- df589078 feat(tmdb): add personal API key override with credential sync @tapframe  
+- 48bf5ed3 feat(details): parse addon episode runtimes @tapframe  
+- [Use addon imdb_id as fallback for non-IMDB content enrichment (#1966)](https://github.com/NuvioMedia/NuvioMobile/pull/1966) @skoruppa  
+- 3312374e fix(settings): keep page content visible during navigation @tapframe  
+- [i18n(vi): update latest Vietnamese strings (#1959)](https://github.com/NuvioMedia/NuvioMobile/pull/1959) @blueocean2308  
+- [fix: limit anime ID preference to entries with anime-specific IDs (#1955)](https://github.com/NuvioMedia/NuvioMobile/pull/1955) @skoruppa  
+- 177f4b5c feat(ratings): add rotten tomatoes status icons @tapframe
 
 ---
 
@@ -110,16 +107,16 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 
 ```text
 Official repository: NuvioMedia/NuvioMobile
-Official tag:        0.4.21
-Version:             0.4.21
-Build:               126
+Official tag:        0.4.22-beta
+Version:             0.4.22
+Build:               127
 Minimum OS:          iOS / iPadOS 16.1+
 Supported devices:   iPhone & iPad
 Distribution:        FULL
 Signing:             Unsigned IPA
-IPA source:          Official Nuvio IPA
-Source reference:    Official release asset
-IPA SHA256:          118eb04f4a945cf8da9e4bbc03969ee360c0e47b7a62d1ade7967d86ad75870e
+IPA source:          Community fallback build from official source
+Source reference:    db34bad97fde859d157333b1ba287be0e7f4e5b7
+IPA SHA256:          e8d6ff96204b302aaf002c26643bd3106da03aa986688570acf69f4874cf4653
 ```
 
 </details>
@@ -138,7 +135,7 @@ NuvioMedia/NuvioMobile
 </strong><br><br>
 
 Source version corresponding to this release:
-<a href="https://github.com/NuvioMedia/NuvioMobile/tree/0.4.21">0.4.21</a>
+<a href="https://github.com/NuvioMedia/NuvioMobile/tree/0.4.22-beta">0.4.22-beta</a>
 </p>
 
 <p align="center">
