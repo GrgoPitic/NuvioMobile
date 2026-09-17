@@ -14,14 +14,14 @@
       "versionDate": "2026-09-16",
       "versionDescription": "- 12111fd8 feat(updater): add stable and beta update channels @tapframe  \n- df589078 feat(tmdb): add personal API key override with credential sync @tapframe  \n- 48bf5ed3 feat(details): parse addon episode runtimes @tapframe  \n- [Use addon imdb_id as fallback for non-IMDB content enrichment (#1966)](https://github.com/NuvioMedia/NuvioMobile/pull/1966) @skoruppa  \n- 3312374e fix(settings): keep page content visible during navigation @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#1959)](https://github.com/NuvioMedia/NuvioMobile/pull/1959) @blueocean2308  \n- [fix: limit anime ID preference to entries with anime-specific IDs (#1955)](https://github.com/NuvioMedia/NuvioMobile/pull/1955) @skoruppa  \n- 177f4b5c feat(ratings): add rotten tomatoes status icons @tapframe",
       "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.22-beta/Nuvio-0.4.22.ipa",
-      "size": 51382670,
+      "size": 51382660,
       "versions": [
         {
           "version": "0.4.22",
           "date": "2026-09-16",
           "localizedDescription": "- 12111fd8 feat(updater): add stable and beta update channels @tapframe  \n- df589078 feat(tmdb): add personal API key override with credential sync @tapframe  \n- 48bf5ed3 feat(details): parse addon episode runtimes @tapframe  \n- [Use addon imdb_id as fallback for non-IMDB content enrichment (#1966)](https://github.com/NuvioMedia/NuvioMobile/pull/1966) @skoruppa  \n- 3312374e fix(settings): keep page content visible during navigation @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#1959)](https://github.com/NuvioMedia/NuvioMobile/pull/1959) @blueocean2308  \n- [fix: limit anime ID preference to entries with anime-specific IDs (#1955)](https://github.com/NuvioMedia/NuvioMobile/pull/1955) @skoruppa  \n- 177f4b5c feat(ratings): add rotten tomatoes status icons @tapframe",
           "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.22-beta/Nuvio-0.4.22.ipa",
-          "size": 51382670,
+          "size": 51382660,
           "minOSVersion": "16.1"
         },
         {
