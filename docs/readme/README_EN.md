@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/VERSION-0.4.23-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
+<img src="https://img.shields.io/badge/VERSION-0.4.24-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
 <img src="https://img.shields.io/badge/IPA%20SOURCE-FALLBACK%20BUILD-e67e22?style=for-the-badge" alt="IPA source">
 </p>
@@ -30,15 +30,15 @@ No usable official FULL IPA was available for this version. This IPA was automat
 <h2 align="center">📱 Current Version</h2>
 
 <p align="center">
-<strong>Nuvio 0.4.23</strong><br>
-Build 128<br>
+<strong>Nuvio 0.4.24</strong><br>
+Build 129<br>
 iOS / iPadOS 16.1+<br>
 iPhone & iPad<br>
 FULL · Unsigned IPA
 </p>
 
 <p align="center">
-<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.23-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.23-beta/Nuvio-0.4.23.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
+<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.24-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.24-beta/Nuvio-0.4.24.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
 </p>
 
 <h2 align="center">🔗 SideStore Automatic Updates</h2>
@@ -55,13 +55,12 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 SideStore → Sources → Add Source
 </p>
 
-<h2 align="center">✨ What's New in 0.4.23</h2>
+<h2 align="center">✨ What's New in 0.4.24</h2>
 
-- 542aa570 fix(simkl): retain posters when marking items watched @tapframe  
-- 08bdd629 fix(home): restore wide continue watching sizing @tapframe  
-- [i18n(vi): update latest Vietnamese strings (#1975)](https://github.com/NuvioMedia/NuvioMobile/pull/1975) @blueocean2308  
-- a599340e fix(ui): use filled chips and consistent surface colors @tapframe  
-- [feat(playback): support IntroDB movie segments and external forwarding (#1963)](https://github.com/NuvioMedia/NuvioMobile/pull/1963) @Laskco
+- 042144f8 fix(player): remember brightness across playback sessions @tapframe  
+- 2a3bb965 fix(player): reset auto-hide timer on control interactions @tapframe  
+- 4c3bd0d0 feat(player): follow design parity @tapframe  
+- 6fb46976 feat(settings): add rating visibility controls @tapframe
 
 <h2 align="center">ℹ️ How this distribution works</h2>
 
