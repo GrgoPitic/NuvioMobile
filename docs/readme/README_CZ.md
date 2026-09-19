@@ -81,7 +81,7 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 Oficiální tag:     0.4.24-beta
 IPA source:        Community fallback build from official source
 Source reference:  0e8f09d921edc1947f3064f55b045e7ffc0cf338
-IPA SHA256:        d7904e98648dcd161753866423075407736e1572bbaafbfa1a455e0415e0c813
+IPA SHA256:        0eb3d12374554c649fbde2912a82d9e18ea68483abcaa8ded3405a5d0196673b
 ```
 
 </details>
