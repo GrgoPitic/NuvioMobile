@@ -18,7 +18,7 @@ fallback as a safety net.
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/VERSION-0.4.24-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
+<img src="https://img.shields.io/badge/VERSION-0.4.25-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
 <img src="https://img.shields.io/badge/IPA%20SOURCE-FALLBACK%20BUILD-e67e22?style=for-the-badge" alt="IPA source">
 </p>
@@ -43,13 +43,13 @@ No usable official FULL IPA was available for this version. This IPA was automat
 <h2 align="center">🚀 Latest Release</h2>
 
 <p align="center">
-<strong>Nuvio 0.4.24</strong><br>
-Build 129 · iOS / iPadOS 16.1+ · iPhone & iPad<br>
+<strong>Nuvio 0.4.25</strong><br>
+Build 130 · iOS / iPadOS 16.1+ · iPhone & iPad<br>
 FULL distribution · Unsigned IPA
 </p>
 
 <p align="center">
-<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.24-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.24-beta/Nuvio-0.4.24.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
+<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.25-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.25-beta/Nuvio-0.4.25.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
 </p>
 
 <h2 align="center">🌍 Choose your language</h2>
@@ -87,12 +87,16 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 <strong>SideStore → Sources → Add Source</strong>
 </p>
 
-<h2 align="center">✨ What's New in 0.4.24</h2>
+<h2 align="center">✨ What's New in 0.4.25</h2>
 
-- 042144f8 fix(player): remember brightness across playback sessions @tapframe  
-- 2a3bb965 fix(player): reset auto-hide timer on control interactions @tapframe  
-- 4c3bd0d0 feat(player): follow design parity @tapframe  
-- 6fb46976 feat(settings): add rating visibility controls @tapframe
+- b5163558 fix(home): prevent hero flash when cycling @tapframe  
+- 656f368c fix(pr): update workflow @tapframe  
+- [i18n(el): sync Greek translations with the current English strings (#1991)](https://github.com/NuvioMedia/NuvioMobile/pull/1991) @nosvasedis  
+- 98be8514 revert(ui): restore previous surface and chip styles @tapframe  
+- [i18n(vi): update latest Vietnamese strings (#1990)](https://github.com/NuvioMedia/NuvioMobile/pull/1990) @blueocean2308  
+- [fix(simkl): three bugs in the shared Simkl read and write paths (#1988)](https://github.com/NuvioMedia/NuvioMobile/pull/1988) @Judzim  
+- 99ced26a feat(player): add Infuse playback callbacks @tapframe  
+- [fix(ios): bundle CJK font for subtitles (#1833)](https://github.com/NuvioMedia/NuvioMobile/pull/1833) @tinyKyuu
 
 ---
 
@@ -103,16 +107,16 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 
 ```text
 Official repository: NuvioMedia/NuvioMobile
-Official tag:        0.4.24-beta
-Version:             0.4.24
-Build:               129
+Official tag:        0.4.25-beta
+Version:             0.4.25
+Build:               130
 Minimum OS:          iOS / iPadOS 16.1+
 Supported devices:   iPhone & iPad
 Distribution:        FULL
 Signing:             Unsigned IPA
 IPA source:          Community fallback build from official source
-Source reference:    0e8f09d921edc1947f3064f55b045e7ffc0cf338
-IPA SHA256:          607be5701d7506d301b0dea868eb048f62bdb37cf51ec56feea552ebfd828b9f
+Source reference:    ec441c7b6075abdc3b1ae8cd1c8a41cf1773346e
+IPA SHA256:          9fd2394ccd1eeaf38b00e338c0906e3adf70777bd1092ce35f5a1f917dbd2f96
 ```
 
 </details>
@@ -131,7 +135,7 @@ NuvioMedia/NuvioMobile
 </strong><br><br>
 
 Source version corresponding to this release:
-<a href="https://github.com/NuvioMedia/NuvioMobile/tree/0.4.24-beta">0.4.24-beta</a>
+<a href="https://github.com/NuvioMedia/NuvioMobile/tree/0.4.25-beta">0.4.25-beta</a>
 </p>
 
 <p align="center">
