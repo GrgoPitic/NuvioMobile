@@ -14,14 +14,14 @@
       "versionDate": "2026-09-19",
       "versionDescription": "- b5163558 fix(home): prevent hero flash when cycling @tapframe  \n- 656f368c fix(pr): update workflow @tapframe  \n- [i18n(el): sync Greek translations with the current English strings (#1991)](https://github.com/NuvioMedia/NuvioMobile/pull/1991) @nosvasedis  \n- 98be8514 revert(ui): restore previous surface and chip styles @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#1990)](https://github.com/NuvioMedia/NuvioMobile/pull/1990) @blueocean2308  \n- [fix(simkl): three bugs in the shared Simkl read and write paths (#1988)](https://github.com/NuvioMedia/NuvioMobile/pull/1988) @Judzim  \n- 99ced26a feat(player): add Infuse playback callbacks @tapframe  \n- [fix(ios): bundle CJK font for subtitles (#1833)](https://github.com/NuvioMedia/NuvioMobile/pull/1833) @tinyKyuu",
       "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.25-beta/Nuvio-0.4.25.ipa",
-      "size": 65156599,
+      "size": 65156607,
       "versions": [
         {
           "version": "0.4.25",
           "date": "2026-09-19",
           "localizedDescription": "- b5163558 fix(home): prevent hero flash when cycling @tapframe  \n- 656f368c fix(pr): update workflow @tapframe  \n- [i18n(el): sync Greek translations with the current English strings (#1991)](https://github.com/NuvioMedia/NuvioMobile/pull/1991) @nosvasedis  \n- 98be8514 revert(ui): restore previous surface and chip styles @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#1990)](https://github.com/NuvioMedia/NuvioMobile/pull/1990) @blueocean2308  \n- [fix(simkl): three bugs in the shared Simkl read and write paths (#1988)](https://github.com/NuvioMedia/NuvioMobile/pull/1988) @Judzim  \n- 99ced26a feat(player): add Infuse playback callbacks @tapframe  \n- [fix(ios): bundle CJK font for subtitles (#1833)](https://github.com/NuvioMedia/NuvioMobile/pull/1833) @tinyKyuu",
           "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.25-beta/Nuvio-0.4.25.ipa",
-          "size": 65156599,
+          "size": 65156607,
           "minOSVersion": "16.1"
         },
         {
