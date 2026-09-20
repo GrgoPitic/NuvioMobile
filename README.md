@@ -116,7 +116,7 @@ Distribution:        FULL
 Signing:             Unsigned IPA
 IPA source:          Community fallback build from official source
 Source reference:    ec441c7b6075abdc3b1ae8cd1c8a41cf1773346e
-IPA SHA256:          1e605b85bb01afe19ef0ffa987d3c51d136bc33c83a8d1182d5572fadc9e4ffe
+IPA SHA256:          578498a14f83827f7c1eafed826abe634eb5e304a6aeacf9f5a03a1c5d84149b
 ```
 
 </details>
