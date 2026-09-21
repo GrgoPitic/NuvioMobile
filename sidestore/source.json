@@ -10,12 +10,20 @@
       "subtitle": "Community fallback iOS build",
       "localizedDescription": "Community-maintained fallback FULL IPA compiled automatically from the exact matching official Nuvio source because no usable official FULL IPA asset was available.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.4.25",
-      "versionDate": "2026-09-19",
-      "versionDescription": "- b5163558 fix(home): prevent hero flash when cycling @tapframe  \n- 656f368c fix(pr): update workflow @tapframe  \n- [i18n(el): sync Greek translations with the current English strings (#1991)](https://github.com/NuvioMedia/NuvioMobile/pull/1991) @nosvasedis  \n- 98be8514 revert(ui): restore previous surface and chip styles @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#1990)](https://github.com/NuvioMedia/NuvioMobile/pull/1990) @blueocean2308  \n- [fix(simkl): three bugs in the shared Simkl read and write paths (#1988)](https://github.com/NuvioMedia/NuvioMobile/pull/1988) @Judzim  \n- 99ced26a feat(player): add Infuse playback callbacks @tapframe  \n- [fix(ios): bundle CJK font for subtitles (#1833)](https://github.com/NuvioMedia/NuvioMobile/pull/1833) @tinyKyuu",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.25-beta/Nuvio-0.4.25.ipa",
-      "size": 65155952,
+      "version": "0.4.26",
+      "versionDate": "2026-09-21",
+      "versionDescription": "- 458f810b fix(streams): share addon filtering across pickers @tapframe  \n- [i18n(nb): complete missing Norwegian Bokmål strings (#2005)](https://github.com/NuvioMedia/NuvioMobile/pull/2005) @SimSalabimse",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.26-beta/Nuvio-0.4.26.ipa",
+      "size": 65235461,
       "versions": [
+        {
+          "version": "0.4.26",
+          "date": "2026-09-21",
+          "localizedDescription": "- 458f810b fix(streams): share addon filtering across pickers @tapframe  \n- [i18n(nb): complete missing Norwegian Bokmål strings (#2005)](https://github.com/NuvioMedia/NuvioMobile/pull/2005) @SimSalabimse",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.26-beta/Nuvio-0.4.26.ipa",
+          "size": 65235461,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.4.25",
           "date": "2026-09-19",
@@ -140,6 +148,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.4.26 is available",
+      "identifier": "nuvio-ios-0.4.26",
+      "caption": "- 458f810b fixstreams: share addon filtering across pickers @tapframe - i18nnb: complete missing Norwegian Bokmål strings 2005https://github.com/NuvioMedia/NuvioMobile/pull/2005 @SimSalabimse",
+      "date": "2026-09-21",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.4.26-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.4.25 is available",
       "identifier": "nuvio-ios-0.4.25",
