@@ -14,14 +14,14 @@
       "versionDate": "2026-09-21",
       "versionDescription": "- 458f810b fix(streams): share addon filtering across pickers @tapframe  \n- [i18n(nb): complete missing Norwegian Bokmål strings (#2005)](https://github.com/NuvioMedia/NuvioMobile/pull/2005) @SimSalabimse",
       "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.26-beta/Nuvio-0.4.26.ipa",
-      "size": 65235453,
+      "size": 65235542,
       "versions": [
         {
           "version": "0.4.26",
           "date": "2026-09-21",
           "localizedDescription": "- 458f810b fix(streams): share addon filtering across pickers @tapframe  \n- [i18n(nb): complete missing Norwegian Bokmål strings (#2005)](https://github.com/NuvioMedia/NuvioMobile/pull/2005) @SimSalabimse",
           "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.4.26-beta/Nuvio-0.4.26.ipa",
-          "size": 65235453,
+          "size": 65235542,
           "minOSVersion": "16.1"
         },
         {
