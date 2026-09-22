@@ -13,7 +13,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/VERSION-0.5.0-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
-<img src="https://img.shields.io/badge/IPA%20SOURCE-FALLBACK%20BUILD-e67e22?style=for-the-badge" alt="IPA source">
+<img src="https://img.shields.io/badge/IPA%20SOURCE-OFFICIAL%20NUVIO-2ea44f?style=for-the-badge" alt="IPA source">
 </p>
 
 > [!IMPORTANT]
@@ -23,8 +23,8 @@
 <h2 align="center">📦 Původ IPA</h2>
 
 <p align="center">
-<strong>FALLBACK BUILD</strong><br><br>
-Pro tuto verzi nebyla dostupná použitelná oficiální FULL IPA. IPA byla automaticky sestavena z přesného odpovídajícího oficiálního zdrojového vydání Nuvio pomocí záložního buildu.
+<strong>OFFICIAL NUVIO</strong><br><br>
+Tato verze používá oficiální FULL IPA aplikace Nuvio. Originální IPA se stáhne z příslušného vydání NuvioMedia, ověří se a beze změny se zrcadlí pro distribuci přes SideStore.
 </p>
 
 <h2 align="center">📱 Aktuální verze</h2>
@@ -84,9 +84,9 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 
 ```text
 Oficiální tag:     0.5.0-beta
-IPA source:        Community fallback build from official source
-Source reference:  d1d5a6ab362fa90edc83a01023fb4aefda67e4a9
-IPA SHA256:        c4f4b005854be7e7b59d9f9383eafe8f2b64b2e40d4d713f34219bb1ada19ebc
+IPA source:        Official Nuvio IPA
+Source reference:  Official release asset
+IPA SHA256:        14cc46e4098e4568e2e20a86a8b5dc7dba3da7e28ab7567972338fba460421ef
 ```
 
 </details>

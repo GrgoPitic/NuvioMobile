@@ -13,7 +13,7 @@
 <p align="center">
 <img src="https://img.shields.io/badge/VERSION-0.5.0-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
-<img src="https://img.shields.io/badge/IPA%20SOURCE-FALLBACK%20BUILD-e67e22?style=for-the-badge" alt="IPA source">
+<img src="https://img.shields.io/badge/IPA%20SOURCE-OFFICIAL%20NUVIO-2ea44f?style=for-the-badge" alt="IPA source">
 </p>
 
 > [!IMPORTANT]
@@ -23,8 +23,8 @@
 <h2 align="center">📦 IPA Source</h2>
 
 <p align="center">
-<strong>FALLBACK BUILD</strong><br><br>
-No usable official FULL IPA was available for this version. This IPA was automatically compiled from the exact matching official Nuvio source release using our fallback build.
+<strong>OFFICIAL NUVIO</strong><br><br>
+This version uses the official Nuvio FULL IPA. The original IPA is downloaded from the matching NuvioMedia release, verified, and mirrored unchanged for SideStore distribution.
 </p>
 
 <h2 align="center">📱 Current Version</h2>

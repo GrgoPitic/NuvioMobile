@@ -20,7 +20,7 @@ fallback as a safety net.
 <p align="center">
 <img src="https://img.shields.io/badge/VERSION-0.5.0-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
-<img src="https://img.shields.io/badge/IPA%20SOURCE-FALLBACK%20BUILD-e67e22?style=for-the-badge" alt="IPA source">
+<img src="https://img.shields.io/badge/IPA%20SOURCE-OFFICIAL%20NUVIO-2ea44f?style=for-the-badge" alt="IPA source">
 </p>
 
 > [!IMPORTANT]
@@ -33,11 +33,11 @@ fallback as a safety net.
 <h2 align="center">📦 IPA Source</h2>
 
 <p align="center">
-<strong>FALLBACK BUILD</strong>
+<strong>OFFICIAL NUVIO</strong>
 </p>
 
 <p align="center">
-No usable official FULL IPA was available for this version. This IPA was automatically compiled from the exact matching official Nuvio source release using our fallback build.
+This version uses the official Nuvio FULL IPA. The original IPA is downloaded from the matching NuvioMedia release, verified, and mirrored unchanged for SideStore distribution.
 </p>
 
 <h2 align="center">🚀 Latest Release</h2>
@@ -115,9 +115,9 @@ Minimum OS:          iOS / iPadOS 16.1+
 Supported devices:   iPhone & iPad
 Distribution:        FULL
 Signing:             Unsigned IPA
-IPA source:          Community fallback build from official source
-Source reference:    d1d5a6ab362fa90edc83a01023fb4aefda67e4a9
-IPA SHA256:          c4f4b005854be7e7b59d9f9383eafe8f2b64b2e40d4d713f34219bb1ada19ebc
+IPA source:          Official Nuvio IPA
+Source reference:    Official release asset
+IPA SHA256:          14cc46e4098e4568e2e20a86a8b5dc7dba3da7e28ab7567972338fba460421ef
 ```
 
 </details>
