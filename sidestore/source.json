@@ -7,21 +7,21 @@
       "name": "Nuvio",
       "bundleIdentifier": "com.nuvio.media",
       "developerName": "NuvioMedia",
-      "subtitle": "Community fallback iOS build",
-      "localizedDescription": "Community-maintained fallback FULL IPA compiled automatically from the exact matching official Nuvio source because no usable official FULL IPA asset was available.",
+      "subtitle": "Official Nuvio IPA via community SideStore source",
+      "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
       "version": "0.5.0",
       "versionDate": "2026-09-22",
       "versionDescription": "- 4c82f9ac feat(settings): collapse tracker cards by default @tapframe  \n- c9d6f5f6 fix(player): restore subtitles for each episode @tapframe  \n- [feat(mdblist): add tracking and library support (#1900)](https://github.com/NuvioMedia/NuvioMobile/pull/1900) @tapframe  \n- [remove inaccurate TMDB release date enrichment option (#2032)](https://github.com/NuvioMedia/NuvioMobile/pull/2032) @skoruppa  \n- [Fix(player) record mx player completion when no position is returned (#2031)](https://github.com/NuvioMedia/NuvioMobile/pull/2031) @zuko726  \n- 4178d5cd fix(tmdb): sort blank collection release dates last @tapframe  \n- fb9f859e fix(ios): use clean player framework archive @tapframe  \n- 6ff7882a fix(player): preserve iOS audio during calls @tapframe  \n- [Custom poster URL pattern support (#2025)](https://github.com/NuvioMedia/NuvioMobile/pull/2025) @skoruppa",
       "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.0-beta/Nuvio-0.5.0.ipa",
-      "size": 66007401,
+      "size": 66006978,
       "versions": [
         {
           "version": "0.5.0",
           "date": "2026-09-22",
           "localizedDescription": "- 4c82f9ac feat(settings): collapse tracker cards by default @tapframe  \n- c9d6f5f6 fix(player): restore subtitles for each episode @tapframe  \n- [feat(mdblist): add tracking and library support (#1900)](https://github.com/NuvioMedia/NuvioMobile/pull/1900) @tapframe  \n- [remove inaccurate TMDB release date enrichment option (#2032)](https://github.com/NuvioMedia/NuvioMobile/pull/2032) @skoruppa  \n- [Fix(player) record mx player completion when no position is returned (#2031)](https://github.com/NuvioMedia/NuvioMobile/pull/2031) @zuko726  \n- 4178d5cd fix(tmdb): sort blank collection release dates last @tapframe  \n- fb9f859e fix(ios): use clean player framework archive @tapframe  \n- 6ff7882a fix(player): preserve iOS audio during calls @tapframe  \n- [Custom poster URL pattern support (#2025)](https://github.com/NuvioMedia/NuvioMobile/pull/2025) @skoruppa",
           "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.0-beta/Nuvio-0.5.0.ipa",
-          "size": 66007401,
+          "size": 66006978,
           "minOSVersion": "16.1"
         },
         {
