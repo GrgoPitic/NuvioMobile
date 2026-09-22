@@ -381,13 +381,29 @@ jobs:
 
           NORMALIZED_TAG="${UPSTREAM_TAG#v}"
 
-          if [[ "$VERSION" != "$NORMALIZED_TAG" ]]; then
+          # Nuvio prerelease tags may include suffixes such as
+          # -beta, -alpha, -rc or -rc1 while the IPA itself keeps
+          # CFBundleShortVersionString at the base semantic version.
+          BASE_TAG="$(
+            printf '%s' "$NORMALIZED_TAG" \
+              | sed -E 's/-(alpha|beta|rc)[0-9.]*$//'
+          )"
+
+          if [[ "$VERSION" != "$NORMALIZED_TAG" ]] \
+            && [[ "$VERSION" != "$BASE_TAG" ]]; then
+
             echo "Official IPA version does not match the release tag."
-            echo "Release tag: $UPSTREAM_TAG"
-            echo "IPA version: $VERSION"
+            echo "Release tag:    $UPSTREAM_TAG"
+            echo "Normalized tag: $NORMALIZED_TAG"
+            echo "Base version:   $BASE_TAG"
+            echo "IPA version:    $VERSION"
             echo "The macOS fallback build will be used."
             exit 0
           fi
+
+          echo "Official IPA version matches release."
+          echo "Release tag: $UPSTREAM_TAG"
+          echo "IPA version: $VERSION"
 
           # Optional SHA256 cross-check against Nuvio's own
           # published store metadata when available.
