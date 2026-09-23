@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.5.0",
-      "versionDate": "2026-09-22",
-      "versionDescription": "- 4c82f9ac feat(settings): collapse tracker cards by default @tapframe  \n- c9d6f5f6 fix(player): restore subtitles for each episode @tapframe  \n- [feat(mdblist): add tracking and library support (#1900)](https://github.com/NuvioMedia/NuvioMobile/pull/1900) @tapframe  \n- [remove inaccurate TMDB release date enrichment option (#2032)](https://github.com/NuvioMedia/NuvioMobile/pull/2032) @skoruppa  \n- [Fix(player) record mx player completion when no position is returned (#2031)](https://github.com/NuvioMedia/NuvioMobile/pull/2031) @zuko726  \n- 4178d5cd fix(tmdb): sort blank collection release dates last @tapframe  \n- fb9f859e fix(ios): use clean player framework archive @tapframe  \n- 6ff7882a fix(player): preserve iOS audio during calls @tapframe  \n- [Custom poster URL pattern support (#2025)](https://github.com/NuvioMedia/NuvioMobile/pull/2025) @skoruppa",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.0-beta/Nuvio-0.5.0.ipa",
-      "size": 66006978,
+      "version": "0.5.1",
+      "versionDate": "2026-09-23",
+      "versionDescription": "- 0b427905 fix(mdblist): correct library sorting @tapframe  \n- 647e4c09 fix(mdblist): batch and reuse rating requests @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2037)](https://github.com/NuvioMedia/NuvioMobile/pull/2037) @blueocean2308  \n- [Fix custom posters missing in tmdb/trakt collections (#2035)](https://github.com/NuvioMedia/NuvioMobile/pull/2035) @skoruppa  \n- [fix(details) adapt to the new aiom season poster method (#2038)](https://github.com/NuvioMedia/NuvioMobile/pull/2038) @chrisk325  \n- [Feature/spanish es translation (#2039)](https://github.com/NuvioMedia/NuvioMobile/pull/2039) @IberianSoldierPC",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.1-beta/Nuvio-0.5.1.ipa",
+      "size": 66042992,
       "versions": [
+        {
+          "version": "0.5.1",
+          "date": "2026-09-23",
+          "localizedDescription": "- 0b427905 fix(mdblist): correct library sorting @tapframe  \n- 647e4c09 fix(mdblist): batch and reuse rating requests @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2037)](https://github.com/NuvioMedia/NuvioMobile/pull/2037) @blueocean2308  \n- [Fix custom posters missing in tmdb/trakt collections (#2035)](https://github.com/NuvioMedia/NuvioMobile/pull/2035) @skoruppa  \n- [fix(details) adapt to the new aiom season poster method (#2038)](https://github.com/NuvioMedia/NuvioMobile/pull/2038) @chrisk325  \n- [Feature/spanish es translation (#2039)](https://github.com/NuvioMedia/NuvioMobile/pull/2039) @IberianSoldierPC",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.1-beta/Nuvio-0.5.1.ipa",
+          "size": 66042992,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.5.0",
           "date": "2026-09-22",
@@ -156,6 +164,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.5.1 is available",
+      "identifier": "nuvio-ios-0.5.1",
+      "caption": "- 0b427905 fixmdblist: correct library sorting @tapframe - 647e4c09 fixmdblist: batch and reuse rating requests @tapframe - i18nvi: update latest Vietnamese strings 2037https://github.com/NuvioMedia/NuvioMobile/pull/2037 @blueocean2308 - Fix custom posters missing in tmdb/trakt c…",
+      "date": "2026-09-23",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.5.1-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.5.0 is available",
       "identifier": "nuvio-ios-0.5.0",
