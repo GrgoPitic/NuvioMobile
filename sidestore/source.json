@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.5.1",
-      "versionDate": "2026-09-23",
-      "versionDescription": "- 0b427905 fix(mdblist): correct library sorting @tapframe  \n- 647e4c09 fix(mdblist): batch and reuse rating requests @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2037)](https://github.com/NuvioMedia/NuvioMobile/pull/2037) @blueocean2308  \n- [Fix custom posters missing in tmdb/trakt collections (#2035)](https://github.com/NuvioMedia/NuvioMobile/pull/2035) @skoruppa  \n- [fix(details) adapt to the new aiom season poster method (#2038)](https://github.com/NuvioMedia/NuvioMobile/pull/2038) @chrisk325  \n- [Feature/spanish es translation (#2039)](https://github.com/NuvioMedia/NuvioMobile/pull/2039) @IberianSoldierPC",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.1-beta/Nuvio-0.5.1.ipa",
-      "size": 66042992,
+      "version": "0.5.2",
+      "versionDate": "2026-09-25",
+      "versionDescription": "- 353b8cd9 fix(exo): update buffer defaults @tapframe  \n- f50bd149 update engine libs @tapframe  \n- 23e4d3f7 fix(ios): hide home indicator during playback @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2064)](https://github.com/NuvioMedia/NuvioMobile/pull/2064) @blueocean2308  \n- [Fix badge cache, library poster scope, and next-episode post-credits timing (#2059)](https://github.com/NuvioMedia/NuvioMobile/pull/2059) @skoruppa  \n- [Add landscape banner to Simkl More Like This items (#2058)](https://github.com/NuvioMedia/NuvioMobile/pull/2058) @skoruppa  \n- [added the percent value to the swipe up gesture bars (#2057)](https://github.com/NuvioMedia/NuvioMobile/pull/2057) @AdityasahuX07  \n- [Simkl more like this (#2052)](https://github.com/NuvioMedia/NuvioMobile/pull/2052) @skoruppa  \n- [Add per-screen toggles for custom poster URL overlay (#2050)](https://github.com/NuvioMedia/NuvioMobile/pull/2050) @skoruppa  \n- [fix(i18n): render Show \"All\" Tab without backslashes (#2047)](https://github.com/NuvioMedia/NuvioMobile/pull/2047) @blueocean2308  \n- d4b69c2d fix(player): key player lifecycle by episode and source @tapframe  \n- [Fix binary request and response handling in plugin fetch() (#2041)](https://github.com/NuvioMedia/NuvioMobile/pull/2041) @joojoooo",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.2-beta/Nuvio-0.5.2.ipa",
+      "size": 66138236,
       "versions": [
+        {
+          "version": "0.5.2",
+          "date": "2026-09-25",
+          "localizedDescription": "- 353b8cd9 fix(exo): update buffer defaults @tapframe  \n- f50bd149 update engine libs @tapframe  \n- 23e4d3f7 fix(ios): hide home indicator during playback @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2064)](https://github.com/NuvioMedia/NuvioMobile/pull/2064) @blueocean2308  \n- [Fix badge cache, library poster scope, and next-episode post-credits timing (#2059)](https://github.com/NuvioMedia/NuvioMobile/pull/2059) @skoruppa  \n- [Add landscape banner to Simkl More Like This items (#2058)](https://github.com/NuvioMedia/NuvioMobile/pull/2058) @skoruppa  \n- [added the percent value to the swipe up gesture bars (#2057)](https://github.com/NuvioMedia/NuvioMobile/pull/2057) @AdityasahuX07  \n- [Simkl more like this (#2052)](https://github.com/NuvioMedia/NuvioMobile/pull/2052) @skoruppa  \n- [Add per-screen toggles for custom poster URL overlay (#2050)](https://github.com/NuvioMedia/NuvioMobile/pull/2050) @skoruppa  \n- [fix(i18n): render Show \"All\" Tab without backslashes (#2047)](https://github.com/NuvioMedia/NuvioMobile/pull/2047) @blueocean2308  \n- d4b69c2d fix(player): key player lifecycle by episode and source @tapframe  \n- [Fix binary request and response handling in plugin fetch() (#2041)](https://github.com/NuvioMedia/NuvioMobile/pull/2041) @joojoooo",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.2-beta/Nuvio-0.5.2.ipa",
+          "size": 66138236,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.5.1",
           "date": "2026-09-23",
@@ -164,6 +172,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.5.2 is available",
+      "identifier": "nuvio-ios-0.5.2",
+      "caption": "- 353b8cd9 fixexo: update buffer defaults @tapframe - f50bd149 update engine libs @tapframe - 23e4d3f7 fixios: hide home indicator during playback @tapframe - i18nvi: update latest Vietnamese strings 2064https://github.com/NuvioMedia/NuvioMobile/pull/2064 @blueocean2308 - Fix bad…",
+      "date": "2026-09-25",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.5.2-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.5.1 is available",
       "identifier": "nuvio-ios-0.5.1",
