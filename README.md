@@ -18,7 +18,7 @@ fallback as a safety net.
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/VERSION-0.5.3-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
+<img src="https://img.shields.io/badge/VERSION-0.5.4-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
 <img src="https://img.shields.io/badge/IPA%20SOURCE-OFFICIAL%20NUVIO-2ea44f?style=for-the-badge" alt="IPA source">
 </p>
@@ -43,13 +43,13 @@ This version uses the official Nuvio FULL IPA. The original IPA is downloaded fr
 <h2 align="center">🚀 Latest Release</h2>
 
 <p align="center">
-<strong>Nuvio 0.5.3</strong><br>
-Build 135 · iOS / iPadOS 16.1+ · iPhone & iPad<br>
+<strong>Nuvio 0.5.4</strong><br>
+Build 136 · iOS / iPadOS 16.1+ · iPhone & iPad<br>
 FULL distribution · Unsigned IPA
 </p>
 
 <p align="center">
-<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.5.3-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.3-beta/Nuvio-0.5.3.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
+<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.5.4-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.4-beta/Nuvio-0.5.4.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
 </p>
 
 <h2 align="center">🌍 Choose your language</h2>
@@ -87,13 +87,19 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 <strong>SideStore → Sources → Add Source</strong>
 </p>
 
-<h2 align="center">✨ What's New in 0.5.3</h2>
+<h2 align="center">✨ What's New in 0.5.4</h2>
 
-- 0b7ab892 feat(poster): support addon landscape posters @tapframe  
-- 60a0f4b3 feat(library): move downloads to library
-- 5ebb8ee5 feat(spinner): change indicator @tapframe  
-- [i18n(ur): add Urdu localization (#2067)](https://github.com/NuvioMedia/NuvioMobile/pull/2067) @muzii9  
-- 23b048c3 feat(player): add episode shuffle @tapframe
+- 80860602 fix(player): ignore short clips for tracking @tapframe  
+- cd4572e2 fix(ios): update quickjs to 1.0.15 @tapframe  
+- 9980d643 fix(player): reduce buffer durations @tapframe  
+- 75296263 fix(details): keep custom posters when returning to a title @tapframe  
+- 4bdcfa3a fix(settings): use shared chip on detail page @tapframe  
+- 2b8be69c fix(details): replay watched series from first episode @tapframe  
+- c69b643a fix(player): resume restored player from current position @tapframe  
+- c3920d40 fix(i18n): align episode labels and metadata with tv @tapframe  
+- 24c7c89c fix(streams): prevent rotation during binge group lookup @tapframe  
+- a1a43416 fix(profiles): center pin dialog content @tapframe  
+- [Plugin timeout (#2091)](https://github.com/NuvioMedia/NuvioMobile/pull/2091) @paregi12
 
 ---
 
@@ -104,16 +110,16 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 
 ```text
 Official repository: NuvioMedia/NuvioMobile
-Official tag:        0.5.3-beta
-Version:             0.5.3
-Build:               135
+Official tag:        0.5.4-beta
+Version:             0.5.4
+Build:               136
 Minimum OS:          iOS / iPadOS 16.1+
 Supported devices:   iPhone & iPad
 Distribution:        FULL
 Signing:             Unsigned IPA
 IPA source:          Official Nuvio IPA
 Source reference:    Official release asset
-IPA SHA256:          7ee79b969d904893f3656ab99de0f9611fb9b70141c72f8094d4c04d74f4a72a
+IPA SHA256:          f605463d51f304564833e82a2fc1478a326c2bea7fa15519d99e854eebb50b94
 ```
 
 </details>
@@ -132,7 +138,7 @@ NuvioMedia/NuvioMobile
 </strong><br><br>
 
 Source version corresponding to this release:
-<a href="https://github.com/NuvioMedia/NuvioMobile/tree/0.5.3-beta">0.5.3-beta</a>
+<a href="https://github.com/NuvioMedia/NuvioMobile/tree/0.5.4-beta">0.5.4-beta</a>
 </p>
 
 <p align="center">
