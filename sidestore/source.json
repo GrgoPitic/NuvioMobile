@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.5.5",
-      "versionDate": "2026-09-30",
-      "versionDescription": "- [feat(i18n): add Bengali (বাংলা) language support and UI localization (#2113)](https://github.com/NuvioMedia/NuvioMobile/pull/2113) @TanvirSdq  \n- [i18n(el): sync Greek translations and remove remaining English loanwords (#2132)](https://github.com/NuvioMedia/NuvioMobile/pull/2132) @nosvasedis  \n- [Landscape clearlogo toggle, Simkl type hint, TMDB source priority, folder TMDB ID resolution (#2084)](https://github.com/NuvioMedia/NuvioMobile/pull/2084) @skoruppa  \n- [fix(UI): Fix hero section sometimes shifting (#2128)](https://github.com/NuvioMedia/NuvioMobile/pull/2128) @ThEgIGN  \n- [fix(player): show the swipe-to-seek preview in the new player layout (#2122)](https://github.com/NuvioMedia/NuvioMobile/pull/2122) @deejay189393  \n- 6aa42153 fix(debrid): select requested episode files @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2096)](https://github.com/NuvioMedia/NuvioMobile/pull/2096) @blueocean2308  \n- [Translation improvements and adjustments for Slovak language (#2104)](https://github.com/NuvioMedia/NuvioMobile/pull/2104) @mmsw91  \n- [fix(mdblist): show newest library additions first (#2103)](https://github.com/NuvioMedia/NuvioMobile/pull/2103) @halibiram",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.5-beta/Nuvio-0.5.5.ipa",
-      "size": 66647562,
+      "version": "0.5.6",
+      "versionDate": "2026-10-02",
+      "versionDescription": "- 312f7399 feat(details): use desktop hero layout on tablets @tapframe  \n- b3d7c5b6 feat(settings): show restart prompt when layout direction changes @tapframe  \n- a984b390 fix(ios): declare supported localizations @tapframe  \n- f0f980b3 fix(player): auto-play next episode on end after dismissing prompt @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2146)](https://github.com/NuvioMedia/NuvioMobile/pull/2146) @blueocean2308  \n- [Preload next episode sources (#2140)](https://github.com/NuvioMedia/NuvioMobile/pull/2140) @skoruppa  \n- [Fix mising poster fallback in Catalog Screen (#2139)](https://github.com/NuvioMedia/NuvioMobile/pull/2139) @skoruppa  \n- [fix(player): backport automatic skip notifications from Desktop (#2137)](https://github.com/NuvioMedia/NuvioMobile/pull/2137) @Laskco",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.6-beta/Nuvio-0.5.6.ipa",
+      "size": 66690752,
       "versions": [
+        {
+          "version": "0.5.6",
+          "date": "2026-10-02",
+          "localizedDescription": "- 312f7399 feat(details): use desktop hero layout on tablets @tapframe  \n- b3d7c5b6 feat(settings): show restart prompt when layout direction changes @tapframe  \n- a984b390 fix(ios): declare supported localizations @tapframe  \n- f0f980b3 fix(player): auto-play next episode on end after dismissing prompt @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2146)](https://github.com/NuvioMedia/NuvioMobile/pull/2146) @blueocean2308  \n- [Preload next episode sources (#2140)](https://github.com/NuvioMedia/NuvioMobile/pull/2140) @skoruppa  \n- [Fix mising poster fallback in Catalog Screen (#2139)](https://github.com/NuvioMedia/NuvioMobile/pull/2139) @skoruppa  \n- [fix(player): backport automatic skip notifications from Desktop (#2137)](https://github.com/NuvioMedia/NuvioMobile/pull/2137) @Laskco",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.6-beta/Nuvio-0.5.6.ipa",
+          "size": 66690752,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.5.5",
           "date": "2026-09-30",
@@ -196,6 +204,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.5.6 is available",
+      "identifier": "nuvio-ios-0.5.6",
+      "caption": "- 312f7399 featdetails: use desktop hero layout on tablets @tapframe - b3d7c5b6 featsettings: show restart prompt when layout direction changes @tapframe - a984b390 fixios: declare supported localizations @tapframe - f0f980b3 fixplayer: auto-play next episode on end after dismiss…",
+      "date": "2026-10-02",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.5.6-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.5.5 is available",
       "identifier": "nuvio-ios-0.5.5",
