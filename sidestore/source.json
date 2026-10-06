@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.5.6",
-      "versionDate": "2026-10-02",
-      "versionDescription": "- 312f7399 feat(details): use desktop hero layout on tablets @tapframe  \n- b3d7c5b6 feat(settings): show restart prompt when layout direction changes @tapframe  \n- a984b390 fix(ios): declare supported localizations @tapframe  \n- f0f980b3 fix(player): auto-play next episode on end after dismissing prompt @tapframe  \n- [i18n(vi): update latest Vietnamese strings (#2146)](https://github.com/NuvioMedia/NuvioMobile/pull/2146) @blueocean2308  \n- [Preload next episode sources (#2140)](https://github.com/NuvioMedia/NuvioMobile/pull/2140) @skoruppa  \n- [Fix mising poster fallback in Catalog Screen (#2139)](https://github.com/NuvioMedia/NuvioMobile/pull/2139) @skoruppa  \n- [fix(player): backport automatic skip notifications from Desktop (#2137)](https://github.com/NuvioMedia/NuvioMobile/pull/2137) @Laskco",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.6-beta/Nuvio-0.5.6.ipa",
-      "size": 66690752,
+      "version": "0.5.7",
+      "versionDate": "2026-10-06",
+      "versionDescription": "- c2127769 fix(p2p): correct torrent cache path and usage @tapframe  \n- [feat(player): add ExoPlayer native memory, VOD cache, and buffer setting (#2178)](https://github.com/NuvioMedia/NuvioMobile/pull/2178) @halibiram  \n- e22baece feat(details): add letterbox zoom to hero trailer @tapframe  \n- [feat(mdblist): choose which lists appear in the library (#2171)](https://github.com/NuvioMedia/NuvioMobile/pull/2171) @kernexshadow  \n- 53ac5e53 fix(player): follow system brightness when touch gestures are off @tapframe  \n- 459add64 feat(streams): match tv refresh spin in streams and player panels @tapframe  \n- d3786272 feat(player): add switch player and stream info actions @tapframe  \n- 909dd7dc feat(streams): spin refresh button until addons finish loading @tapframe  \n- [fix custom poster pattern URL validation and decoding (#2153)](https://github.com/NuvioMedia/NuvioMobile/pull/2153) @skoruppa",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.7-beta/Nuvio-0.5.7.ipa",
+      "size": 66836754,
       "versions": [
+        {
+          "version": "0.5.7",
+          "date": "2026-10-06",
+          "localizedDescription": "- c2127769 fix(p2p): correct torrent cache path and usage @tapframe  \n- [feat(player): add ExoPlayer native memory, VOD cache, and buffer setting (#2178)](https://github.com/NuvioMedia/NuvioMobile/pull/2178) @halibiram  \n- e22baece feat(details): add letterbox zoom to hero trailer @tapframe  \n- [feat(mdblist): choose which lists appear in the library (#2171)](https://github.com/NuvioMedia/NuvioMobile/pull/2171) @kernexshadow  \n- 53ac5e53 fix(player): follow system brightness when touch gestures are off @tapframe  \n- 459add64 feat(streams): match tv refresh spin in streams and player panels @tapframe  \n- d3786272 feat(player): add switch player and stream info actions @tapframe  \n- 909dd7dc feat(streams): spin refresh button until addons finish loading @tapframe  \n- [fix custom poster pattern URL validation and decoding (#2153)](https://github.com/NuvioMedia/NuvioMobile/pull/2153) @skoruppa",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.5.7-beta/Nuvio-0.5.7.ipa",
+          "size": 66836754,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.5.6",
           "date": "2026-10-02",
@@ -204,6 +212,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.5.7 is available",
+      "identifier": "nuvio-ios-0.5.7",
+      "caption": "- c2127769 fixp2p: correct torrent cache path and usage @tapframe - featplayer: add ExoPlayer native memory, VOD cache, and buffer setting 2178https://github.com/NuvioMedia/NuvioMobile/pull/2178 @halibiram - e22baece featdetails: add letterbox zoom to hero trailer @tapframe - fea…",
+      "date": "2026-10-06",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.5.7-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.5.6 is available",
       "identifier": "nuvio-ios-0.5.6",
