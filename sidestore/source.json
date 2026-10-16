@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.0",
+      "version": "0.6.1",
       "versionDate": "2026-10-16",
-      "versionDescription": "- [feat(party): add experimental watch parties (#2253)](https://github.com/NuvioMedia/NuvioMobile/pull/2253) @tapframe  \n- b9d2c39d fix(player): pause other apps audio on android @tapframe  \n- [feat(mdblist): show dynamic and liked lists in the library (#2268)](https://github.com/NuvioMedia/NuvioMobile/pull/2268) @kernexshadow  \n- [i18n(el): translate new 0.5.10 strings (#2263)](https://github.com/NuvioMedia/NuvioMobile/pull/2263) @nosvasedis  \n- [Complete missing Italian translations (#2260)](https://github.com/NuvioMedia/NuvioMobile/pull/2260) @WhiteGiso  \n- [fix(ios): improve PiP transitions and recover playback after closing PiP (#2259)](https://github.com/NuvioMedia/NuvioMobile/pull/2259) @WhiteGiso  \n- [fix(ios): restore Now Playing by limiting audio mixing to calls (#2246)](https://github.com/NuvioMedia/NuvioMobile/pull/2246) @WhiteGiso  \n- [fix(i18n): update, complete and review Brazilian Portuguese (pt-BR) localization (#2234)](https://github.com/NuvioMedia/NuvioMobile/pull/2234) @jhojhocraazy  \n- [feat(mdblist): show external lists in the library (#2172)](https://github.com/NuvioMedia/NuvioMobile/pull/2172) @kernexshadow",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.0-beta/Nuvio-0.6.0.ipa",
-      "size": 68513753,
+      "versionDescription": "- f352f2b2 fix(party): let only the host change what's playing @tapframe",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.1-beta/Nuvio-0.6.1.ipa",
+      "size": 68517984,
       "versions": [
+        {
+          "version": "0.6.1",
+          "date": "2026-10-16",
+          "localizedDescription": "- f352f2b2 fix(party): let only the host change what's playing @tapframe",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.1-beta/Nuvio-0.6.1.ipa",
+          "size": 68517984,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.0",
           "date": "2026-10-16",
@@ -244,6 +252,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.1 is available",
+      "identifier": "nuvio-ios-0.6.1",
+      "caption": "- f352f2b2 fixparty: let only the host change what's playing @tapframe",
+      "date": "2026-10-16",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.1-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.0 is available",
       "identifier": "nuvio-ios-0.6.0",
