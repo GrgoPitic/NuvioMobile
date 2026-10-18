@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.1",
-      "versionDate": "2026-10-16",
-      "versionDescription": "- f352f2b2 fix(party): let only the host change what's playing @tapframe",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.1-beta/Nuvio-0.6.1.ipa",
-      "size": 68517984,
+      "version": "0.6.2",
+      "versionDate": "2026-10-18",
+      "versionDescription": "- b253a7c5 feat(party): add chat to watch parties @tapframe  \n- [Fix escaped apostrophes and missing Italian translations (#2312)](https://github.com/NuvioMedia/NuvioMobile/pull/2312) @WhiteGiso  \n- [fix(ios): keep Watch Party in sync and apply party rules during PiP (#2308)](https://github.com/NuvioMedia/NuvioMobile/pull/2308) @WhiteGiso  \n- [i18n(el): finish the Greek locale (party, media servers, MDBList, Auto Sync, season count) (#2292)](https://github.com/NuvioMedia/NuvioMobile/pull/2292) @nosvasedis  \n- [Filename and infoHash matching for binge group, prefetch fixes (#2278)](https://github.com/NuvioMedia/NuvioMobile/pull/2278) @skoruppa",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.2-beta/Nuvio-0.6.2.ipa",
+      "size": 68666779,
       "versions": [
+        {
+          "version": "0.6.2",
+          "date": "2026-10-18",
+          "localizedDescription": "- b253a7c5 feat(party): add chat to watch parties @tapframe  \n- [Fix escaped apostrophes and missing Italian translations (#2312)](https://github.com/NuvioMedia/NuvioMobile/pull/2312) @WhiteGiso  \n- [fix(ios): keep Watch Party in sync and apply party rules during PiP (#2308)](https://github.com/NuvioMedia/NuvioMobile/pull/2308) @WhiteGiso  \n- [i18n(el): finish the Greek locale (party, media servers, MDBList, Auto Sync, season count) (#2292)](https://github.com/NuvioMedia/NuvioMobile/pull/2292) @nosvasedis  \n- [Filename and infoHash matching for binge group, prefetch fixes (#2278)](https://github.com/NuvioMedia/NuvioMobile/pull/2278) @skoruppa",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.2-beta/Nuvio-0.6.2.ipa",
+          "size": 68666779,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.1",
           "date": "2026-10-16",
@@ -252,6 +260,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.2 is available",
+      "identifier": "nuvio-ios-0.6.2",
+      "caption": "- b253a7c5 featparty: add chat to watch parties @tapframe - Fix escaped apostrophes and missing Italian translations 2312https://github.com/NuvioMedia/NuvioMobile/pull/2312 @WhiteGiso - fixios: keep Watch Party in sync and apply party rules during PiP 2308https://github.com/Nuvio…",
+      "date": "2026-10-18",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.2-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.1 is available",
       "identifier": "nuvio-ios-0.6.1",
