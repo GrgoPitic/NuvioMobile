@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.2",
-      "versionDate": "2026-10-18",
-      "versionDescription": "- b253a7c5 feat(party): add chat to watch parties @tapframe  \n- [Fix escaped apostrophes and missing Italian translations (#2312)](https://github.com/NuvioMedia/NuvioMobile/pull/2312) @WhiteGiso  \n- [fix(ios): keep Watch Party in sync and apply party rules during PiP (#2308)](https://github.com/NuvioMedia/NuvioMobile/pull/2308) @WhiteGiso  \n- [i18n(el): finish the Greek locale (party, media servers, MDBList, Auto Sync, season count) (#2292)](https://github.com/NuvioMedia/NuvioMobile/pull/2292) @nosvasedis  \n- [Filename and infoHash matching for binge group, prefetch fixes (#2278)](https://github.com/NuvioMedia/NuvioMobile/pull/2278) @skoruppa",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.2-beta/Nuvio-0.6.2.ipa",
-      "size": 68666779,
+      "version": "0.6.3",
+      "versionDate": "2026-10-21",
+      "versionDescription": "- d45d4d36 fix(party): show the party's source as plain text @tapframe  \n- 37a6656a fix(player): keep center controls in place on pause @tapframe  \n- 344117e7 feat(player): show badges for what is playing @tapframe  \n- ebb17678 feat(party): chat from your phone with the same profile @tapframe  \n- 18268427 fix(player): move engine switch to top row with confirmation @tapframe  \n- [feat(i18n): add Brazilian Portuguese (pt-BR) localization for watch party, servers, mdblist and autosync (#2288)](https://github.com/NuvioMedia/NuvioMobile/pull/2288) @jhojhocraazy  \n- b8249380 fix(party): send chat messages with the return key @tapframe  \n- [Update Hungarian translations (#2333)](https://github.com/NuvioMedia/NuvioMobile/pull/2333) @emgeje  \n- [Fix binge group initial state from stream args, apply custom posters in library see-all (#2332)](https://github.com/NuvioMedia/NuvioMobile/pull/2332) @skoruppa  \n- [i18n(vi): update strings.xml, translate watch party and auto sync strings into Vietnamese (#2297)](https://github.com/NuvioMedia/NuvioMobile/pull/2297) @blueocean2308",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.3-beta/Nuvio-0.6.3.ipa",
+      "size": 68815810,
       "versions": [
+        {
+          "version": "0.6.3",
+          "date": "2026-10-21",
+          "localizedDescription": "- d45d4d36 fix(party): show the party's source as plain text @tapframe  \n- 37a6656a fix(player): keep center controls in place on pause @tapframe  \n- 344117e7 feat(player): show badges for what is playing @tapframe  \n- ebb17678 feat(party): chat from your phone with the same profile @tapframe  \n- 18268427 fix(player): move engine switch to top row with confirmation @tapframe  \n- [feat(i18n): add Brazilian Portuguese (pt-BR) localization for watch party, servers, mdblist and autosync (#2288)](https://github.com/NuvioMedia/NuvioMobile/pull/2288) @jhojhocraazy  \n- b8249380 fix(party): send chat messages with the return key @tapframe  \n- [Update Hungarian translations (#2333)](https://github.com/NuvioMedia/NuvioMobile/pull/2333) @emgeje  \n- [Fix binge group initial state from stream args, apply custom posters in library see-all (#2332)](https://github.com/NuvioMedia/NuvioMobile/pull/2332) @skoruppa  \n- [i18n(vi): update strings.xml, translate watch party and auto sync strings into Vietnamese (#2297)](https://github.com/NuvioMedia/NuvioMobile/pull/2297) @blueocean2308",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.3-beta/Nuvio-0.6.3.ipa",
+          "size": 68815810,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.2",
           "date": "2026-10-18",
@@ -260,6 +268,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.3 is available",
+      "identifier": "nuvio-ios-0.6.3",
+      "caption": "- d45d4d36 fixparty: show the party's source as plain text @tapframe - 37a6656a fixplayer: keep center controls in place on pause @tapframe - 344117e7 featplayer: show badges for what is playing @tapframe - ebb17678 featparty: chat from your phone with the same profile @tapframe…",
+      "date": "2026-10-21",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.3-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.2 is available",
       "identifier": "nuvio-ios-0.6.2",
