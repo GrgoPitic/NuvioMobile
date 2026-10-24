@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.3",
-      "versionDate": "2026-10-21",
-      "versionDescription": "- d45d4d36 fix(party): show the party's source as plain text @tapframe  \n- 37a6656a fix(player): keep center controls in place on pause @tapframe  \n- 344117e7 feat(player): show badges for what is playing @tapframe  \n- ebb17678 feat(party): chat from your phone with the same profile @tapframe  \n- 18268427 fix(player): move engine switch to top row with confirmation @tapframe  \n- [feat(i18n): add Brazilian Portuguese (pt-BR) localization for watch party, servers, mdblist and autosync (#2288)](https://github.com/NuvioMedia/NuvioMobile/pull/2288) @jhojhocraazy  \n- b8249380 fix(party): send chat messages with the return key @tapframe  \n- [Update Hungarian translations (#2333)](https://github.com/NuvioMedia/NuvioMobile/pull/2333) @emgeje  \n- [Fix binge group initial state from stream args, apply custom posters in library see-all (#2332)](https://github.com/NuvioMedia/NuvioMobile/pull/2332) @skoruppa  \n- [i18n(vi): update strings.xml, translate watch party and auto sync strings into Vietnamese (#2297)](https://github.com/NuvioMedia/NuvioMobile/pull/2297) @blueocean2308",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.3-beta/Nuvio-0.6.3.ipa",
-      "size": 68815810,
+      "version": "0.6.4",
+      "versionDate": "2026-10-23",
+      "versionDescription": "- 8683505d fix(details): animate ratings on tablet @tapframe  \n- e6a05d1d feat(ios): support duo layout @tapframe  \n- b6287380 fix(deps): update haze to 1.7.3 @tapframe  \n- [fix(trakt): keep continue watching when a progress request fails (#2366)](https://github.com/NuvioMedia/NuvioMobile/pull/2366) @kernexshadow  \n- [perf(streams): compile badge rules once per change (#2365)](https://github.com/NuvioMedia/NuvioMobile/pull/2365) @kernexshadow  \n- [perf(debrid): cache stream filter regexes and reuse stream facts (#2362)](https://github.com/NuvioMedia/NuvioMobile/pull/2362) @kernexshadow  \n- [i18n(el): sync the Greek locale with 0.6.3 (player badges, Simkl statuses, engine switch, party chat) (#2359)](https://github.com/NuvioMedia/NuvioMobile/pull/2359) @nosvasedis  \n- [feat(i18n): complete pt-BR player badges and watch party strings (#2338)](https://github.com/NuvioMedia/NuvioMobile/pull/2338) @jhojhocraazy  \n- [Replace libass renderer with atlas pipeline from Plezy (#2346)](https://github.com/NuvioMedia/NuvioMobile/pull/2346) @skoruppa  \n- [Update Hungarian translations (#2341)](https://github.com/NuvioMedia/NuvioMobile/pull/2341) @emgeje  \n- [i18n(vi): update strings.xml and strings_party.xml (#2339)](https://github.com/NuvioMedia/NuvioMobile/pull/2339) @blueocean2308  \n- 90ab7f95 fix(ratings): use real imdb logo and grey label @tapframe  \n- d9046775 feat(home): show ratings and age rating on hero @tapframe  \n- b9fbc09c fix(player): keep side panels clear of the navigation bar @tapframe  \n- 83e528f0 feat(player): choose a badge pack for the player @tapframe  \n- [Complete Spanish mobile translations (#2344)](https://github.com/NuvioMedia/NuvioMobile/pull/2344) @IberianSoldierPC  \n- [fix(ios): keep hardware decoding when PiP is interrupted by Notification Center (#2306)](https://github.com/NuvioMedia/NuvioMobile/pull/2306) @WhiteGiso  \n- [fix(android): scale ExoPlayer subtitles with the PiP window size (#2314)](https://github.com/NuvioMedia/NuvioMobile/pull/2314) @sap6  \n- [feat(player): auto-sync add-on subtitles on the libmpv engine (#2275)](https://github.com/NuvioMedia/NuvioMobile/pull/2275) @kernexshadow",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.4-beta/Nuvio-0.6.4.ipa",
+      "size": 67805794,
       "versions": [
+        {
+          "version": "0.6.4",
+          "date": "2026-10-23",
+          "localizedDescription": "- 8683505d fix(details): animate ratings on tablet @tapframe  \n- e6a05d1d feat(ios): support duo layout @tapframe  \n- b6287380 fix(deps): update haze to 1.7.3 @tapframe  \n- [fix(trakt): keep continue watching when a progress request fails (#2366)](https://github.com/NuvioMedia/NuvioMobile/pull/2366) @kernexshadow  \n- [perf(streams): compile badge rules once per change (#2365)](https://github.com/NuvioMedia/NuvioMobile/pull/2365) @kernexshadow  \n- [perf(debrid): cache stream filter regexes and reuse stream facts (#2362)](https://github.com/NuvioMedia/NuvioMobile/pull/2362) @kernexshadow  \n- [i18n(el): sync the Greek locale with 0.6.3 (player badges, Simkl statuses, engine switch, party chat) (#2359)](https://github.com/NuvioMedia/NuvioMobile/pull/2359) @nosvasedis  \n- [feat(i18n): complete pt-BR player badges and watch party strings (#2338)](https://github.com/NuvioMedia/NuvioMobile/pull/2338) @jhojhocraazy  \n- [Replace libass renderer with atlas pipeline from Plezy (#2346)](https://github.com/NuvioMedia/NuvioMobile/pull/2346) @skoruppa  \n- [Update Hungarian translations (#2341)](https://github.com/NuvioMedia/NuvioMobile/pull/2341) @emgeje  \n- [i18n(vi): update strings.xml and strings_party.xml (#2339)](https://github.com/NuvioMedia/NuvioMobile/pull/2339) @blueocean2308  \n- 90ab7f95 fix(ratings): use real imdb logo and grey label @tapframe  \n- d9046775 feat(home): show ratings and age rating on hero @tapframe  \n- b9fbc09c fix(player): keep side panels clear of the navigation bar @tapframe  \n- 83e528f0 feat(player): choose a badge pack for the player @tapframe  \n- [Complete Spanish mobile translations (#2344)](https://github.com/NuvioMedia/NuvioMobile/pull/2344) @IberianSoldierPC  \n- [fix(ios): keep hardware decoding when PiP is interrupted by Notification Center (#2306)](https://github.com/NuvioMedia/NuvioMobile/pull/2306) @WhiteGiso  \n- [fix(android): scale ExoPlayer subtitles with the PiP window size (#2314)](https://github.com/NuvioMedia/NuvioMobile/pull/2314) @sap6  \n- [feat(player): auto-sync add-on subtitles on the libmpv engine (#2275)](https://github.com/NuvioMedia/NuvioMobile/pull/2275) @kernexshadow",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.4-beta/Nuvio-0.6.4.ipa",
+          "size": 67805794,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.3",
           "date": "2026-10-21",
@@ -268,6 +276,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.4 is available",
+      "identifier": "nuvio-ios-0.6.4",
+      "caption": "- 8683505d fixdetails: animate ratings on tablet @tapframe - e6a05d1d featios: support duo layout @tapframe - b6287380 fixdeps: update haze to 1.7.3 @tapframe - fixtrakt: keep continue watching when a progress request fails 2366https://github.com/NuvioMedia/NuvioMobile/pull/2366…",
+      "date": "2026-10-23",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.4-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.3 is available",
       "identifier": "nuvio-ios-0.6.3",
