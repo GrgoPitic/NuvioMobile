@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.4",
-      "versionDate": "2026-10-23",
-      "versionDescription": "- 8683505d fix(details): animate ratings on tablet @tapframe  \n- e6a05d1d feat(ios): support duo layout @tapframe  \n- b6287380 fix(deps): update haze to 1.7.3 @tapframe  \n- [fix(trakt): keep continue watching when a progress request fails (#2366)](https://github.com/NuvioMedia/NuvioMobile/pull/2366) @kernexshadow  \n- [perf(streams): compile badge rules once per change (#2365)](https://github.com/NuvioMedia/NuvioMobile/pull/2365) @kernexshadow  \n- [perf(debrid): cache stream filter regexes and reuse stream facts (#2362)](https://github.com/NuvioMedia/NuvioMobile/pull/2362) @kernexshadow  \n- [i18n(el): sync the Greek locale with 0.6.3 (player badges, Simkl statuses, engine switch, party chat) (#2359)](https://github.com/NuvioMedia/NuvioMobile/pull/2359) @nosvasedis  \n- [feat(i18n): complete pt-BR player badges and watch party strings (#2338)](https://github.com/NuvioMedia/NuvioMobile/pull/2338) @jhojhocraazy  \n- [Replace libass renderer with atlas pipeline from Plezy (#2346)](https://github.com/NuvioMedia/NuvioMobile/pull/2346) @skoruppa  \n- [Update Hungarian translations (#2341)](https://github.com/NuvioMedia/NuvioMobile/pull/2341) @emgeje  \n- [i18n(vi): update strings.xml and strings_party.xml (#2339)](https://github.com/NuvioMedia/NuvioMobile/pull/2339) @blueocean2308  \n- 90ab7f95 fix(ratings): use real imdb logo and grey label @tapframe  \n- d9046775 feat(home): show ratings and age rating on hero @tapframe  \n- b9fbc09c fix(player): keep side panels clear of the navigation bar @tapframe  \n- 83e528f0 feat(player): choose a badge pack for the player @tapframe  \n- [Complete Spanish mobile translations (#2344)](https://github.com/NuvioMedia/NuvioMobile/pull/2344) @IberianSoldierPC  \n- [fix(ios): keep hardware decoding when PiP is interrupted by Notification Center (#2306)](https://github.com/NuvioMedia/NuvioMobile/pull/2306) @WhiteGiso  \n- [fix(android): scale ExoPlayer subtitles with the PiP window size (#2314)](https://github.com/NuvioMedia/NuvioMobile/pull/2314) @sap6  \n- [feat(player): auto-sync add-on subtitles on the libmpv engine (#2275)](https://github.com/NuvioMedia/NuvioMobile/pull/2275) @kernexshadow",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.4-beta/Nuvio-0.6.4.ipa",
-      "size": 67805794,
+      "version": "0.6.5",
+      "versionDate": "2026-10-27",
+      "versionDescription": "- [feat(i18n): translate subtitle render scale and hero ratings settings (#2402)](https://github.com/NuvioMedia/NuvioMobile/pull/2402) @jhojhocraazy  \n- 2c69902b fix(servers): keep title lookups working between episodes @tapframe  \n- [Updated Bulgarian translations - fixes, party file, new strings (#2397)](https://github.com/NuvioMedia/NuvioMobile/pull/2397) @viiktr  \n- 88c9b4ce feat(player): split video and controls at the duo fold @tapframe  \n- [fix(debrid): recognize language words in release names (#2364)](https://github.com/NuvioMedia/NuvioMobile/pull/2364) @kernexshadow  \n- [i18n(vi): update latest Vietnamese strings (#2370)](https://github.com/NuvioMedia/NuvioMobile/pull/2370) @blueocean2308  \n- c85dc721 feat(player): remove source name from paused player @tapframe  \n- [l10n: complete missing Italian translations (#2371)](https://github.com/NuvioMedia/NuvioMobile/pull/2371) @WhiteGiso  \n- [Player chapters: progress bar marks, chapter name and a chapters panel (#2174)](https://github.com/NuvioMedia/NuvioMobile/pull/2174) @kernexshadow",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.5-beta/Nuvio-0.6.5.ipa",
+      "size": 67965485,
       "versions": [
+        {
+          "version": "0.6.5",
+          "date": "2026-10-27",
+          "localizedDescription": "- [feat(i18n): translate subtitle render scale and hero ratings settings (#2402)](https://github.com/NuvioMedia/NuvioMobile/pull/2402) @jhojhocraazy  \n- 2c69902b fix(servers): keep title lookups working between episodes @tapframe  \n- [Updated Bulgarian translations - fixes, party file, new strings (#2397)](https://github.com/NuvioMedia/NuvioMobile/pull/2397) @viiktr  \n- 88c9b4ce feat(player): split video and controls at the duo fold @tapframe  \n- [fix(debrid): recognize language words in release names (#2364)](https://github.com/NuvioMedia/NuvioMobile/pull/2364) @kernexshadow  \n- [i18n(vi): update latest Vietnamese strings (#2370)](https://github.com/NuvioMedia/NuvioMobile/pull/2370) @blueocean2308  \n- c85dc721 feat(player): remove source name from paused player @tapframe  \n- [l10n: complete missing Italian translations (#2371)](https://github.com/NuvioMedia/NuvioMobile/pull/2371) @WhiteGiso  \n- [Player chapters: progress bar marks, chapter name and a chapters panel (#2174)](https://github.com/NuvioMedia/NuvioMobile/pull/2174) @kernexshadow",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.5-beta/Nuvio-0.6.5.ipa",
+          "size": 67965485,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.4",
           "date": "2026-10-23",
@@ -276,6 +284,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.5 is available",
+      "identifier": "nuvio-ios-0.6.5",
+      "caption": "- feati18n: translate subtitle render scale and hero ratings settings 2402https://github.com/NuvioMedia/NuvioMobile/pull/2402 @jhojhocraazy - 2c69902b fixservers: keep title lookups working between episodes @tapframe - Updated Bulgarian translations - fixes, party file, new strin…",
+      "date": "2026-10-27",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.5-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.4 is available",
       "identifier": "nuvio-ios-0.6.4",
