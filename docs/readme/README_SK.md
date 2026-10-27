@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-<img src="https://img.shields.io/badge/VERSION-0.6.4-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
+<img src="https://img.shields.io/badge/VERSION-0.6.5-2188ff?style=for-the-badge" alt="Version"> <img src="https://img.shields.io/badge/MINIMUM%20OS-iOS%20%2F%20iPadOS%2016.1%2B-555555?style=for-the-badge" alt="Minimum OS"> <img src="https://img.shields.io/badge/DEVICES-iPhone%20%26%20iPad-2ea44f?style=for-the-badge" alt="Devices"><br>
 <img src="https://img.shields.io/badge/DISTRIBUTION-FULL-6f42c1?style=for-the-badge" alt="Distribution"> <img src="https://img.shields.io/badge/SIGNING-UNSIGNED%20IPA-e67e22?style=for-the-badge" alt="Signing"> <img src="https://img.shields.io/badge/UPDATES-AUTOMATIC-00a4ef?style=for-the-badge" alt="Updates"><br>
 <img src="https://img.shields.io/badge/IPA%20SOURCE-OFFICIAL%20NUVIO-2ea44f?style=for-the-badge" alt="IPA source">
 </p>
@@ -30,15 +30,15 @@ Táto verzia používa oficiálnu FULL IPA aplikácie Nuvio. Originálna IPA sa 
 <h2 align="center">📱 Aktuálna verzia</h2>
 
 <p align="center">
-<strong>Nuvio 0.6.4</strong><br>
-Build 147<br>
+<strong>Nuvio 0.6.5</strong><br>
+Build 148<br>
 iOS / iPadOS 16.1+<br>
 iPhone & iPad<br>
 FULL · Nepodpísaná IPA
 </p>
 
 <p align="center">
-<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.4-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.4-beta/Nuvio-0.6.4.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
+<a href="https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.5-beta"><img src="https://img.shields.io/badge/GitHub_Release-VIEW_LATEST-2ea44f?style=for-the-badge&logo=github" alt="View latest release"></a> <a href="https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.5-beta/Nuvio-0.6.5.ipa"><img src="https://img.shields.io/badge/IPA-DOWNLOAD_LATEST-2188ff?style=for-the-badge&logo=apple" alt="Download IPA"></a>
 </p>
 
 <h2 align="center">🔗 Automatické aktualizácie cez SideStore</h2>
@@ -56,27 +56,17 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 <a href="https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/source.json"><img src="https://img.shields.io/badge/SideStore-source.json-6f42c1?style=for-the-badge&logo=apple" alt="SideStore source"></a>
 </p>
 
-<h2 align="center">✨ Čo je nové vo verzii 0.6.4</h2>
+<h2 align="center">✨ Čo je nové vo verzii 0.6.5</h2>
 
-- 8683505d fix(details): animate ratings on tablet @tapframe  
-- e6a05d1d feat(ios): support duo layout @tapframe  
-- b6287380 fix(deps): update haze to 1.7.3 @tapframe  
-- [fix(trakt): keep continue watching when a progress request fails (#2366)](https://github.com/NuvioMedia/NuvioMobile/pull/2366) @kernexshadow  
-- [perf(streams): compile badge rules once per change (#2365)](https://github.com/NuvioMedia/NuvioMobile/pull/2365) @kernexshadow  
-- [perf(debrid): cache stream filter regexes and reuse stream facts (#2362)](https://github.com/NuvioMedia/NuvioMobile/pull/2362) @kernexshadow  
-- [i18n(el): sync the Greek locale with 0.6.3 (player badges, Simkl statuses, engine switch, party chat) (#2359)](https://github.com/NuvioMedia/NuvioMobile/pull/2359) @nosvasedis  
-- [feat(i18n): complete pt-BR player badges and watch party strings (#2338)](https://github.com/NuvioMedia/NuvioMobile/pull/2338) @jhojhocraazy  
-- [Replace libass renderer with atlas pipeline from Plezy (#2346)](https://github.com/NuvioMedia/NuvioMobile/pull/2346) @skoruppa  
-- [Update Hungarian translations (#2341)](https://github.com/NuvioMedia/NuvioMobile/pull/2341) @emgeje  
-- [i18n(vi): update strings.xml and strings_party.xml (#2339)](https://github.com/NuvioMedia/NuvioMobile/pull/2339) @blueocean2308  
-- 90ab7f95 fix(ratings): use real imdb logo and grey label @tapframe  
-- d9046775 feat(home): show ratings and age rating on hero @tapframe  
-- b9fbc09c fix(player): keep side panels clear of the navigation bar @tapframe  
-- 83e528f0 feat(player): choose a badge pack for the player @tapframe  
-- [Complete Spanish mobile translations (#2344)](https://github.com/NuvioMedia/NuvioMobile/pull/2344) @IberianSoldierPC  
-- [fix(ios): keep hardware decoding when PiP is interrupted by Notification Center (#2306)](https://github.com/NuvioMedia/NuvioMobile/pull/2306) @WhiteGiso  
-- [fix(android): scale ExoPlayer subtitles with the PiP window size (#2314)](https://github.com/NuvioMedia/NuvioMobile/pull/2314) @sap6  
-- [feat(player): auto-sync add-on subtitles on the libmpv engine (#2275)](https://github.com/NuvioMedia/NuvioMobile/pull/2275) @kernexshadow
+- [feat(i18n): translate subtitle render scale and hero ratings settings (#2402)](https://github.com/NuvioMedia/NuvioMobile/pull/2402) @jhojhocraazy  
+- 2c69902b fix(servers): keep title lookups working between episodes @tapframe  
+- [Updated Bulgarian translations - fixes, party file, new strings (#2397)](https://github.com/NuvioMedia/NuvioMobile/pull/2397) @viiktr  
+- 88c9b4ce feat(player): split video and controls at the duo fold @tapframe  
+- [fix(debrid): recognize language words in release names (#2364)](https://github.com/NuvioMedia/NuvioMobile/pull/2364) @kernexshadow  
+- [i18n(vi): update latest Vietnamese strings (#2370)](https://github.com/NuvioMedia/NuvioMobile/pull/2370) @blueocean2308  
+- c85dc721 feat(player): remove source name from paused player @tapframe  
+- [l10n: complete missing Italian translations (#2371)](https://github.com/NuvioMedia/NuvioMobile/pull/2371) @WhiteGiso  
+- [Player chapters: progress bar marks, chapter name and a chapters panel (#2174)](https://github.com/NuvioMedia/NuvioMobile/pull/2174) @kernexshadow
 
 <h2 align="center">ℹ️ Ako distribúcia funguje</h2>
 
@@ -93,10 +83,10 @@ https://raw.githubusercontent.com/GrgoPitic/NuvioMobile/cmp-rewrite/sidestore/so
 <summary><strong>Zobraziť technické údaje</strong></summary>
 
 ```text
-Oficiálny tag:     0.6.4-beta
+Oficiálny tag:     0.6.5-beta
 IPA source:        Official Nuvio IPA
 Source reference:  Official release asset
-IPA SHA256:        e7670fdba3adb96f6f8292dd19539fff04d1fbd792fa0fc7b1f602b84367d969
+IPA SHA256:        599eff1327f1018e65f0f577f1d3e6070833dc3d291589105dfa173ef7b41d7e
 ```
 
 </details>
