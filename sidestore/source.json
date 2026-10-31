@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.5",
-      "versionDate": "2026-10-27",
-      "versionDescription": "- [feat(i18n): translate subtitle render scale and hero ratings settings (#2402)](https://github.com/NuvioMedia/NuvioMobile/pull/2402) @jhojhocraazy  \n- 2c69902b fix(servers): keep title lookups working between episodes @tapframe  \n- [Updated Bulgarian translations - fixes, party file, new strings (#2397)](https://github.com/NuvioMedia/NuvioMobile/pull/2397) @viiktr  \n- 88c9b4ce feat(player): split video and controls at the duo fold @tapframe  \n- [fix(debrid): recognize language words in release names (#2364)](https://github.com/NuvioMedia/NuvioMobile/pull/2364) @kernexshadow  \n- [i18n(vi): update latest Vietnamese strings (#2370)](https://github.com/NuvioMedia/NuvioMobile/pull/2370) @blueocean2308  \n- c85dc721 feat(player): remove source name from paused player @tapframe  \n- [l10n: complete missing Italian translations (#2371)](https://github.com/NuvioMedia/NuvioMobile/pull/2371) @WhiteGiso  \n- [Player chapters: progress bar marks, chapter name and a chapters panel (#2174)](https://github.com/NuvioMedia/NuvioMobile/pull/2174) @kernexshadow",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.5-beta/Nuvio-0.6.5.ipa",
-      "size": 67965485,
+      "version": "0.6.6",
+      "versionDate": "2026-10-31",
+      "versionDescription": "- [Translation improvements and adjustments for Slovak language + added translated new strings files (#2448)](https://github.com/NuvioMedia/NuvioMobile/pull/2448) @mmsw91\n- [improve player badge codec detection and add filename matching (#2414)](https://github.com/NuvioMedia/NuvioMobile/pull/2414) @skoruppa\n- [Add intro, outro and recap skipping from MKV chapter titles (#2446)](https://github.com/NuvioMedia/NuvioMobile/pull/2446) @skoruppa \n- [feat(i18n): translate settings groups, subtitle appearance and ASS render modes (#2435)](https://github.com/NuvioMedia/NuvioMobile/pull/2435) @jhojhocraazy\n- Update Vietnamese translations ([#2441](https://github.com/NuvioMedia/NuvioMobile/pull/2441), [#2411](https://github.com/NuvioMedia/NuvioMobile/pull/2411)) @blueocean2308\n- Add subtitle customization with saved styles, custom font imports, appearance controls and a live preview, including fixes for font rendering, subtitle loading, track changes and style updates while paused. @tapframe\n- [Updated Bulgarian translations (#2424)](https://github.com/NuvioMedia/NuvioMobile/pull/2424) @viiktr\n- [fix(ios): resume PiP right after Notification Center (#2418)](https://github.com/NuvioMedia/NuvioMobile/pull/2418) @WhiteGiso\n- c7ff35f0 feat(settings): group settings and split playback pages @tapframe\n- 96061025 fix(ratings): show IMDb ratings with one decimal @tapframe\n- 2f0185ce feat(details): label unreleased episodes as unavailable @tapframe\n- 87795e97 fix(settings): save and restore the selected app icon @tapframe\n- [Draw ASS subtitles onto video frames via setVideoEffects + ASS Render Mode setting (#2394)](https://github.com/NuvioMedia/NuvioMobile/pull/2394) @skoruppa\n- 45af99c4 fix(player): skip drag handling while controls are locked @tapframe\n- [fix(player): offline playback performance and reliability (#2383)](https://github.com/NuvioMedia/NuvioMobile/pull/2383) @guuilp\n- [feat(player): Auto engine selection and engine failover (#2192)](https://github.com/NuvioMedia/NuvioMobile/pull/2192) @guuilp",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.6-beta/Nuvio-0.6.6.ipa",
+      "size": 68521101,
       "versions": [
+        {
+          "version": "0.6.6",
+          "date": "2026-10-31",
+          "localizedDescription": "- [Translation improvements and adjustments for Slovak language + added translated new strings files (#2448)](https://github.com/NuvioMedia/NuvioMobile/pull/2448) @mmsw91\n- [improve player badge codec detection and add filename matching (#2414)](https://github.com/NuvioMedia/NuvioMobile/pull/2414) @skoruppa\n- [Add intro, outro and recap skipping from MKV chapter titles (#2446)](https://github.com/NuvioMedia/NuvioMobile/pull/2446) @skoruppa \n- [feat(i18n): translate settings groups, subtitle appearance and ASS render modes (#2435)](https://github.com/NuvioMedia/NuvioMobile/pull/2435) @jhojhocraazy\n- Update Vietnamese translations ([#2441](https://github.com/NuvioMedia/NuvioMobile/pull/2441), [#2411](https://github.com/NuvioMedia/NuvioMobile/pull/2411)) @blueocean2308\n- Add subtitle customization with saved styles, custom font imports, appearance controls and a live preview, including fixes for font rendering, subtitle loading, track changes and style updates while paused. @tapframe\n- [Updated Bulgarian translations (#2424)](https://github.com/NuvioMedia/NuvioMobile/pull/2424) @viiktr\n- [fix(ios): resume PiP right after Notification Center (#2418)](https://github.com/NuvioMedia/NuvioMobile/pull/2418) @WhiteGiso\n- c7ff35f0 feat(settings): group settings and split playback pages @tapframe\n- 96061025 fix(ratings): show IMDb ratings with one decimal @tapframe\n- 2f0185ce feat(details): label unreleased episodes as unavailable @tapframe\n- 87795e97 fix(settings): save and restore the selected app icon @tapframe\n- [Draw ASS subtitles onto video frames via setVideoEffects + ASS Render Mode setting (#2394)](https://github.com/NuvioMedia/NuvioMobile/pull/2394) @skoruppa\n- 45af99c4 fix(player): skip drag handling while controls are locked @tapframe\n- [fix(player): offline playback performance and reliability (#2383)](https://github.com/NuvioMedia/NuvioMobile/pull/2383) @guuilp\n- [feat(player): Auto engine selection and engine failover (#2192)](https://github.com/NuvioMedia/NuvioMobile/pull/2192) @guuilp",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.6-beta/Nuvio-0.6.6.ipa",
+          "size": 68521101,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.5",
           "date": "2026-10-27",
@@ -284,6 +292,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.6 is available",
+      "identifier": "nuvio-ios-0.6.6",
+      "caption": "- Translation improvements and adjustments for Slovak language + added translated new strings files 2448https://github.com/NuvioMedia/NuvioMobile/pull/2448 @mmsw91 - improve player badge codec detection and add filename matching 2414https://github.com/NuvioMedia/NuvioMobile/pull/…",
+      "date": "2026-10-31",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.6-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.5 is available",
       "identifier": "nuvio-ios-0.6.5",
