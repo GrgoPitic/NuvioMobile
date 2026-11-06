@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.8",
-      "versionDate": "2026-11-05",
-      "versionDescription": "- 0403e6f6 fix(player): detach mpv surfaces on the playback thread @tapframe  \n- 68c815b2 feat(streams): update blur @tapframe  \n- b90454d7 feat(details): update blur @tapframe  \n- [fix(ios): keep an add-on subtitle selected before mpv loads the file (#2517)](https://github.com/NuvioMedia/NuvioMobile/pull/2517) @skoruppa  \n- [sync ASS/SSA add-on subtitles drawn by libass (#2515)](https://github.com/NuvioMedia/NuvioMobile/pull/2515) @skoruppa  \n- [fix(i18n): drop trailing period from two pt-BR descriptions (#2506)](https://github.com/NuvioMedia/NuvioMobile/pull/2506) @jhojhocraazy  \n- [fix(player): stop Exo/libmpv auto-switch ping-pong on the same source (#2485)](https://github.com/NuvioMedia/NuvioMobile/pull/2485) @halibiram  \n- [fix(player): resume a closed torrent stream at the stalled frame (#2479)](https://github.com/NuvioMedia/NuvioMobile/pull/2479) @halibiram  \n- [feat(player): audio downmix and center mix on Android (#2456)](https://github.com/NuvioMedia/NuvioMobile/pull/2456) @kernexshadow",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.8-beta/Nuvio-0.6.8.ipa",
-      "size": 68872061,
+      "version": "0.6.9",
+      "versionDate": "2026-11-06",
+      "versionDescription": "- ff522ec9 fix(i18n): add Tamil to iOS @tapframe  \n- [fix(skip-intro): drop open-ended Anime-Skip segments and prefer AniSkip (#2539)](https://github.com/NuvioMedia/NuvioMobile/pull/2539) @skoruppa  \n- [fix(player): leave edge swipes to the back gesture and lock tablets to landscape (#2542)](https://github.com/NuvioMedia/NuvioMobile/pull/2542) @skoruppa  \n- 2f9f4ae6 feat(settings): add ratings source picker @tapframe  \n- 9c26a7cf feat(details): add star ratings for titles and episodes @tapframe  \n- 1255999d feat(mdblist): sync and save ratings @tapframe  \n- 6982ec7d feat(simkl): save and read title ratings @tapframe  \n- 32298713 feat(tracking): add rating source setting @tapframe  \n- d816059e feat(streams): make chips see-through over backdrops @tapframe  \n- 9877adfc feat(details): fade tablet artwork into the cinematic backdrop @tapframe  \n- 5cf73ccc feat(details): show the cinematic backdrop behind the floating header @tapframe  \n- f6ac2840 feat(details): make buttons and chips see-through over backdrops @tapframe  \n- [i18n: add French strings for audio downmix, amplification and delay (#2532)](https://github.com/NuvioMedia/NuvioMobile/pull/2532) @SK-Gits  \n- [fix(player): allow playback during calls with ExoPlayer (#2531)](https://github.com/NuvioMedia/NuvioMobile/pull/2531) @sap6  \n- [i18n(vi): update translations for strings.xml and autosync_toast_strings.xml (#2530)](https://github.com/NuvioMedia/NuvioMobile/pull/2530) @blueocean2308  \n- [fix(i18n): update Bengali (বাংলা) localization and sync missing strings (#2529)](https://github.com/NuvioMedia/NuvioMobile/pull/2529) @TanvirSdq  \n- [feat(i18n): add Tamil language support and UI localization (#2528)](https://github.com/NuvioMedia/NuvioMobile/pull/2528) @vijay3695  \n- [Fix Arabic page-title wrapping in shared screen header (#2063)](https://github.com/NuvioMedia/NuvioMobile/pull/2063) @i7xre",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.9-beta/Nuvio-0.6.9.ipa",
+      "size": 69322992,
       "versions": [
+        {
+          "version": "0.6.9",
+          "date": "2026-11-06",
+          "localizedDescription": "- ff522ec9 fix(i18n): add Tamil to iOS @tapframe  \n- [fix(skip-intro): drop open-ended Anime-Skip segments and prefer AniSkip (#2539)](https://github.com/NuvioMedia/NuvioMobile/pull/2539) @skoruppa  \n- [fix(player): leave edge swipes to the back gesture and lock tablets to landscape (#2542)](https://github.com/NuvioMedia/NuvioMobile/pull/2542) @skoruppa  \n- 2f9f4ae6 feat(settings): add ratings source picker @tapframe  \n- 9c26a7cf feat(details): add star ratings for titles and episodes @tapframe  \n- 1255999d feat(mdblist): sync and save ratings @tapframe  \n- 6982ec7d feat(simkl): save and read title ratings @tapframe  \n- 32298713 feat(tracking): add rating source setting @tapframe  \n- d816059e feat(streams): make chips see-through over backdrops @tapframe  \n- 9877adfc feat(details): fade tablet artwork into the cinematic backdrop @tapframe  \n- 5cf73ccc feat(details): show the cinematic backdrop behind the floating header @tapframe  \n- f6ac2840 feat(details): make buttons and chips see-through over backdrops @tapframe  \n- [i18n: add French strings for audio downmix, amplification and delay (#2532)](https://github.com/NuvioMedia/NuvioMobile/pull/2532) @SK-Gits  \n- [fix(player): allow playback during calls with ExoPlayer (#2531)](https://github.com/NuvioMedia/NuvioMobile/pull/2531) @sap6  \n- [i18n(vi): update translations for strings.xml and autosync_toast_strings.xml (#2530)](https://github.com/NuvioMedia/NuvioMobile/pull/2530) @blueocean2308  \n- [fix(i18n): update Bengali (বাংলা) localization and sync missing strings (#2529)](https://github.com/NuvioMedia/NuvioMobile/pull/2529) @TanvirSdq  \n- [feat(i18n): add Tamil language support and UI localization (#2528)](https://github.com/NuvioMedia/NuvioMobile/pull/2528) @vijay3695  \n- [Fix Arabic page-title wrapping in shared screen header (#2063)](https://github.com/NuvioMedia/NuvioMobile/pull/2063) @i7xre",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.9-beta/Nuvio-0.6.9.ipa",
+          "size": 69322992,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.8",
           "date": "2026-11-05",
@@ -308,6 +316,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.9 is available",
+      "identifier": "nuvio-ios-0.6.9",
+      "caption": "- ff522ec9 fixi18n: add Tamil to iOS @tapframe - fixskip-intro: drop open-ended Anime-Skip segments and prefer AniSkip 2539https://github.com/NuvioMedia/NuvioMobile/pull/2539 @skoruppa - fixplayer: leave edge swipes to the back gesture and lock tablets to landscape 2542https://gi…",
+      "date": "2026-11-06",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.9-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.8 is available",
       "identifier": "nuvio-ios-0.6.8",
