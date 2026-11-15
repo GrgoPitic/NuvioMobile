@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "0.6.12",
-      "versionDate": "2026-11-12",
-      "versionDescription": "- [feat(player): chapters setting for every engine, chapters on iOS and a chapter title toggle (#2609)](https://github.com/NuvioMedia/NuvioMobile/pull/2609) @skoruppa  \n- [fix(collections): respect \"Show catalog type\" in folders (#2608)](https://github.com/NuvioMedia/NuvioMobile/pull/2608) @skoruppa  \n- [fix(player): show the real cause of playback errors, like NuvioTV (#2607)](https://github.com/NuvioMedia/NuvioMobile/pull/2607) @skoruppa  \n- [fix(player): use the audio clock when mpv video time drops to 0 (#2605)](https://github.com/NuvioMedia/NuvioMobile/pull/2605) @skoruppa  \n- [fix(player): add an SPS/PPS init segment to HLS streams that lack them (#2606)](https://github.com/NuvioMedia/NuvioMobile/pull/2606) @skoruppa  \n- [fix(player): decode DASH MIME query hints before detection (#2600)](https://github.com/NuvioMedia/NuvioMobile/pull/2600) @retrocodes12  \n- [i18n(vi): update latest Vietnamese strings (#2601)](https://github.com/NuvioMedia/NuvioMobile/pull/2601) @blueocean2308  \n- [fix(streams): keep tokenized links for reuse and refresh expired saved links (#2598)](https://github.com/NuvioMedia/NuvioMobile/pull/2598) @skoruppa  \n- [i18n: add French string for signed-out notice (#2593)](https://github.com/NuvioMedia/NuvioMobile/pull/2593) @SK-Gits  \n- [Update Dutch (nl) strings and reorder Dutch in Settings (#2592)](https://github.com/NuvioMedia/NuvioMobile/pull/2592) @mronion212",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.12-beta/Nuvio-0.6.12.ipa",
-      "size": 69852349,
+      "version": "0.6.13",
+      "versionDate": "2026-11-15",
+      "versionDescription": "- [i18n: add French strings and align birth and death wording (#2664)](https://github.com/NuvioMedia/NuvioMobile/pull/2664) @SK-Gits  \n- [i18n(vi): update latest Vietnamese strings (#2622)](https://github.com/NuvioMedia/NuvioMobile/pull/2622) @blueocean2308  \n- [perf: smoother cold start and home on Android (#2652)](https://github.com/NuvioMedia/NuvioMobile/pull/2652) @skoruppa  \n- [fix(home): show hero only after its source catalogs load (#2651)](https://github.com/NuvioMedia/NuvioMobile/pull/2651) @skoruppa  \n- [feat(player): basic keyboard support (#2633)](https://github.com/NuvioMedia/NuvioMobile/pull/2633) @skoruppa  \n- [fix(cw): dismiss a next up show by its content id, as on TV (#2632)](https://github.com/NuvioMedia/NuvioMobile/pull/2632) @skoruppa  \n- [feat(cw): choose what selecting a Continue Watching item opens (#2630)](https://github.com/NuvioMedia/NuvioMobile/pull/2630) @skoruppa  \n- [Translation improvements and adjustments for Slovak language (#2625)](https://github.com/NuvioMedia/NuvioMobile/pull/2625) @mmsw91  \n- [i18n: add French strings for chapter title setting (#2621)](https://github.com/NuvioMedia/NuvioMobile/pull/2621) @SK-Gits  \n- [feat(player): fall back to the next matching source on failure (#2612)](https://github.com/NuvioMedia/NuvioMobile/pull/2612) @skoruppa  \n- [fix(player): show each start-up step on the loading screen, like NuvioTV (#2611)](https://github.com/NuvioMedia/NuvioMobile/pull/2611) @skoruppa",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.13-beta/Nuvio-0.6.13.ipa",
+      "size": 69922480,
       "versions": [
+        {
+          "version": "0.6.13",
+          "date": "2026-11-15",
+          "localizedDescription": "- [i18n: add French strings and align birth and death wording (#2664)](https://github.com/NuvioMedia/NuvioMobile/pull/2664) @SK-Gits  \n- [i18n(vi): update latest Vietnamese strings (#2622)](https://github.com/NuvioMedia/NuvioMobile/pull/2622) @blueocean2308  \n- [perf: smoother cold start and home on Android (#2652)](https://github.com/NuvioMedia/NuvioMobile/pull/2652) @skoruppa  \n- [fix(home): show hero only after its source catalogs load (#2651)](https://github.com/NuvioMedia/NuvioMobile/pull/2651) @skoruppa  \n- [feat(player): basic keyboard support (#2633)](https://github.com/NuvioMedia/NuvioMobile/pull/2633) @skoruppa  \n- [fix(cw): dismiss a next up show by its content id, as on TV (#2632)](https://github.com/NuvioMedia/NuvioMobile/pull/2632) @skoruppa  \n- [feat(cw): choose what selecting a Continue Watching item opens (#2630)](https://github.com/NuvioMedia/NuvioMobile/pull/2630) @skoruppa  \n- [Translation improvements and adjustments for Slovak language (#2625)](https://github.com/NuvioMedia/NuvioMobile/pull/2625) @mmsw91  \n- [i18n: add French strings for chapter title setting (#2621)](https://github.com/NuvioMedia/NuvioMobile/pull/2621) @SK-Gits  \n- [feat(player): fall back to the next matching source on failure (#2612)](https://github.com/NuvioMedia/NuvioMobile/pull/2612) @skoruppa  \n- [fix(player): show each start-up step on the loading screen, like NuvioTV (#2611)](https://github.com/NuvioMedia/NuvioMobile/pull/2611) @skoruppa",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-0.6.13-beta/Nuvio-0.6.13.ipa",
+          "size": 69922480,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "0.6.12",
           "date": "2026-11-12",
@@ -340,6 +348,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 0.6.13 is available",
+      "identifier": "nuvio-ios-0.6.13",
+      "caption": "- i18n: add French strings and align birth and death wording 2664https://github.com/NuvioMedia/NuvioMobile/pull/2664 @SK-Gits - i18nvi: update latest Vietnamese strings 2622https://github.com/NuvioMedia/NuvioMobile/pull/2622 @blueocean2308 - perf: smoother cold start and home on…",
+      "date": "2026-11-15",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-0.6.13-beta",
+      "notify": true
+    },
     {
       "title": "Nuvio 0.6.12 is available",
       "identifier": "nuvio-ios-0.6.12",
