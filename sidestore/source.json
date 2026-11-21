@@ -10,12 +10,20 @@
       "subtitle": "Official Nuvio IPA via community SideStore source",
       "localizedDescription": "Community-maintained SideStore distribution of the official Nuvio FULL IPA. The IPA is mirrored unchanged from the matching NuvioMedia release.",
       "iconURL": "https://github.com/NuvioMedia.png?size=512",
-      "version": "1.0.0",
-      "versionDate": "2026-11-15",
-      "versionDescription": "# Nuvio 1.0.0\n\nThank you to everyone who has contributed to the project, tested the betas, and supported us along the way.\n\nThis is the first stable release. It has the same features and fixes as 0.6.13-beta.\n\n> [!NOTE]\n> On Android, choose **Stable** in **Settings → About → Update channel** for fewer updates and a more stable build. Choose **Beta** for frequent updates, with possible breaking changes. If you were already on a beta build, you stay on **Beta** until you switch.",
-      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-1.0.0/Nuvio-1.0.0.ipa",
-      "size": 69922744,
+      "version": "1.0.1",
+      "versionDate": "2026-11-21",
+      "versionDescription": "- c31c30e1 fix(player): ignore gesture insets for bottom controls on android @skoruppa  \n- 4baf886e fix(ios): keep downloads out of iCloud and computer backups @claude  \n- f81edc65 fix(debrid): match TorBox alternative-hash cache answers @WhiteGiso  \n- 103c5e07 fix(trakt): prevent unbounded library refresh queue @enricopro",
+      "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-1.0.1/Nuvio-1.0.1.ipa",
+      "size": 69936384,
       "versions": [
+        {
+          "version": "1.0.1",
+          "date": "2026-11-21",
+          "localizedDescription": "- c31c30e1 fix(player): ignore gesture insets for bottom controls on android @skoruppa  \n- 4baf886e fix(ios): keep downloads out of iCloud and computer backups @claude  \n- f81edc65 fix(debrid): match TorBox alternative-hash cache answers @WhiteGiso  \n- 103c5e07 fix(trakt): prevent unbounded library refresh queue @enricopro",
+          "downloadURL": "https://github.com/GrgoPitic/NuvioMobile/releases/download/ios-1.0.1/Nuvio-1.0.1.ipa",
+          "size": 69936384,
+          "minOSVersion": "16.1"
+        },
         {
           "version": "1.0.0",
           "date": "2026-11-15",
@@ -356,6 +364,15 @@
     }
   ],
   "news": [
+    {
+      "title": "Nuvio 1.0.1 is available",
+      "identifier": "nuvio-ios-1.0.1",
+      "caption": "- c31c30e1 fixplayer: ignore gesture insets for bottom controls on android @skoruppa - 4baf886e fixios: keep downloads out of iCloud and computer backups @claude - f81edc65 fixdebrid: match TorBox alternative-hash cache answers @WhiteGiso - 103c5e07 fixtrakt: prevent unbounded li…",
+      "date": "2026-11-21",
+      "appID": "com.nuvio.media",
+      "url": "https://github.com/GrgoPitic/NuvioMobile/releases/tag/ios-1.0.1",
+      "notify": true
+    },
     {
       "title": "Nuvio 1.0.0 is available",
       "identifier": "nuvio-ios-1.0.0",
